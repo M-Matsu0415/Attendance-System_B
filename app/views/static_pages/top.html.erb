@@ -1,3 +1,7 @@
 <% provide(:title, "Top") %>
-<h1>勤怠管理システム</h1>
-<p>このアプリケーションでは、登録されたユーザーの勤怠情報を閲覧・登録・編集することができます。</p>
+<div class = "center jumbotron">
+<!--bs 中央に角丸で配置-->
+    <h1>勤怠システム</h1>
+    <%= link_to "ログイン", signup_path, class: "btn btn-lg btn-primary" %>
+    <h2>アカウント作成は<%= link_to "こちら", '#' %>から</h2>
+</div>

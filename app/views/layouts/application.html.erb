@@ -8,15 +8,13 @@
                                'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application',
                                'data-turbolinks-track': 'reload' %>
+    <%= render 'layouts/shim' %>
   </head>
 
   <body>
-    <header class = "navbar bavbar-fixed-top navbar-inverse"> 
-    <!--bs fixed-top：ビューポートの上部に端から端まで配置。nav-inverse：黒い色のナビゲーションバー-->
-      <div class = "container">
-        <%= link_to "Attendance App", '#', id: "logo" %>
-      </div>
-    </header>
-    <%= yield %>
+    <%= render 'layouts/header' %>
+    <div class = "container">
+      <%= yield %>
+    </div>
   </body>
 </html>

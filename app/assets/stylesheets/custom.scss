@@ -1,0 +1,64 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+body {
+  padding-top: 60px;  //上部に余白60px
+}
+
+section {
+  overflow: auto;  //内容がボックスに収まらない場合、ユーザーエージェントに依存して表示する。
+}
+
+textarea {
+  resize: vertical;  //ユーザーに要素の高さのリサイズ機能を提供する。
+}
+
+.center {
+  text-align: center;  //text-align:テキストの配置を指定。center:表示領域の中央に寄せる。
+}
+
+.center h1 {
+  margin-bottom: 10px;  //<h1>タグの.centerは下部に10pxの余白を設ける。
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;  //行の高さを指定。数値のみでの指定はその数値にフォントサイズを掛けた値が行の高さとなる。
+}
+
+h1 {
+  font-size: 3em;  //フォントサイズ3em：emとはフォントの高さを1とする単位
+  letter-spacing: -2px;  //文字の間隔を指定。-2なので通常の文字間隔よりも文字同士がぴったりくっつく感じ。
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;  //フォントサイズ3em：emとはフォントの高さを1とする単位
+  letter-spacing: -1px;  //文字の間隔を指定。-1なので通常の文字間隔よりも文字同士がぴったりくっつく感じ。
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;  //文字の太さ：普通
+  color: #777;  //文字色コード#777(灰色)
+}
+
+// このpタグの指定は不要かもしれない
+p {
+  font-size: 1.1em;  //フォントサイズ1.1em：emとはフォントの高さを1とする単位
+  line-height: 1.7em;  //行の高さを指定。1.7em：emとはフォントの高さを1とする単位
+}
+
+#logo {  //id:logoで指定
+  float: left;  //指定した要素を左に寄せます。後に続く内容はその右側に回り込みます。
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  // text-transform: uppercase;  //大文字・小文字・全角文字への変換を指定:すべての文字を大文字にする。
+  letter-spacing: -1px;  //文字の間隔を指定。-1なので通常の文字間隔よりも文字同士がぴったりくっつく感じ。
+  padding-top: 9px;  //上部に余白9px
+  font-weight: bold;  //文字の太さ：一般的な太さ
+}
+
+#logo:hover {
+  color: #fff;
+  text-decoration: none;  //テキスト傍線のつけ方・色・スタイルをまとめて指定する:指定なし
+}
