@@ -1,0 +1,13 @@
+<% if @user.errors.any? %>
+  <div id = "error_explanation">
+    <div class = "alert alert-danger">
+      The form contains <%= pluralize(@user.errors.count, "error") %>
+      <!--pluralize：英語専用のメソッドで最初の引数(この場合@user.errors.count)に整数が与えられるとそれに基づき2番目の引数で指定した英単語を複数形に変換して値を返す-->
+    </div>
+    <ul>  <!--「UL」とは「unordered list（順序がないリスト）」の略で、その名前の通り順序がない箇条書きのリストを表示する際に使用するタグ-->
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

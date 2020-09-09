@@ -63,6 +63,22 @@ p {
   text-decoration: none;  //テキスト傍線のつけ方・色・スタイルをまとめて指定する:指定なし
 }
 
+/* error_messages */
+#error_explanation{
+  color: red;
+  ul{
+    color: red;
+    margin: 0 0 30px 0;  //上右下左の順なので下に30pxの隙間挿入
+  }
+}
+
+.field_with_errors{  //エラーメッセージを含むフィールドは自動的にfield_with_errorsクラスを持つdivタグで囲まれる
+  @extend .has-error;  //bootstrapのcssを適用するためにsassの@extendを使う。@extendには適用したいスタイルを持つbootstrapのクラスを指定する。この場合、.has-errorを適用。
+  .form-control{
+    color: $state-danger-text;
+  }
+}
+
 /* debug */
 .debug_dump{  // デバッグ情報のスタイル情報をdebug_dumpクラスで記述
   clear: both;  // 左寄せ、または右寄せされた全ての要素に対する回り込みを解除
