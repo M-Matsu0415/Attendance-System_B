@@ -62,3 +62,34 @@ p {
   color: #fff;
   text-decoration: none;  //テキスト傍線のつけ方・色・スタイルをまとめて指定する:指定なし
 }
+
+/* debug */
+.debug_dump{  // デバッグ情報のスタイル情報をdebug_dumpクラスで記述
+  clear: both;  // 左寄せ、または右寄せされた全ての要素に対する回り込みを解除
+  float: left;  // 指定した要素を左に寄せる
+  width: 100%;  // 親BOXに対して100%の領域幅で指定
+  margin-top: 45px;
+  -moz-box-sizing: border-box;  // -moz：Firefoxのベンダープレフィックス　box-sizing：ボックスサイズの算出方法を指定　border-box：パディングとボーダーを幅と高さに含める
+  -webkit-box-sizing: border-box;  // -webkit：Google Chrome、Safariのベンダープレフィックス　box-sizing：ボックスサイズの算出方法を指定　border-box：パディングとボーダーを幅と高さに含める
+  box-sizing: border-box;  // box-sizing：ボックスサイズの算出方法を指定　border-box：パディングとボーダーを幅と高さに含める
+}
+
+/* ユーザー情報テーブル */
+.user-table{
+  vertical-align: middle;  //vertical-align:行の中でテキストや画像などの縦方向の揃え位置を指定。middle:中央揃え
+  text-align: center;  //text-align:テキストの配置を指定。center:表示領域の中央に寄せる。
+}
+
+.user-table{
+  vertical-align: middle;
+  text-align: center;
+}
+
+.label-signup{
+  margin-top: 5px;
+}
+
+.btn-signup{
+  margin-top: 10px;
+}
+
