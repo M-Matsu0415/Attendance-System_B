@@ -32,6 +32,22 @@ class User < ApplicationRecord
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
     # update_attribute(ハッシュ：name(remember_digest)に対してvalue(User.digest(remember_token))の組み合わせ)
+    # validation なしに更新できるので注意が必要。
+  end
+  
+  # トークンがダイジェストと一致すればtrueを返します。
+  def authenticated?(remember_token)
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+    #  レシーバ::メソッド (定数の場合もあり)という形をとる二重コロン記法
+  end
+  
+  # ユーザーのログイン情報を破棄します。
+  def forget
+    # ダイジェストが存在しない場合はfalseを返して終了します。
+    return false if remember_digest.nil?
+    update_attribute(:remember_digest, nil)
+    # update_attribute(ハッシュ：name(remember_digest)に対してvalue(User.digest(remember_token))の組み合わせ)
+    # validation なしに更新できるので注意が必要。
   end
 
 end
