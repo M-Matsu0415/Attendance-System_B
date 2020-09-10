@@ -5,8 +5,26 @@
       <nav>
         <ul class = "nav navbar-nav navbar-right">
         <!--テキストを右寄せに指定-->
-          <li><%= link_to "Top", root_path %></li>
-          <li><%= link_to "Log in", '#' %></li>
+          <li><%= link_to "Top", root_path %></li> <!--「li」とは「list item」の略で、リストの項目を表示するために使用するタグ-->
+          <% if logged_in? %>
+            <li><%= link_to "Users", "#" %></li>
+            <li class = "dropdown"> <!--bsのドロップダウン機能を使用するためdropdownクラスを指定-->
+              <a href = "#" class = "dropdown-toggle" data-toggle = "dropdown"> <!--dropdown-toggle：クラス名として指定。トグルボタン、なくてもOK、入れると矢印ついてくる。-->
+                                                                                <!--data-toggle：オプション名として指定。ドロップダウンの起動ボタン。必須。デフォルトでdropdown-->
+                Account <b class = "caret"></b> <!--caret：ドロップダウンボタンに使用しキャレットアイコン（▼）を表示するクラス。-->
+              </a>
+              <ul class = "dropdown-menu">
+                <li><%= link_to "show", current_user %></li>
+                <li><%= link_to "Setting", "#" %></li>
+                <li class = "devider"></li>
+                <li>
+                  <%= link_to "log out", logout_path, method: :delete %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Log in", login_path %></li>
+          <% end %>
         </ul>
       </nav>
   </div>
