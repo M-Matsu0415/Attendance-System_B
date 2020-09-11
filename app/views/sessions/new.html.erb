@@ -10,6 +10,14 @@
         
             <%= f.label :password, class: "label-login" %>
             <%= f.password_field :password, class: "form-control" %>
+            
+            <%= f.label :remember_me, class: "checkbox inline checkbox-login", for: "remember_me" do %>
+            <!--inline:同じ水平行にチェックボックスをグループ化する-->
+                <%= f.check_box :remember_me, id: "remember-me" %>
+                <!--check_box:この場合、remember_meが登録先のカラム名-->
+                <span>ログイン状態を記録する</span>
+                <!--span:囲った部分をインライン要素としてグループ化することが出来る-->
+            <% end %>
         
             <%= f.submit "ログイン", class: "btn btn-primary btn-block btn-signup" %>
             <!--btn-block：横一杯のブロックレベルのボタン-->

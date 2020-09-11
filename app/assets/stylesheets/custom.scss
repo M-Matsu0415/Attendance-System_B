@@ -109,11 +109,27 @@ p {
   margin-top: 10px;
 }
 
+/* ログインフォーム */
 .label-login{
   margin-top: 5px;
 }
 
 .btn.login{
   margin-top: 10px;
+}
+
+/* ログインフォーム */
+
+.label-login {
+  margin-top: 5px;
+}
+
+.checkbox-login{
+  width: auto;
+  /*paddingを含めて100%の幅指定*/
+  margin-left: 25px;
+  span {
+    front-weignt: normal;
+  }
 }
 
