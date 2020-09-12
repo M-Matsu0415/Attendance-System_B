@@ -44,9 +44,11 @@ class UsersController < ApplicationController
     end
     
     # beforeフィルター
+    #store_locationにてsession[:forwarding_url]に現在のurlを記憶
     # ログイン済みのユーザーか確認します。
     def logged_in_user
       unless logged_in?
+        store_location
         flash[:danger] = "ログインしてください"
         redirect_to login_url
       end
