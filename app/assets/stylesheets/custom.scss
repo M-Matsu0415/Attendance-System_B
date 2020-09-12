@@ -72,6 +72,13 @@ p {
   }
 }
 
+/* ユーザー一覧ページ */
+#table-users  {
+  td {
+    vertical-align: middle;   //vertical-align:行の中でテキストや画像などの縦方向の揃え位置を指定。middle:中央揃え
+  }
+}
+
 .field_with_errors{  //エラーメッセージを含むフィールドは自動的にfield_with_errorsクラスを持つdivタグで囲まれる
   @extend .has-error;  //bootstrapのcssを適用するためにsassの@extendを使う。@extendには適用したいスタイルを持つbootstrapのクラスを指定する。この場合、.has-errorを適用。
   .form-control{

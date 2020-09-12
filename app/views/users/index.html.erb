@@ -1,0 +1,23 @@
+<% provide(:title, 'ALL Users') %>
+<h1>ユーザー一覧</h1>
+
+<div class = "col-md-10 col-md-offset-1">
+  <table class = "table tabel-condensed table-hover" id = "table-users">
+  <!--テーブルの各セルにボーダー(線)を付ける、condensed：通常よりも幅の狭いテーブル(=table-sm)-->
+    <thead>
+      <tr>  <!--trは表の横部分の指定を行う。-->
+        <th>  <!--thで縦の部分の指定を行う。-->
+          <%= User.human_attribute_name :name %>
+        </th>
+      </tr>
+    </thead>
+    
+    <% @users.each do |user| %>
+      <tr>
+        <td>  <!--tdで縦の部分の指定を行う。-->
+          <%= link_to user.name, user %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

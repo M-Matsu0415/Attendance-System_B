@@ -7,7 +7,7 @@
         <!--テキストを右寄せに指定-->
           <li><%= link_to "Top", root_path %></li> <!--「li」とは「list item」の略で、リストの項目を表示するために使用するタグ-->
           <% if logged_in? %>
-            <li><%= link_to "Users", "#" %></li>
+            <li><%= link_to "Users", users_path %></li>
             <li class = "dropdown"> <!--bsのドロップダウン機能を使用するためdropdownクラスを指定-->
               <a href = "#" class = "dropdown-toggle" data-toggle = "dropdown"> <!--dropdown-toggle：クラス名として指定。トグルボタン、なくてもOK、入れると矢印ついてくる。-->
                                                                                 <!--data-toggle：オプション名として指定。ドロップダウンの起動ボタン。必須。デフォルトでdropdown-->
