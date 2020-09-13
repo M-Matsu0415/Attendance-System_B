@@ -2,6 +2,7 @@
 <h1>ユーザー一覧</h1>
 
 <div class = "col-md-10 col-md-offset-1">
+  <%= will_paginate %>
   <table class = "table tabel-condensed table-hover" id = "table-users">
   <!--テーブルの各セルにボーダー(線)を付ける、condensed：通常よりも幅の狭いテーブル(=table-sm)-->
     <thead>
@@ -20,4 +21,5 @@
       </tr>
     <% end %>
   </table>
+  <%= will_paginate %>
 </div>
