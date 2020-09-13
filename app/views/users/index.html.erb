@@ -18,6 +18,15 @@
         <td>  <!--tdで縦の部分の指定を行う。-->
           <%= link_to user.name, user %>
         </td>
+        <td>
+          <% if current_user.admin? && !current_user?(user) %>
+          <!--ログインユーザーがadminの場合かつ、一般ユーザーでない場合-->
+            <%= link_to "削除", user, method: :delete,
+                data: { confirm: "削除してよろしいですか？"},
+                class: "btn btn-danger" %>
+          <!--削除ボタン 対象はeach分の変数(user)、メソッドはdelete-->      
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </table>
