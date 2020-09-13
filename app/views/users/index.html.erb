@@ -10,21 +10,37 @@
         <th>  <!--thで縦の部分の指定を行う。-->
           <%= User.human_attribute_name :name %>
         </th>
+        <th class = "center"><%= User.human_attribute_name :department %></th>
+        <% if current_user.admin? %>
+          <th class = "center"><%= User.human_attribute_name :basic_time %></th>
+          <th class = "center"><%= User.human_attribute_name :work_time %></th>
+        <% end %>
       </tr>
     </thead>
     
     <% @users.each do |user| %>
       <tr>
         <td>  <!--tdで縦の部分の指定を行う。-->
-          <%= link_to user.name, user %>
+          <% if current_user.admin? %>
+            <%= link_to user.name, user %>
+          <% else %>
+            <%= user.name %>
+          <% end %>
         </td>
+        <td class = "center"><%= user.department.present? ? user.department : "未所属" %></td>
+        <% if current_user.admin? %>
+          <td class = "center"><%= format_basic_info(user.basic_time) %></td>
+          <td class = "center"><%= format_basic_info(user.work_time) %></td>
+        <% end %>
         <td>
           <% if current_user.admin? && !current_user?(user) %>
           <!--ログインユーザーがadminの場合かつ、一般ユーザーでない場合-->
+            <%= link_to "基本情報編集", edit_basic_info_user_path(user),
+                remote:true, class: "btn btn-success" %>
+            <!--remote:trueにてリクエスト(この場合PATCH)がjs形式になる。モーダルウィンドウを表示するために必要。-->
             <%= link_to "削除", user, method: :delete,
-                data: { confirm: "削除してよろしいですか？"},
-                class: "btn btn-danger" %>
-          <!--削除ボタン 対象はeach分の変数(user)、メソッドはdelete-->      
+                data: { confirm: "削除してよろしいですか？"}, class: "btn btn-danger" %>
+            <!--削除ボタン 対象はeach分の変数(user)、メソッドはdelete-->      
           <% end %>
         </td>
       </tr>
@@ -32,3 +48,6 @@
   </table>
   <%= will_paginate %>
 </div>
+
+<!--モーダルウインドウ表示-->
+<div id = "edit_basic_info" class = "modal fade" tabindex = "-1" role = "dialog" aria-hidden = "true"></div>
