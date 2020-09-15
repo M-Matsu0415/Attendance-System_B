@@ -2,11 +2,12 @@
 <div>
   <table class = "table table-bordered table-condensed user-table">  <!--テーブルの各セルにボーダー(線)を付ける、condensed：通常よりも幅の狭いテーブル(=table-sm)-->
     <tr>  <!--「table row」の略で表の行部分(横方向)を指定するタグ。この中に<<th>や<td>を入れる-->
-      <td>時間管理表</td>
+      <td>【<%= l(@first_day, format: :middle) %>】時間管理表</td>
+      <!--lメソッドで日時のフォーマットを指定(middle：〇年△月)-->
       <td>指定勤務時間：<%= format_basic_info(@user.work_time) %></td>
       <td>基本時間：<%= format_basic_info(@user.basic_time) %></td>
       <td>月初日：<%= l(@first_day, format: :short) %></td>
-      <!--lメソッドで日時のフォーマットを指定(月/日)-->
+      <!--lメソッドで日時のフォーマットを指定(short：月/日)-->
     </tr>
     
     <tr>
@@ -22,6 +23,7 @@
 
 <div class = "btn-users-show">
   <%= link_to "⇦ 前月へ", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
+  <%= link_to "1ヵ月の勤怠編集へ", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-success" %>
   <%= link_to "次月へ ⇨", user_path(date: @first_day.next_month), class: "btn btn-info" %>
 </div>
 
