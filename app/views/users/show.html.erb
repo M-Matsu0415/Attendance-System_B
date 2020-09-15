@@ -13,7 +13,7 @@
       <td>所属:<%= @user.department.present? ? @user.department : "未所属" %></td>
       <!-- present?：審議判定メソッド。@userのdepartmentカラムに値が入っている場合にはtrue、ない場合にはfalsを返す-->
       <td>名前：<%= @user.name %></td>
-      <td>出勤日数</td>
+      <td>出勤日数：<%= @worked_sum %></td>
       <td>月末日：<%= l(@last_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(月/日)-->
     </tr>
@@ -47,13 +47,14 @@
           <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
           <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
           <td>
-            <% if (Date.current == day.worked_on) && day.started_at.nil? %>
-              <%= link_to "出勤登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
+            <% if btn_text = attendance_state(day) %>
+              <%= link_to "#{btn_text}登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
           <td><%= l(day.started_at, format: :time) if day.started_at.present? %></td>
-          <!--lメソッドで日時のフォーマットを指定(何時：何分)-->
-          <td></td>
+          <!--lメソッドで出勤時間日時のフォーマットを指定(何時：何分)-->
+          <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
+          <!--lメソッドで退勤時間日時のフォーマットを指定(何時：何分)-->
           <td></td>
           <td></td>
         </tr>

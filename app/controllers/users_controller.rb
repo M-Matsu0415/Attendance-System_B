@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   end
   
   def show
+    @worked_sum = @attendances.where.not(started_at: nil).count
+    # 出勤時間が空白でない日数を数え、インスタンス変数(@worked_sum)に代入
   end
   
   def new
