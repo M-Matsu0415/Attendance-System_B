@@ -13,7 +13,7 @@
       <td>所属:<%= @user.department.present? ? @user.department : "未所属" %></td>
       <!-- present?：審議判定メソッド。@userのdepartmentカラムに値が入っている場合にはtrue、ない場合にはfalsを返す-->
       <td>名前：<%= @user.name %></td>
-      <td>出勤日数：<%= @worked_sum %></td>
+      <td>出勤日数：<%= @worked_sum %>日</td>
       <td>月末日：<%= l(@last_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(月/日)-->
     </tr>
@@ -55,10 +55,30 @@
           <!--lメソッドで出勤時間日時のフォーマットを指定(何時：何分)-->
           <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
           <!--lメソッドで退勤時間日時のフォーマットを指定(何時：何分)-->
-          <td></td>
+          <td>
+            <% if day.started_at.present? && day.finished_at.present? %>
+              <%= str_times = working_times(day.started_at, day.finished_at) %>
+              <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
+            <% end %>
+          </td>
           <td></td>
         </tr>
       <% end %>
     </tbody>
+    
+    <tfoot>
+      <!--rowspan:縦結合、colspan：横結合-->
+      <tr>
+        <td colspan = "2">累計日数</td>
+        <td colspan = "2">総合勤務時間</td>
+        <td colspan = "2">累計在社時間</td>
+        <td rowspan = "2"></td>
+      </tr>
+      <tr>
+        <td colspan = "2"><%= @attendances.count %></td>
+        <td colspan = "2"><%= format_basic_info(@user.work_time).to_f*@worked_sum %></td>
+        <td colspan = "2"><%= format("%.2f", @total_working_times.to_f) %></td>
+      </tr>
+    </tfoot>
   </table>
 </div>
