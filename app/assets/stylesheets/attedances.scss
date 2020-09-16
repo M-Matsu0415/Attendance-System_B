@@ -1,3 +1,10 @@
-// Place all the styles related to the Attedances controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+/* 勤怠を編集ボタン */
+
+.btn-attendance {
+  background: #c0c0c0;
+  color: #000;
+}
+
+.btn-attendance:hover {
+  color: white;
+}
