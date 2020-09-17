@@ -41,7 +41,7 @@ class UsersController < ApplicationController
       render :edit
     end
   end
-  
+
   def destroy
     @user.destroy # destroyなのでuserに関わる関連データ(attendance)も削除される。
     flash[:success] = "#{@user.name}のデータを削除しました。"
@@ -67,6 +67,6 @@ class UsersController < ApplicationController
     end
     
     def basic_info_params
-      params.require(:user).permit(:department, :basic_time, :work_time)
+      params.require(:user).permit(:basic_time, :work_time)
     end
 end

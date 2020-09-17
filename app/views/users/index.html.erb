@@ -10,11 +10,6 @@
         <th>  <!--thで縦の部分の指定を行う。-->
           <%= User.human_attribute_name :name %>
         </th>
-        <th class = "center"><%= User.human_attribute_name :department %></th>
-        <% if current_user.admin? %>
-          <th class = "center"><%= User.human_attribute_name :basic_time %></th>
-          <th class = "center"><%= User.human_attribute_name :work_time %></th>
-        <% end %>
         <th></th>
       </tr>
     </thead>
@@ -22,23 +17,11 @@
     <% @users.each do |user| %>
       <tr>
         <td>  <!--tdで縦の部分の指定を行う。-->
-          <% if current_user.admin? %>
-            <%= link_to user.name, user %>
+          <% if current_user.admin? && !current_user?(user) %>
+            <%= link_to user.name, user %> / <%= link_to "削除", user, method: :delete,
+             data: { confirm: "#{user.name}を削除してよろしいですか？"} %>
           <% else %>
             <%= user.name %>
-          <% end %>
-        </td>
-        <td class = "center"><%= user.department.present? ? user.department : "未所属" %></td>
-        <% if current_user.admin? %>
-          <td class = "center"><%= format_basic_info(user.basic_time) %></td>
-          <td class = "center"><%= format_basic_info(user.work_time) %></td>
-        <% end %>
-        <td class = "center">
-          <% if current_user.admin? && !current_user?(user) %>
-          <!--ログインユーザーがadminの場合かつ、一般ユーザーでない場合-->
-            <%= link_to "削除", user, method: :delete,
-                data: { confirm: "削除してよろしいですか？"}, class: "btn btn-danger" %>
-            <!--削除ボタン 対象はeach分の変数(user)、メソッドはdelete-->      
           <% end %>
         </td>
       </tr>

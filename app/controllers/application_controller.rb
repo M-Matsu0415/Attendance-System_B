@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   # paramsハッシュからユーザーを取得します。
   def set_user
     @user = User.find(params[:id])
+    @user_basic_info = User.find(1)
   end
     
   # beforeフィルター

@@ -11,8 +11,16 @@
         <%= "　" %>
         <%= link_to "▶", user_path(date: @first_day.next_month), class: "btn btn-sm btn-primary" %>
       </td>
-      <td>指定勤務時間：<%= format_basic_info(@user.work_time) %></td>
-      <td colspan = "3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
+      <% if current_user.admin? %>
+        <td>指定勤務時間：<%= format_basic_info(@user.work_time) %></td>
+      <% else %>
+        <td>指定勤務時間：<%= format_basic_info(@user_basic_info.work_time) %></td>
+      <% end %>
+      <% if current_user.admin? %>
+        <td colspan = "3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
+      <% else %>
+        <td colspan = "3">基本時間：<%= format_basic_info(@user_basic_info.basic_time) %></td>
+      <% end %>
       <td>初日：<%= l(@first_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(short：月/日)-->
     </tr>
@@ -31,20 +39,26 @@
 </div>
 
 <div class = "btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-md btn-attendance" %>
+  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-md btn-primary btn-attendance" %>
 </div>
 
 <div>
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendances">
     <thead>
       <tr>
-        <th>日付</th>
-        <th>曜日</th>
-        <th>勤怠登録</th>
-        <th>出勤時間</th>
-        <th>退勤時間</th>
-        <th>在社時間</th>
-        <th>備考</th>
+        <th rowspan = "2">日付</th>
+        <th rowspan = "2">曜日</th>
+        <th colspan = "2">出社</th>
+        <th rowspan = "2">勤怠登録</th>
+        <th colspan = "2">退社</th>
+        <th rowspan = "2">在社時間</th>
+        <th rowspan = "2">備考</th>
+      </tr>
+      <tr>
+        <th>時</th>
+        <th>分</th>
+        <th>時</th>
+        <th>分</th>
       </tr>
     </thead>
     
@@ -55,15 +69,15 @@
           <td><%= $days_of_the_week[day.worked_on.wday] %></td>
           <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
           <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
+          <td><%= day.started_at.hour if day.started_at.present? %></td>
+          <td><%= day.started_at.min if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
-              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-block btn-attendance" %>
+              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
-          <td><%= l(day.started_at, format: :time) if day.started_at.present? %></td>
-          <!--lメソッドで出勤時間日時のフォーマットを指定(何時：何分)-->
-          <td><%= l(day.finished_at, format: :time) if day.finished_at.present? %></td>
-          <!--lメソッドで退勤時間日時のフォーマットを指定(何時：何分)-->
+          <td><%= day.finished_at.hour if day.finished_at.present? %></td>
+          <td><%= day.finished_at.min if day.finished_at.present? %></td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
               <%= str_times = working_times(day.started_at, day.finished_at) %>
@@ -78,15 +92,14 @@
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>
-        <td colspan = "2">累計日数</td>
-        <td colspan = "2">総合勤務時間</td>
-        <td colspan = "2">累計在社時間</td>
-        <td rowspan = "2"></td>
+        <td colspan = "3">累計日数</td>
+        <td colspan = "3">総合勤務時間</td>
+        <td colspan = "3">累計在社時間</td>
       </tr>
       <tr>
-        <td colspan = "2"><%= @attendances.count %></td>
-        <td colspan = "2"><%= format_basic_info(@user.work_time).to_f*@worked_sum %></td>
-        <td colspan = "2"><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td colspan = "3"><%= @attendances.count %></td>
+        <td colspan = "3"><%= format_basic_info(@user_basic_info.work_time).to_f*@worked_sum %></td>
+        <td colspan = "3"><%= format("%.2f", @total_working_times.to_f) %></td>
       </tr>
     </tfoot>
   </table>
