@@ -52,6 +52,16 @@ class UsersController < ApplicationController
   end
 
   def update_basic_info
+    # if current_user.admin?
+    #   User.all.update_all.params[:basic_time][:work_time]
+    #   flash[:success] = "全ユーザーの基本情報を更新しました。"
+    # elsif
+    #   @user.update_attributes(basic_info_params)
+    #   flash[:success] = "#{@user.name}の基本情報を更新しました。"
+    # else
+    #   flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
+      # <br>要素は改行
+
     if @user.update_attributes(basic_info_params)
       flash[:success] = "#{@user.name}の基本情報を更新しました。"
     else
