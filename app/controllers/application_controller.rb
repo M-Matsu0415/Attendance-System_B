@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   
   $days_of_the_week = %w{日 月 火 水 木 金 土}
   # $にてグローバル変数を定義。リテラル表記にて配列["日", "月", "火", "水", "木", "金", "土"]と同等。
+  # %w[ ]：スペース区切りの文字列を二重引用符” ”で囲まれた語の配列にする。
   
   # paramsハッシュからユーザーを取得します。
   def set_user
@@ -47,6 +48,7 @@ class ApplicationController < ActionController::Base
     
     unless one_month.count == @attendances.count # それぞれの件数（日数）が一致するか評価します。
       ActiveRecord::Base.transaction do # トランザクションを開始します。
+        # トランザクション：指定したブロックにあるデータベースの操作が全部成功することを保証するための機能。
         # 繰り返し処理により、1ヶ月分の勤怠データを生成します。
         # worked_onに日付の入ったAttendanceモデルのデータが生成される。
         # create!：最後に!を付けることで保存できない場合例外ActiveRecord::RecordInvalidが発生する。

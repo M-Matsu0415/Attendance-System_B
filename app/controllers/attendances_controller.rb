@@ -36,6 +36,12 @@ class AttendancesController < ApplicationController
     ActiveRecord::Base.transaction do # トランザクションを開始する。
       attendances_params.each do |id, item|
         attendance = Attendance.find(id)
+        # 出勤時間、もしくは退勤時間のみが入っている時には登録できないようにします。
+        if item[:started_at].present? && item[:finished_at].blank?
+        flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+        redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+        end
+        
         attendance.update_attributes!(item)
         # !を付けることにより更新処理が失敗した場合にfalseを返すのではなく、例外処理を返す。
       end

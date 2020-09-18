@@ -26,7 +26,7 @@
     </tr>
     
     <tr>
-      <td>所属:<%= @user.department.present? ? @user.department : "未所属" %></td>
+      <td>所属：<%= @user.department.present? ? @user.department : "未所属" %></td>
       <!-- present?：審議判定メソッド。@userのdepartmentカラムに値が入っている場合にはtrue、ない場合にはfalsを返す-->
       <td>氏名：<%= @user.name %></td>
       <td>コード</td>
@@ -73,7 +73,7 @@
           <td><%= day.started_at.min if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
-              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
+              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-block btn-attendance" %>
             <% end %>
           </td>
           <td><%= day.finished_at.hour if day.finished_at.present? %></td>
