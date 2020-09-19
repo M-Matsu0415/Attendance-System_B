@@ -66,9 +66,19 @@
       <% @attendances.each do |day| %>
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
-          <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+
+          <% if $days_of_the_week[day.worked_on.wday] == "土" %> 
+            <% week_text = "saturday" %>
+          <% elsif $days_of_the_week[day.worked_on.wday] == "日" %> 
+            <% week_text = "sunday" %>
+          <% else %> 
+            <% week_text = "weekday" %>
+          <% end %>
+          <td class = "<%= week_text %>">
+            <%= $days_of_the_week[day.worked_on.wday] %></td>
           <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
           <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
+
           <td><%= day.started_at.hour if day.started_at.present? %></td>
           <td><%= day.started_at.min if day.started_at.present? %></td>
           <td>
