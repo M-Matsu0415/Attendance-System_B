@@ -25,10 +25,10 @@
     
     <% @users.each do |user| %>
       <tr>
-        <td>  <!--tdで縦の部分の指定を行う。-->
-          <% if current_user.admin? && !current_user?(user) %>
-            <%= link_to user.name, user %> / <%= link_to "削除", user, method: :delete,
-             data: { confirm: "#{user.name}を削除してよろしいですか？"} %>
+        <td>  <!--各ユーザー勤怠編集画面へのリンク／基本情報編集画面へのリンク／削除機能ボタン。tdで縦の部分の指定を行う。-->
+          <% if current_user.admin? %>
+            <%= link_to user.name, user %> / <%= link_to "基本情報編集", edit_basic_info_user_path(user) %> / 
+            <%= link_to "削除", user, method: :delete, data: { confirm: "#{user.name}を削除してよろしいですか？"} %>
           <% else %>
             <%= user.name %>
           <% end %>

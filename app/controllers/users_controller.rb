@@ -1,19 +1,24 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :correct_user, only: [:edit, :update, :show]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_or_correct_user, only: :show
   before_action :admin_user, only: :destroy
   before_action :set_one_month, only: :show
   
 
   def index
-    # searchメソッド(user.rb)を呼び出している。searchがない場合、search(params[:search])は、all(全て)となる。
-    @users = User.paginate(page: params[:page]).search(params[:search])
+    if current_user.admin?
+      # searchメソッド(user.rb)を呼び出している。searchがない場合、search(params[:search])は、all(全て)となる。
+      @users = User.paginate(page: params[:page]).search(params[:search])
     
-    if params[:search]
-      @index_page_title = "検索結果"
+      if params[:search]
+        @index_page_title = "検索結果"
+      else
+        @index_page_title = "全てのユーザー"
+      end
     else
-      @index_page_title = "全てのユーザー"
+      redirect_to root_url
     end
   end
   

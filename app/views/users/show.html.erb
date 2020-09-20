@@ -72,18 +72,51 @@
           <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
 
           <td><%= day.started_at.hour if day.started_at.present? %></td>
-          <td><%= day.started_at.min if day.started_at.present? %></td>
+          <td>
+            <% if day.started_at.present? %>
+              <% if day.started_at.min < 15 %>
+                <% started_at_min = 0 %>
+              <% elsif 15 <= day.started_at.min && day.started_at.min < 30 %>
+                <% started_at_min = 15 %>
+              <% elsif 30 <= day.started_at.min && day.started_at.min < 45 %>
+                <% started_at_min = 30 %>
+              <% elsif 45 <= day.started_at.min && day.started_at.min <= 59 %>
+                <% started_at_min = 45 %>
+              <% end %>
+            <%= started_at_min %>
+            <% end %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
               <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-block btn-attendance" %>
             <% end %>
           </td>
           <td><%= day.finished_at.hour if day.finished_at.present? %></td>
-          <td><%= day.finished_at.min if day.finished_at.present? %></td>
+          <td>
+            <% if day.finished_at.present? %>
+              <% if day.finished_at.min < 15 %>
+                <% @finished_at_min = 0 %>
+              <% elsif 15 <= day.finished_at.min && day.finished_at.min < 30 %>
+                <% @finished_at_min = 15 %>
+              <% elsif 30 <= day.finished_at.min && day.finished_at.min < 45 %>
+                <% @finished_at_min = 30 %>
+              <% elsif 45 <= day.finished_at.min && day.finished_at.min <= 59 %>
+                <% @finished_at_min = 45 %>
+              <% end %>
+            <%= @finished_at_min %>
+            <% end %>
+          </td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-              <%= str_times = working_times(day.started_at, day.finished_at) %>
+            
+              <% started_at_min_f = (started_at_min / 60) %>
+              <% started_at = day.started_at.hour + started_at_min_f %>
+              
+              <% finished_at_min_f(@finished_at_min) %>
+              <% finished_at = day.finished_at.hour + finished_at_min_f.to_f %>
+              
+              <%= str_times = working_times(started_at, finished_at) %>
               <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
+            
             <% end %>
           </td>
           <td><%= day.note %></td>
