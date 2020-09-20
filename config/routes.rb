@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   resources :users do
+    get :search, on: :collection
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'

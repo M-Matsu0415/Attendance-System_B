@@ -53,5 +53,15 @@ class User < ApplicationRecord
     # update_attribute(ハッシュ：name(remember_digest)に対してvalue(User.digest(remember_token))の組み合わせ)
     # validation なしに更新できるので注意が必要。
   end
+  
+  def self.search(search) #ここでのself.はUser.を意味する
+    if search
+      where(['name LIKE ?', "%#{search}%"]) #検索とnameの部分一致を表示。User.は省略
+      # @index_page_title = "検索結果"　←　ここに入れてはダメ。なんで？？
+    else
+      all #全て表示。User.は省略
+      # @index_page_title = "全てのユーザー"　←　ここに入れてはダメ。なんで？？
+    end
+  end
 
 end

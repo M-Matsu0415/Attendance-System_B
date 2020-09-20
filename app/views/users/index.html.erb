@@ -1,5 +1,14 @@
 <% provide(:title, 'All Users') %>
-<h1>ユーザー一覧</h1>
+<h1><%= "#{@index_page_title}" %></h1>
+
+<div class = "col-md-3 form-inline pull-right">
+  <!--ユーザー名部分検索機能-->
+  <%= form_with(url: users_path, method: :get, local: true) do |f| %>
+    <%= f.label :ユーザー名検索, class: "label-search" %>
+    <%= f.text_field :search, class: "form-control" %>
+    <%= f.submit :検索, class: "btn btn-primary btn-search"%>
+  <% end %>
+</div>
 
 <div class = "col-md-10 col-md-offset-1">
   <%= will_paginate %>

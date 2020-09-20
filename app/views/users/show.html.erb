@@ -11,16 +11,8 @@
         <%= "　" %>
         <%= link_to "▶", user_path(date: @first_day.next_month), class: "btn btn-sm btn-primary" %>
       </td>
-      <% if current_user.admin? %>
-        <td>指定勤務時間：<%= format_basic_info(@user.work_time) %></td>
-      <% else %>
-        <td>指定勤務時間：<%= format_basic_info(@user_basic_info.work_time) %></td>
-      <% end %>
-      <% if current_user.admin? %>
-        <td colspan = "3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
-      <% else %>
-        <td colspan = "3">基本時間：<%= format_basic_info(@user_basic_info.basic_time) %></td>
-      <% end %>
+      <td>指定勤務時間：<%= format_basic_info(@user.work_time) %></td>
+      <td colspan = "3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
       <td>初日：<%= l(@first_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(short：月/日)-->
     </tr>
@@ -108,7 +100,7 @@
       </tr>
       <tr>
         <td colspan = "3"><%= @attendances.count %></td>
-        <td colspan = "3"><%= format_basic_info(@user_basic_info.work_time).to_f*@worked_sum %></td>
+        <td colspan = "3"><%= format_basic_info(@user.work_time).to_f*@worked_sum %></td>
         <td colspan = "3"><%= format("%.2f", @total_working_times.to_f) %></td>
       </tr>
     </tfoot>

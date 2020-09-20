@@ -7,12 +7,19 @@ class UsersController < ApplicationController
   
 
   def index
-    @users = User.paginate(page: params[:page])
+    # searchメソッド(user.rb)を呼び出している。searchがない場合、search(params[:search])は、all(全て)となる。
+    @users = User.paginate(page: params[:page]).search(params[:search])
+    
+    if params[:search]
+      @index_page_title = "検索結果"
+    else
+      @index_page_title = "全てのユーザー"
+    end
   end
   
   def show
-    @worked_sum = @attendances.where.not(started_at: nil).count
     # 出勤時間が空白でない日数を数え、インスタンス変数(@worked_sum)に代入
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end
   
   def new
