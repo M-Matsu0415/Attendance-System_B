@@ -37,7 +37,7 @@ class AttendancesController < ApplicationController
       attendances_params.each do |id, item|
         attendance = Attendance.find(id)
         # 出勤時間、もしくは退勤時間のみが入っている時には登録できないようにします。
-        if item[:started_at].present? && item[:finished_at].blank?
+        if item[:started_at].present? && item[:finished_at].blank? && Date.current != attendance.worked_on
         flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
         redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
         end

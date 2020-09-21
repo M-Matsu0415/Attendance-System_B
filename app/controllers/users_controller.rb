@@ -75,9 +75,9 @@ class UsersController < ApplicationController
       # <br>要素は改行
 
     if @user.update_attributes(basic_info_params)
-      flash[:success] = "基本情報を更新しました。"
+      flash[:success] = "#{@user.name}の基本情報を更新しました。"
     else
-      flash[:danger] = "#基本情報の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
+      flash[:danger] = "#{@user.name}の基本情報の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
       # <br>要素は改行
     end
       redirect_to users_url
