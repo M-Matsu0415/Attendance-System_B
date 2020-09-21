@@ -74,16 +74,8 @@
           <td><%= day.started_at.hour if day.started_at.present? %></td>
           <td>
             <% if day.started_at.present? %>
-              <% if day.started_at.min < 15 %>
-                <% @started_at_min = 0 %>
-              <% elsif 15 <= day.started_at.min && day.started_at.min < 30 %>
-                <% @started_at_min = 15 %>
-              <% elsif 30 <= day.started_at.min && day.started_at.min < 45 %>
-                <% @started_at_min = 30 %>
-              <% elsif 45 <= day.started_at.min && day.started_at.min <= 59 %>
-                <% @started_at_min = 45 %>
-              <% end %>
-            <%= @started_at_min %>
+              <% @started_at_min = started_at_min_or_finished_at_min(day.started_at.min) %>
+              <%= @started_at_min %>
             <% end %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
@@ -93,16 +85,8 @@
           <td><%= day.finished_at.hour if day.finished_at.present? %></td>
           <td>
             <% if day.finished_at.present? %>
-              <% if day.finished_at.min < 15 %>
-                <% @finished_at_min = 0 %>
-              <% elsif 15 <= day.finished_at.min && day.finished_at.min < 30 %>
-                <% @finished_at_min = 15 %>
-              <% elsif 30 <= day.finished_at.min && day.finished_at.min < 45 %>
-                <% @finished_at_min = 30 %>
-              <% elsif 45 <= day.finished_at.min && day.finished_at.min <= 59 %>
-                <% @finished_at_min = 45 %>
-              <% end %>
-            <%= @finished_at_min %>
+              <% @finished_at_min = started_at_min_or_finished_at_min(day.finished_at.min) %>
+              <%= @finished_at_min %>
             <% end %>
           </td>
           <td>

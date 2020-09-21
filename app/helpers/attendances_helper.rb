@@ -26,7 +26,7 @@ module AttendancesHelper
   end
   
   def started_at_min_or_finished_at_min(start_or_finish_time)
-    if start < 15
+    if start_or_finish_time < 15
       return 0
     elsif 15 <= start_or_finish_time && start_or_finish_time < 30
       return 15
