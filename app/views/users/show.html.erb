@@ -75,15 +75,15 @@
           <td>
             <% if day.started_at.present? %>
               <% if day.started_at.min < 15 %>
-                <% started_at_min = 0 %>
+                <% @started_at_min = 0 %>
               <% elsif 15 <= day.started_at.min && day.started_at.min < 30 %>
-                <% started_at_min = 15 %>
+                <% @started_at_min = 15 %>
               <% elsif 30 <= day.started_at.min && day.started_at.min < 45 %>
-                <% started_at_min = 30 %>
+                <% @started_at_min = 30 %>
               <% elsif 45 <= day.started_at.min && day.started_at.min <= 59 %>
-                <% started_at_min = 45 %>
+                <% @started_at_min = 45 %>
               <% end %>
-            <%= started_at_min %>
+            <%= @started_at_min %>
             <% end %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
@@ -108,14 +108,14 @@
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
             
-              <% started_at_min_f = (started_at_min / 60) %>
+              <% started_at_min_f = (@started_at_min / 60.00) %>
               <% started_at = day.started_at.hour + started_at_min_f %>
               
-              <% finished_at_min_f(@finished_at_min) %>
+              <% finished_at_min_f = (@finished_at_min / 60.00) %>
               <% finished_at = day.finished_at.hour + finished_at_min_f.to_f %>
               
-              <%= str_times = working_times(started_at, finished_at) %>
-              <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
+              <%= str_times = working_times_display(started_at, finished_at) %>
+              <% @total_working_times_display = @total_working_times_display.to_f + str_times.to_f %>
             
             <% end %>
           </td>
@@ -134,7 +134,7 @@
       <tr>
         <td colspan = "3"><%= @attendances.count %></td>
         <td colspan = "3"><%= format_basic_info(@user.work_time).to_f*@worked_sum %></td>
-        <td colspan = "3"><%= format("%.2f", @total_working_times.to_f) %></td>
+        <td colspan = "3"><%= format("%.2f", @total_working_times_display.to_f) %></td>
       </tr>
     </tfoot>
   </table>
