@@ -30,8 +30,12 @@
   </table>
 </div>
 
-<div class = "btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-md btn-primary btn-attendance" %>
+<div class = "col-md-12 col-md btn-users-show">
+  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "col-md-1 btn btn-md btn-primary btn-attendance-top" %>
+  <%= link_to "CSV出力", '#', class: "col-md-1 btn btn-md btn-primary btn-attendance-top" %>
+</div>
+<div class = "col-md-12 col-md btn-users-show">
+  <%= link_to "勤怠修正ログ(承認済)", '#', class: "col-md-2 btn btn-md btn-primary btn-attendance-bottom" %>
 </div>
 
 <div>
