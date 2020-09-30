@@ -1,0 +1,27 @@
+/* ユーザー勤怠情報テーブル */
+
+#table-attendances {
+  th {
+    vertical-align: middle;
+    text-align: center;
+    width: 50px;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+/* 勤怠表承認ボタン */
+
+.btn-approval {
+  margin-top: 10px;
+}
+
+.note-area {
+    width: 100px;
+}
+
+.overwork-content {
+    width: 100px;
+}

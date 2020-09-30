@@ -5,18 +5,10 @@
   margin-bottom: 10px;
 }
 
-/* ユーザー勤怠情報テーブル */
+/* 勤怠情報ページ個人情報 */
 
-#table-attendances {
-  th {
-    vertical-align: middle;
-    text-align: center;
-    width: 50px;
-  }
-  td {
-    vertical-align: middle;
-    text-align: center;
-  }
+.employee_code {
+  width: 75px;
 }
 
 /* 入力フォーム */
