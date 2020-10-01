@@ -11,12 +11,6 @@ class UsersController < ApplicationController
     if current_user.admin?
       # searchメソッド(user.rb)を呼び出している。searchがない場合、search(params[:search])は、all(全て)となる。
       @users = User.paginate(page: params[:page]).search(params[:search])
-    
-      if params[:search]
-        @index_page_title = "検索結果"
-      else
-        @index_page_title = "全てのユーザー"
-      end
     else
       redirect_to root_url
     end
@@ -61,6 +55,10 @@ class UsersController < ApplicationController
   end
   
   def edit_basic_info
+  end
+  
+  def import
+    User.import(params[:file])
   end
 
   def update_basic_info

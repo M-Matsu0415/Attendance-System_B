@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :users do
     get :search, on: :collection
+    post :import, on: :collection
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'

@@ -1,39 +1,39 @@
 <% provide(:title, 'All Users') %>
-<h1><%= "#{@index_page_title}" %></h1>
+<h1><%= "ユーザー一覧" %></h1>
 
-<div class = "col-md-3 form-inline pull-right">
+<div>
+  <!--<div class = "col-md-3 form-inline pull-left">-->
   <!--ユーザー名部分検索機能-->
-  <%= form_with(url: users_path, method: :get, local: true) do |f| %>
-    <%= f.label :ユーザー名検索, class: "label-search" %>
-    <%= f.text_field :search, class: "form-control" %>
-    <%= f.submit :検索, class: "btn btn-primary btn-search"%>
-  <% end %>
+    <%= form_tag import_users_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "CSVをインポート", class: "btn btn-primary btn-csv-import" %>
+    <% end %>
 </div>
 
-<div class = "col-md-10 col-md-offset-1">
-  <%= will_paginate %>
-  <table class = "table table-condensed table-hover" id = "table-users">
-  <!--テーブルの各セルにボーダー(線)を付ける、condensed：通常よりも幅の狭いテーブル(=table-sm)-->
-    <thead>
-      <tr>  <!--trは表の横部分の指定を行う。-->
-        <th>  <!--thで縦の部分の指定を行う。-->
-          <%= User.human_attribute_name :name %>
-        </th>
-      </tr>
-    </thead>
-    
-    <% @users.each do |user| %>
-      <tr>
-        <td>  <!--各ユーザー勤怠編集画面へのリンク／基本情報編集画面へのリンク／削除機能ボタン。tdで縦の部分の指定を行う。-->
+<div class = "users-index">
+  <!-- condensed：通常よりも幅の狭いテーブル(=table-sm)-->
+  <% @users.each do |user| %>
+    <div class = "users-index-name">
+      <% if current_user.admin? %>
+      <!--各ユーザー勤怠編集画面へのリンク／基本情報編集画面へのリンク／削除機能ボタン。tdで縦の部分の指定を行う。-->
+        <%= user.name %>
+      <% end %>
+    </div>
+    <div>
+      <% if current_user.admin? %>
+        <%= link_to "削除", user, method: :delete, data: { confirm: "#{user.name}を削除してよろしいですか？"},
+        class: "btn btn-md btn-primary btn-users-index-delete"%>
+      <% end %>
+    <div class = "panel-group">
+      <div class = "panel panel-default">
+        <div class = "panel-heading">
           <% if current_user.admin? %>
-            <%= link_to user.name, user %> / <%= link_to "基本情報編集", edit_basic_info_user_path(user) %> / 
-            <%= link_to "削除", user, method: :delete, data: { confirm: "#{user.name}を削除してよろしいですか？"} %>
-          <% else %>
-            <%= user.name %>
+            <button type = "button" data-toggle = "collapse" data-target = "#" class = "btn btn-lg btn-primary collapsed" aria-expanded = "fales" %>
+              <%= "編集" %>
+            </button>
           <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-  <%= will_paginate %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

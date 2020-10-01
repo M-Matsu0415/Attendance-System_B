@@ -1,15 +1,45 @@
 /* ユーザー勤怠情報テーブル */
 
-#table-attendances {
+#table-attendances-header {
   th {
     vertical-align: middle;
     text-align: center;
-    width: 50px;
   }
   td {
     vertical-align: middle;
     text-align: center;
   }
+}
+
+#table-attendances-body {
+  th {
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+    width: 50px;
+  }
+}
+
+/* ユーザー一覧表示*/
+
+.users-index {
+  margin-top: 10px;
+  margin-left: 100px;
+}
+
+.users-index-name {
+  margin-top: 10px;
+}
+
+.btn-users-index-delete {
+  margin-top: 5px;
+}
+
+.btn-users-index-edit {
+  width: 100px;
 }
 
 /* 勤怠表承認ボタン */
@@ -19,9 +49,16 @@
 }
 
 .note-area {
-    width: 100px;
+  width: 150px;
 }
 
 .overwork-content {
-    width: 100px;
+    width: 150px;
+}
+
+/* csvファイルインポートボタン */
+
+.btn-csv-import {
+  margin-top: 5px;
+  width: 275px;
 }
