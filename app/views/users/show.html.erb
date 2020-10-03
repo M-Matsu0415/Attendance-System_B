@@ -11,7 +11,7 @@
         <%= "　" %>
         <%= link_to "▶", user_path(date: @first_day.next_month), class: "btn btn-sm btn-primary" %>
       </td>
-      <td>指定勤務時間：<%= format_basic_info(@user.work_time) %><br>
+      <td>指定勤務開始時間：<%= format_basic_info(@user.work_time) %><br>
           指定勤務終了時間：
       </td>
       <td class = basic_time colspan = "3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
