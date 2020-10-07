@@ -1,0 +1,35 @@
+<% provide(:title, '拠点情報一覧') %>
+<h1><%= "拠点情報一覧" %></h1>
+
+<table class = "table table-bordered table-condensed" id = "table-bases">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>拠点番号</th>
+      <th>拠点名</th>
+      <th>拠点情報</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bases.each do |base| %>
+      <tr>
+        <td>
+          <%= link_to "編集", edit_basis_path(base), class: "btn btn-md btn-primary btn-base-edit" %>
+        </td>
+        <td>
+          <%= link_to "削除", user, method: :delete, data: { confirm: "#{base.name}を削除してよろしいですか？"},
+          class: "btn btn-md btn-primary btn-users-index-delete"%>
+        </td>
+        <td>
+          <%= base.number %>
+        </td>
+        <td>
+          <%= base.name %>
+        </td>
+        <td>
+          <%= base.status %>
+        </td>
+      </tr>
+  </tbody>
+</table>
