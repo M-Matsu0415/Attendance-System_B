@@ -1,11 +1,11 @@
 <% provide(:title, '拠点情報一覧') %>
 <h1><%= "拠点情報一覧" %></h1>
 
-<table class = "table table-bordered table-condensed" id = "table-bases">
+<table class = "table table-bordered table-condensed table-bases" id = "table-bases">
   <thead>
     <tr>
-      <th></th>
-      <th></th>
+      <th>編集ボタン</th>
+      <th>削除ボタン</th>
       <th>拠点番号</th>
       <th>拠点名</th>
       <th>拠点情報</th>
@@ -18,8 +18,8 @@
           <%= link_to "編集", edit_basis_path(base), class: "btn btn-md btn-primary btn-base-edit" %>
         </td>
         <td>
-          <%= link_to "削除", user, method: :delete, data: { confirm: "#{base.name}を削除してよろしいですか？"},
-          class: "btn btn-md btn-primary btn-users-index-delete"%>
+          <%= link_to "削除", base, method: :delete, data: { confirm: "#{base.name}を削除してよろしいですか？"},
+          class: "btn btn-md btn-danger btn-bases-index-delete"%>
         </td>
         <td>
           <%= base.number %>
@@ -31,5 +31,8 @@
           <%= base.status %>
         </td>
       </tr>
+    <% end %>
   </tbody>
 </table>
+
+<%= link_to "拠点追加", new_basis_path, class: "btn btn-lg btn-primary btn-base_add" %>

@@ -1,0 +1,15 @@
+<%= form_with(model: @base, local: true) do |f| %> <!-- local: true：HTMLとしてフォームを送信する-->
+  <%= render 'shared/error_messages', object: @base %>
+            
+  <%= f.label :name, class: "label-base-name" %>
+  <%= f.text_field :name, class: "form-control" %>
+            
+  <%= f.label :number, class: "label-base-number" %>
+  <%= f.text_field :number, class: "form-control" %>
+  
+  <%= f.label :status, class: "label-base-status" %>
+  <%= f.select :status, [["出勤", "出勤"], ["退勤", "退勤"]], class: "form-control" %>
+          
+  <%= f.submit yield(:button_text), class: "btn btn-primary btn-block btn-base-registration" %>
+  <!--btn-block：横一杯のブロックレベルのボタン-->
+<% end %>

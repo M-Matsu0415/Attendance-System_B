@@ -9,8 +9,8 @@
             <li><%= link_to "トップへ", current_user %></li>
             <li><%= link_to "ユーザー一覧", users_path %></li>
             <li><%= link_to "出勤社員一覧", '#' %></li>
-            <li><%= link_to "拠点情報の修正", '#' %></li>
-            <li><%= link_to "基本情報の更新", edit_basic_info_user_path(current_user) %></li>
+            <li><%= link_to "拠点情報一覧", bases_path %></li>
+            <li><%= link_to "基本情報の更新", '#' %></li>
             <li class = "dropdown"> <!--bsのドロップダウン機能を使用するためdropdownクラスを指定-->
               <a href = "#" class = "dropdown-toggle" data-toggle = "dropdown"> <!--dropdown-toggle：クラス名として指定。トグルボタン、なくてもOK、入れると矢印ついてくる。-->
                                                                                 <!--data-toggle：オプション名として指定。ドロップダウンの起動ボタン。必須。デフォルトでdropdown-->
