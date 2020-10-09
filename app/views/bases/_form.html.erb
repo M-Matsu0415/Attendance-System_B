@@ -1,6 +1,6 @@
 <%= form_with(model: @base, local: true) do |f| %> <!-- local: true：HTMLとしてフォームを送信する-->
   <%= render 'shared/error_messages', object: @base %>
-            
+
   <%= f.label :name, class: "label-base-name" %>
   <%= f.text_field :name, class: "form-control" %>
             

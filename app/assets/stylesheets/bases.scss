@@ -6,11 +6,12 @@
   margin-top: 10px;
 }
 
-.table-bases {
+#table-bases {
   th {
     text-align: center;
   }
   td {
+    vertical-align: middle;
     text-align: center;
   }
 }

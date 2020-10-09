@@ -81,6 +81,10 @@ class UsersController < ApplicationController
       redirect_to users_url
   end
   
+  def working_members
+    @user = User.all
+  end
+  
   private
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
