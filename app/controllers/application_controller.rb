@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     # ユーザーに紐付く一ヶ月分のレコードを検索し取得します。
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     
-    unless one_month.count == @attendances.count # それぞれの件数（日数）が一致するか評価します。
+    unless one_month.count == @attendances.count # それぞれの件数（日数）が一致するか評価します。データがないかもしれないために確認の意味で行う。
       ActiveRecord::Base.transaction do # トランザクションを開始します。
         # トランザクション：指定したブロックにあるデータベースの操作が全部成功することを保証するための機能。
         # 繰り返し処理により、1ヶ月分の勤怠データを生成します。

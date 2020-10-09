@@ -7,4 +7,9 @@ module UsersHelper
     # formatメソッドの基本形　format("%.f", 数値)：数値をfで指示された桁数に揃えて文字列で返す-->
   end
   
+  # def search_working_members
+  #   each.@users do |working_member|
+      
+  # end
+  
 end

@@ -9,11 +9,15 @@
     </tr>
   </thead>
   <tbody>
-    <% @user.each do |user| %>
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
+    <% @users.each do |working_member| %>
+      <% if working_member[:worked_on] == Date.current %>
+        <% if !working_member.@attendance[:started_at].present? && working_member.@attendance[:finished_at].blank? %>
+        <% end %>
+          <tr>
+            <td><%= working_member.id  %></td>
+            <td><%= working_member.name  %></td>
+          </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
