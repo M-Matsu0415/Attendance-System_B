@@ -9,14 +9,16 @@
     </tr>
   </thead>
   <tbody>
-    <% @users.each do |working_member| %>
-      <% if working_member[:worked_on] == Date.current %>
-        <% if !working_member.@attendance[:started_at].present? && working_member.@attendance[:finished_at].blank? %>
-        <% end %>
+    <% @users.each do |user| %>
+      <% if user.attendances.where(worked_on: @first_day..@last_day).present? %>
+        <% attendance = user.attendances.find_by(worked_on: Date.current) %>
+        <% if attendance[:started_at].present? && attendance[:finished_at].blank? %>
+          <% working_member = user %>
           <tr>
             <td><%= working_member.id  %></td>
             <td><%= working_member.name  %></td>
           </tr>
+        <% end %>
       <% end %>
     <% end %>
   </tbody>

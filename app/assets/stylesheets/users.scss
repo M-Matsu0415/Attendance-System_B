@@ -11,6 +11,17 @@
   width: 75px;
 }
 
+/* 出勤中社員一覧ページ */
+
+#table-working-members {
+  th {
+  text-align: center;
+  }
+  td {
+  text-align: center;
+  }
+}
+
 /* 入力フォーム */
 
 .label-signup {

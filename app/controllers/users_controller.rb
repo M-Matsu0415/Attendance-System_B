@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_or_correct_user, only: :show
   before_action :admin_user, only: :destroy
-  before_action :set_one_month, only: [:show, :working_members]
+  before_action :set_one_month, only: :show
   
 
   def index
@@ -82,8 +82,9 @@ class UsersController < ApplicationController
   end
   
   def working_members
+    @first_day = Date.current.beginning_of_month
+    @last_day = @first_day.end_of_month
     @users = User.all
-    @attendance = @attendances.find_by(worked_on: Date.current)
   end
   
   private
