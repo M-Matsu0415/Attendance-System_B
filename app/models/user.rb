@@ -9,7 +9,7 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 100 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
-  validates :department, length: { in: 2..30 }, allow_blank: true
+  validates :affiliation, length: { in: 2..30 }, allow_blank: true
   validates :basic_time, presence: true
   validates :work_time, presence: true
   has_secure_password
@@ -67,9 +67,9 @@ class User < ApplicationRecord
   
   #importメソッド
   def self.import(file)
-    CSV.foreach(file.path, headers:true) do |row|
+    CSV.foreach(file.path, encoding: 'Shift_JIS:UTF-8', headers: true) do |row|
     # IDが見つかれば、レコードを呼び出し、見つかれなければ、新しく作成
-      user = find_by(id: :row["id"]) || new
+      user = find_by(id: row["id"]) || new
       # CSVからデータを取得し、設定する
       user.attributes = row.to_hash.slice(*updatable_attributes)
       user.save
@@ -78,7 +78,8 @@ class User < ApplicationRecord
   
   # 更新を許可するカラムを定義
   def self.updatable_attributes
-    ["title", "user_id"]
+    ["name", "email", "affiliation", "employee_number", "uid", "basic_time", "designated_work_start_time", "designated_work_end_time",
+     "superior", "admin", "password"]
   end
 
 end

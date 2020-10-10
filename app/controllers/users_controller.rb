@@ -59,6 +59,7 @@ class UsersController < ApplicationController
   
   def import
     User.import(params[:file])
+    redirect_to users_url
   end
 
   def update_basic_info
