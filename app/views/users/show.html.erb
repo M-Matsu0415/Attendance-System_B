@@ -23,8 +23,8 @@
       <td>所属：<%= @user.department.present? ? @user.department : "未所属" %></td>
       <!-- present?：審議判定メソッド。@userのdepartmentカラムに値が入っている場合にはtrue、ない場合にはfalsを返す-->
       <td>氏名：<%= @user.name %></td>
-      <td>コード</td>
-      <td class = "employee_code"><%= @user.id %></td>
+      <td>社員番号</td>
+      <td class = "employee_code"><%= @user.employee_number %></td>
       <td>出勤日数：<%= @worked_sum %>日</td>
       <td>締め：<%= l(@last_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(月/日)-->

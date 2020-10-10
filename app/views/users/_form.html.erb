@@ -3,6 +3,9 @@
             
   <%= f.label :name, class: "label-#{yield(:class_text)}" %>
   <%= f.text_field :name, class: "form-control" %>
+  
+  <%= f.label :employee_number, class: "label-#{yield(:class_text)}" %>
+  <%= f.text_field :employee_number, class: "form-control" %>
             
   <%= f.label :email, class: "label-#{yield(:class_text)}" %>
   <%= f.email_field :email, class: "form-control" %>

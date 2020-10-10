@@ -4,8 +4,8 @@
 <table class = "table table-bordered table-condensed table-working-members" id = "table-working-members">
   <thead>
     <tr>
-      <th>社員番号</th>
-      <th>名前</th>
+      <th class = employee_number>社員番号</th>
+      <th class = employee_name>名前</th>
     </tr>
   </thead>
   <tbody>
@@ -15,7 +15,7 @@
         <% if attendance[:started_at].present? && attendance[:finished_at].blank? %>
           <% working_member = user %>
           <tr>
-            <td><%= working_member.id  %></td>
+            <td><%= working_member.employee_number %></td>
             <td><%= working_member.name  %></td>
           </tr>
         <% end %>
