@@ -1,6 +1,7 @@
 # coding: utf-8
 
 User.create!(name: "管理者",
+             employee_number: 1,
              email: "sample@email.com",
              password: "password",
              password_confirmation: "password",
