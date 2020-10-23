@@ -83,8 +83,14 @@ class User < ApplicationRecord
   end
   
   # csv outputメソッド
+  require 'csv'
+  
+  def self.csv_attributes
+    [ "worked_on", "started_at", "finished_at" ]
+  end
+  
   def self.generate_csv
-    CSV.generate(headers: true, encoding: "CP932:UTF-8") do |csv|
+    CSV.generate(headers: true, encoding: Encoding::SJIS) do |csv|
       csv << csv_attributes
       all.each do |part|
         csv << csv_attributes.map{|attr| part.send(attr)}

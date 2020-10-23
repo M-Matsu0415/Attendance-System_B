@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_or_correct_user, only: :show
   before_action :admin_user, only: :destroy
   before_action :set_one_month, only: [:show, :csv_output]
-  require 'csv'
   
 
   def index
@@ -63,37 +62,12 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
+  require 'csv'
+  
   def csv_output
     respond_to do |format|
-      format.csv do
-        send_attendances_csv(@attendances)
-      end
+      format.csv { send_data @attendances.generate_csv, filename: "勤怠情報.csv" }
     end
-  end
-  
-  def send_attendances_csv(attendances)
-    csv_data = CSV.generate do |csv|
-      column_names = %w(日付 出勤時間 退勤時間)
-      csv << column_names
-
-      attendances.each do |attendance|
-        if !attendance.started_at.nil?
-          started_at_csv = attendance.started_at.strftime("%H：%M")
-        end
-    
-        if !attendance.finished_at.nil?
-          finished_at_csv = attendance.started_at.strftime("%H：%M")
-        end
-    
-        column_values = [
-          attendance.worked_on,
-          started_at_csv,
-          finished_at_csv
-          ]
-        csv << column_values
-        end
-      end
-    send_data(csv_data, filename: "勤怠情報.csv")
   end
 
   def update_basic_info
@@ -124,7 +98,7 @@ class UsersController < ApplicationController
   
   private
     def user_params
-      params.require(:user).permit(:name, :email, :employee_number, :department, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :employee_number, :affiliation, :password, :password_confirmation)
     end
     
     def basic_info_params
