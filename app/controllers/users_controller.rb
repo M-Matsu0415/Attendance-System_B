@@ -62,14 +62,20 @@ class UsersController < ApplicationController
       flash[:danger] = "csvファイルが選択されていません。"
       redirect_to users_url
     else
-      User.import(params[:file])
-        if !@errors.nil?
+      CSV.foreach(params[:file].path, encoding: "Shift_JIS:UTF-8", headers: true) do |row|
+        user = new
+        # CSVからデータを取得し、設定する
+        user.attributes = row.to_hash.slice("name", "email", "affiliation", "employee_number", "uid",
+                                            "basic_time", "designated_work_start_time", "designated_work_end_time",
+                                            "superior", "admin", "password")
+        user.save
+        if !user.save
           flash[:danger] = "csvファイルのデータに問題があります。"
-          redirect_to users_url
-        else
-          flash[:success] = "社員情報をインポートしました"
-          redirect_to users_url
+          redirect_to users_url and return
         end
+      end
+        flash[:success] = "社員情報をインポートしました"
+        redirect_to users_url
     end
   end
   
