@@ -72,7 +72,10 @@ class User < ApplicationRecord
       user = new
       # CSVからデータを取得し、設定する
       user.attributes = row.to_hash.slice(*updatable_attributes)
-      user.save!
+        if !user.save
+          flash[:danger] = "csvファイルのデータに問題があります。"
+          redirect_to users_url
+        end
     end
   end
   

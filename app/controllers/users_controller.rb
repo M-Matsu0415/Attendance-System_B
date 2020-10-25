@@ -63,8 +63,13 @@ class UsersController < ApplicationController
       redirect_to users_url
     else
       User.import(params[:file])
-      flash[:success] = "社員情報をインポートしました"
-      redirect_to users_url
+        if !@errors.nil?
+          flash[:danger] = "csvファイルのデータに問題があります。"
+          redirect_to users_url
+        else
+          flash[:success] = "社員情報をインポートしました"
+          redirect_to users_url
+        end
     end
   end
   
