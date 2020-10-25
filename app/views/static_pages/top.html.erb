@@ -2,6 +2,12 @@
 <div class = "center jumbotron">
 <!--bs 中央に角丸で配置-->
     <h1>勤怠システム</h1>
-    <%= link_to "ログイン", login_path, class: "btn btn-lg btn-primary" %>
+    <% if logged_in? %>
+        <button type = "button" class = "btn btn-lg btn-primary" disabled = "disabled" >
+        ログイン済み
+        </button>
+    <% else %>
+        <%= link_to "ログイン", login_path, class: "btn btn-lg btn-primary" %>
+    <% end %>
     <h2>アカウント作成は<%= link_to "こちら", signup_path %>から</h2>
 </div>

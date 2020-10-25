@@ -152,12 +152,14 @@
     <div class = "text-center">
       <label>所属長承認</label>
     </div>
+    <!--<form action = "#" method-->
     <select name="approval" formControlName="approval" class="form-control shadow-none">
       <option value="0" selected></option>
-      <option value="1">承認者1</option>
-      <option value="2">承認者2</option>
-      <option value="3">承認者3</option>
-      <option value="4">承認者4</option>
+      <% @users.each |user|%>
+        <% if user.superior == true %>
+          <option value="0" selected></option>
+          <option value="1">承認者1</option>
+        <% end %>
     </select>
     <%= link_to "申請", '#', class: "btn btn-md btn-primary btn-block btn-approval" %>
   </div>
