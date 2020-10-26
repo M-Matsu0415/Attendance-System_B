@@ -1,0 +1,2 @@
+class MonthApproval < ApplicationRecord
+end

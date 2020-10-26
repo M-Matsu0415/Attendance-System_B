@@ -147,19 +147,13 @@
       </tr>
     </tfoot>
   </table>
+</div>
 
-  <div class = "col-md-2 dropdown pull-right"> <!--bsのドロップダウン機能を使用するためdropdownクラスを指定-->
-    <div class = "text-center">
-      <label>所属長承認</label>
-    </div>
-    <!--<form action = "#" method-->
-    <select name="approval" formControlName="approval" class="form-control shadow-none">
-      <option value="0" selected></option>
-      <% @users.each |user|%>
-        <% if user.superior == true %>
-          <option value="0" selected></option>
-          <option value="1">承認者1</option>
-        <% end %>
-    </select>
-    <%= link_to "申請", '#', class: "btn btn-md btn-primary btn-block btn-approval" %>
-  </div>
+<div class = "col-md-2 pull-right month-approval">
+  <!--<form action = "#" method-->
+  <%= form_with model: @month_approvals do |f| %>
+    <%= f.label :"所属上長承認" %>
+    <%= f.collection_select :name, @users, :id, :name, { include_blank: "なし" }, { class: "month-approval-select" } %>
+    <%= f.submit "申請", class: "btn btn-md btn-primary btn-block btn-approval"%>
+  <% end %>
+</div>
