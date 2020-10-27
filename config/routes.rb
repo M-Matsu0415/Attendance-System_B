@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'month_apprpvals/new'
-
   get 'bases/new'
 
   root 'static_pages#top'
@@ -11,8 +9,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  
-  resources :month_approvals
   
   resources :bases
 
@@ -28,5 +24,6 @@ Rails.application.routes.draw do
       get 'csv_output'
     end
     resources :attendances, only: :update
+    resources :month_approvals
   end
 end

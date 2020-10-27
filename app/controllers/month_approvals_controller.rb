@@ -7,8 +7,7 @@ class MonthApprpvalsController < ApplicationController
   
   def create
     @month_approval = month_approval.new(month_approval_params)
-    @month_approval.applicant_user_id = @user.id
-    @month_approval.approval_status = 1
+    
     if @month_approval.save
       flash[:success] = "に成功しました"
       redirect_to @user
@@ -19,7 +18,7 @@ class MonthApprpvalsController < ApplicationController
   
   private
     def month_approval_params
-      params.require(:month_approval).permit(:approval_superior_id)
+      params.require(:month_approval).permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
     end
   
 end
