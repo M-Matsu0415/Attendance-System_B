@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   
   resources :bases
-
   resources :users do
     get :search, on: :collection
     post :import, on: :collection
@@ -25,5 +24,8 @@ Rails.application.routes.draw do
     end
     resources :attendances, only: :update
     resources :month_approvals
+      member do
+        post 'create_month_approval'
+      end
   end
 end
