@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_or_correct_user, only: [:show, :create_month_approval]
   before_action :admin_user, only: :destroy
@@ -139,14 +139,15 @@ class UsersController < ApplicationController
   end
   
   def create_month_approval
-    @month_approval = MonthApproval.new(month_approval_params)
+    @month_approval = @user.month_approvals.build(month_approval_params)
     
     if @month_approval.save
       flash[:success] = "承認申請しました。"
-      @user = User.find(params[:applicant_user_id])
+      # @user = User.find(params[:applicant_user_id])
       redirect_to @user
     else
-      render  :create_month_approval
+      flash[:success] = "承認申請に失敗しました。"
+      redirect_to @user
     end
   end
   
@@ -160,6 +161,6 @@ class UsersController < ApplicationController
     end
     
     def month_approval_params
-      params.require(:user).permit(month_approvals: [:applicant_user_id, :approval_superior_id, :approval_status, :approval_month])[:month_approvals]
+      params.permit(:user_id, :applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
     end
 end
