@@ -1,3 +1,44 @@
-// Place all the styles related to the MonthApprpvals controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+/* 一ヶ月分の勤怠承認欄 */
+
+.month-approval{
+  text-align: center;
+}
+
+/* 一ヶ月分の勤怠承認ボタン */
+
+.btn-approval {
+  margin-top: 10px;
+}
+
+/* 一ヶ月分の勤怠承認者選択 */
+
+.month-approval-select{
+  width: 150px;
+  height: 30px;
+}
+
+.approval-label{
+  font-size: 15px;
+  line-height: 7.5px;
+}
+
+p.approval-status_1{
+  font-size: 15px;
+  line-height: 7.5px;
+  color: blue;
+  font-weight: bold;
+}
+
+p.approval-status_2{
+  font-size: 15px;
+  line-height: 7.5px;
+  color: green;
+  font-weight: bold;
+}
+
+p.approval-status_3{
+  font-size: 15px;
+  line-height: 7.5px;
+  color: red;
+  font-weight: bold;
+}

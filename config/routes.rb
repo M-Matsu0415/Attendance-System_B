@@ -21,7 +21,6 @@ Rails.application.routes.draw do
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
       get 'csv_output'
-      post 'create_month_approval'
     end
     resources :attendances, only: :update
     resources :month_approvals

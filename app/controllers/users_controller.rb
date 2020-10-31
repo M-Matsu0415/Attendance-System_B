@@ -20,6 +20,7 @@ class UsersController < ApplicationController
     # 出勤時間が空白でない日数を数え、インスタンス変数(@worked_sum)に代入
     @worked_sum = @attendances.where.not(started_at: nil).count
     @users = User.where(superior: true)
+    @month_approval = MonthApproval.find_by(user_id: @user.id)
   end
   
   def new
@@ -138,19 +139,6 @@ class UsersController < ApplicationController
     @users = User.all
   end
   
-  def create_month_approval
-    @month_approval = @user.month_approvals.build(month_approval_params)
-    
-    if @month_approval.save
-      flash[:success] = "承認申請しました。"
-      # @user = User.find(params[:applicant_user_id])
-      redirect_to @user
-    else
-      flash[:success] = "承認申請に失敗しました。"
-      redirect_to @user
-    end
-  end
-  
   private
     def user_params
       params.require(:user).permit(:name, :email, :employee_number, :affiliation, :password, :password_confirmation)
@@ -159,8 +147,5 @@ class UsersController < ApplicationController
     def basic_info_params
       params.require(:user).permit(:basic_time, :work_time)
     end
-    
-    def month_approval_params
-      params.permit(:user_id, :applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
-    end
+
 end
