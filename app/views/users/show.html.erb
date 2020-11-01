@@ -39,7 +39,8 @@
           【所属上長承認申請のお知らせ】
         </span>
         <span class = "box-month-approval-info">
-          <%= link_to "#{month_approval_count(@user.id)}件の通知があります", "#", class: "month-approval-number-info" %>
+          <%= link_to "#{month_approval_count(@user.id)}件の通知があります", edit_user_month_approval_path(@user),
+              remote: true, class: "month-approval-number-info" %>
         </span>
       <% else %>
       <p class = "month-approval-no-info">
@@ -211,3 +212,6 @@
     </div>
   </div>
 </div>
+
+<!--モーダルウインドウ表示-->
+<div id="edit_user_month_approval_path" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
