@@ -1,7 +1,12 @@
-/* ユーザー情報下ボタン */
+/* ユーザー編集/csv出力ボタン */
+.btn-attendance-top{
+  margin-top: 5px;
+  margin-bottom: 2.5px;
+}
 
-.btn-users-show {
-  margin-top: -10px;
+/* 勤怠修正ログボタン */
+.btn-attendance-bottom{
+  margin-top: 2.5px;
   margin-bottom: 10px;
 }
 

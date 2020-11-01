@@ -47,37 +47,75 @@ p.month-approval-status_3{
 /* お知らせありの場合 */
 .month-approval-info{
   font-size: 15px;
-  color: red;
-  line-height: 0.5;
-  margin-top: 0.5px;
-  margin-left: 10px;
+  line-height: 1.25;
+  margin: 5px 0 10px 10px;
   font-weight: bold;
 }
 
+span.month-approval-info{
+  color: red;
+}
+/* お知らせあり件数の表示 */
+span.box-month-approval-info{
+  border: 3px solid red;
+}
+.month-approval-number-info{
+  color: red;
+}
+/* お知らせなしの場合 */
+span.month-approval-no-info{
+  margin-left: 10px;
+}
+
+///* 勤怠変更承認お知らせ表示 *///
+/* 上長側の表示 */
+/* お知らせありの場合 */
 .attendance-approval-info{
   font-size: 15px;
-  color: red;
-  line-height: 0.5;
-  margin-top: 0.5px;
-  margin-left: 10px;
+  line-height: 1.25;
+  margin: 5px 0 10px 10px;
   font-weight: bold;
 }
 
-.box-month-approval-info{
-  border: 3px solid;
+span.attendance-approval-info{
+  color: red;
+}
+/* お知らせあり件数の表示 */
+span.box-attendance-approval-info{
+  border: 3px solid red;
+}
+/* お知らせあり件数の表示 */
+.attendance-approval-number-info{
+  border: 3px solid red;
 }
 
 /* お知らせなしの場合 */
-.month-approval-no-info{
-  line-height: 0.5;
-  margin-top: 0.5px;
+span.attendance-approval-no-info{
   margin-left: 10px;
+}
+
+///* 残業承認お知らせ表示 *///
+/* 上長側の表示 */
+/* お知らせありの場合 */
+.overwork-approval-info{
+  font-size: 15px;
+  line-height: 1.25;
+  margin: 5px 0 10px 10px;
   font-weight: bold;
 }
 
-.attendance-approval-no-info{
-  line-height: 0.5;
-  margin-top: 0.5px;
+span.overwork-approval-info{
+  color: red;
+}
+/* お知らせあり件数の表示 */
+span.box-overwork-approval-info{
+  border: 3px solid red;
+}
+.overwork-approval-number-info{
+  border: 3px solid red;
+}
+
+/* お知らせなしの場合 */
+span.overwork-approval-no-info{
   margin-left: 10px;
-  font-weight: bold;
 }

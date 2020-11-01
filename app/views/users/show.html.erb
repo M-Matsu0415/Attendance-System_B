@@ -31,27 +31,33 @@
   </table>
 </div>
 
-<div class = "approval-info" >
+<div>
   <% if @user.superior == true %>
-    <% if month_approval_count(@user.id) >= 1 %>
-      <p class = "month-approval-info">
-        【所属上長承認申請のお知らせ】
-        <span class = "box-month-approval-info">
-        <%= link_to "#{month_approval_count(@user.id)}件の通知があります。", "#", class: "month-approval-info" %>
+    <div class = "month-approval-info">
+      <% if month_approval_count(@user.id) >= 1 %>
+        <span class = "month-approval-info">
+          【所属上長承認申請のお知らせ】
         </span>
-      </p>
-    <% else %>
+        <span class = "box-month-approval-info">
+          <%= link_to "#{month_approval_count(@user.id)}件の通知があります", "#", class: "month-approval-number-info" %>
+        </span>
+      <% else %>
       <p class = "month-approval-no-info">
         【所属上長承認申請のお知らせ】
       </p>
-    <% end %>
-  <% else %>
-  <% end %>
-     <div class = "attendance-approval-no-info">
-        <p>
+      <% end %>
+    </div>
+    <div class = "attendance-approval-info">
+      <span class = "attendance-approval-no-info">
         【勤怠変更申請のお知らせ】
-        </p>
-      </div>
+      </apan>
+    </div>
+    <div class = "overwork-approval-info">
+      <span class = "overwork-approval-no-info">
+        【残業申請のお知らせ】
+      </span>
+    </div>
+  <% end %>
 </div>
 
 <div class = "col-md-12 col-md pull-left btn-users-show">
