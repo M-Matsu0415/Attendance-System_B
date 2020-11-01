@@ -1,44 +1,83 @@
-/* 一ヶ月分の勤怠承認欄 */
-
+///* 一ヶ月分の勤怠承認欄 *///
+/* 申請者側の表示 */
 .month-approval{
   text-align: center;
 }
 
 /* 一ヶ月分の勤怠承認ボタン */
-
 .btn-approval {
   margin-top: 10px;
 }
-
 /* 一ヶ月分の勤怠承認者選択 */
 
 .month-approval-select{
   width: 150px;
   height: 30px;
 }
-
-.approval-label{
+p.month-approval-label{
+  margin-top: 5px;
   font-size: 15px;
-  line-height: 7.5px;
+  line-height: 15px;
 }
-
-p.approval-status_1{
+p.month-approval-status{
+  font-size: 15px;
+  line-height: 15px;
+}
+p.month-approval-status_1{
   font-size: 15px;
   line-height: 7.5px;
   color: blue;
   font-weight: bold;
 }
-
-p.approval-status_2{
+p.month-approval-status_2{
   font-size: 15px;
   line-height: 7.5px;
   color: green;
   font-weight: bold;
 }
-
-p.approval-status_3{
+p.month-approval-status_3{
   font-size: 15px;
   line-height: 7.5px;
   color: red;
+  font-weight: bold;
+}
+
+///* 一ヶ月分の勤怠承認お知らせ表示 *///
+/* 上長側の表示 */
+/* お知らせありの場合 */
+.month-approval-info{
+  font-size: 15px;
+  color: red;
+  line-height: 0.5;
+  margin-top: 0.5px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.attendance-approval-info{
+  font-size: 15px;
+  color: red;
+  line-height: 0.5;
+  margin-top: 0.5px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.box-month-approval-info{
+  border: 3px solid;
+}
+
+/* お知らせなしの場合 */
+.month-approval-no-info{
+  line-height: 0.5;
+  margin-top: 0.5px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.attendance-approval-no-info{
+  line-height: 0.5;
+  margin-top: 0.5px;
+  margin-left: 10px;
   font-weight: bold;
 }

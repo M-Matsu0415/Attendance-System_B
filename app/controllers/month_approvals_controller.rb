@@ -9,6 +9,7 @@ class MonthApprovalsController < ApplicationController
   def new
   end
   
+# 一ヶ月分の承認申請
   def create
     @user = User.find(params[:user_id])
     @month_approval = @user.month_approvals.build(month_approval_params)

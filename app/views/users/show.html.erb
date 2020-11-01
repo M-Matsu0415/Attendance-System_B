@@ -18,7 +18,6 @@
       <td>初日：<%= l(@first_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(short：月/日)-->
     </tr>
-    
     <tr>
       <td>所属：<%= @user.affiliation.present? ? @user.affiliation : "未所属" %></td>
       <!-- present?：審議判定メソッド。@userのdepartmentカラムに値が入っている場合にはtrue、ない場合にはfalsを返す-->
@@ -30,6 +29,29 @@
       <!--lメソッドで日時のフォーマットを指定(月/日)-->
     </tr>
   </table>
+</div>
+
+<div class = "approval-info" >
+  <% if @user.superior == true %>
+    <% if month_approval_count(@user.id) >= 1 %>
+      <p class = "month-approval-info">
+        【所属上長承認申請のお知らせ】
+        <span class = "box-month-approval-info">
+        <%= link_to "#{month_approval_count(@user.id)}件の通知があります。", "#", class: "month-approval-info" %>
+        </span>
+      </p>
+    <% else %>
+      <p class = "month-approval-no-info">
+        【所属上長承認申請のお知らせ】
+      </p>
+    <% end %>
+  <% else %>
+  <% end %>
+     <div class = "attendance-approval-no-info">
+        <p>
+        【勤怠変更申請のお知らせ】
+        </p>
+      </div>
 </div>
 
 <div class = "col-md-12 col-md pull-left btn-users-show">
@@ -149,33 +171,37 @@
   </table>
 </div>
 
-<div class = "col-md-2 pull-right month-approval">
-  <div class = "panel panel-default panel-success">
-    <p class = "panel-title panel-success">所属上長承認</p>
-      <% if @month_approval.present? %>
-        <% approval_superior_id = @month_approval.approval_superior_id %>
-        <% approval_superior = User.find_by(id: approval_superior_id) %>
-          <% if @month_approval.approval_status == 1 %>
-            <p class = approval-status_1><%= approval_superior.name %>へ承認申請中</p>
-          <% elsif @month_approval.approval_status == 2 %>
-            <p class = approval-status_2><%= approval_superior.name %>から承認済</p>
-          <% elsif @month_approval.approval_status == 3 %>
-            <p class = approval-status_3><%= approval_superior.name %>から否認済</p>
+<div class = "container">
+  <div class = "row">
+    <div class = "col-md-2 pull-right month-approval">
+      <div class = "panel panel-info">
+        <p class = "month-approval-label">所属上長承認</p>
+          <% if search_current_month_approval %>
+            <% approval_superior_id = @month_approval.approval_superior_id %>
+            <% approval_superior = User.find_by(id: approval_superior_id) %>
+              <% if @month_approval.approval_status == 1 %>
+                <p class = month-approval-status_1><%= approval_superior.name %>へ承認申請中</p>
+              <% elsif @month_approval.approval_status == 2 %>
+                <p class = month-approval-status_2><%= approval_superior.name %>から承認済</p>
+              <% elsif @month_approval.approval_status == 3 %>
+                <p class = month-approval-status_3><%= approval_superior.name %>から否認済</p>
+              <% end %>
+          <% else %>
+            <p class = month-approval-status>なし</p>
           <% end %>
-      <% else %>
-        <p class = approval-status>なし</p>
-      <% end %>
-        <% attendance = @attendances.first %>
-        <%= form_with(model: @month_approval, url: user_month_approvals_path(@user), local: true) do |f| %>
-          <!--form_withメソッドは新規オブジェクトならPOSTリクエスト、既存オブジェクトならPATCHリクエストが送信される。-->
-          <%= f.collection_select :approval_superior_id, @users, :id, :name, { include_blank: "なし" }, { class: "month-approval-select" } %>
-          <!--f.collection_select：保存先のカラム名, テーブル名, 実際にDBに保存させるカラム名, 選択肢に用いるカラム名-->
-          <!--オプションに{ }を付けることでclassが指定できCSSを当てることが出来る。-->
-          <%= f.hidden_field :approval_status, :value => 1 %>
-          <%= f.hidden_field :approval_month, :value => attendance.worked_on %>
-          <%= f.hidden_field :applicant_user_id, :value => @user.id %>
-          <%= f.hidden_field :user_id, :value => @user.id %>
-          <%= f.submit "申請", class: "btn btn-md btn-primary btn-block btn-approval"%>
-      <% end %>
+          <% attendance = @attendances.first %>
+          <%= form_with(model: @month_approval, url: user_month_approvals_path(@user), local: true) do |f| %>
+            <!--form_withメソッドは新規オブジェクトならPOSTリクエスト、既存オブジェクトならPATCHリクエストが送信される。-->
+            <%= f.collection_select :approval_superior_id, @users, :id, :name, { include_blank: "なし" }, { class: "month-approval-select" } %>
+            <!--f.collection_select：保存先のカラム名, テーブル名, 実際にDBに保存させるカラム名, 選択肢に用いるカラム名-->
+            <!--オプションに{ }を付けることでclassが指定できCSSを当てることが出来る。-->
+            <%= f.hidden_field :approval_status, :value => 1 %>
+            <%= f.hidden_field :approval_month, :value => attendance.worked_on %>
+            <%= f.hidden_field :applicant_user_id, :value => @user.id %>
+            <%= f.hidden_field :user_id, :value => @user.id %>
+            <%= f.submit "申請", class: "btn btn-md btn-primary btn-block btn-approval"%>
+          <% end %>
+      </div>
+    </div>
   </div>
 </div>
