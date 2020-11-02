@@ -5,7 +5,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-        <%= form_with(model: @month_approval, url: user_month_approvals_path(@user), local: true, method: :patch) do |f| %>
+        <%= form_with(model: @month_approval, url: {controller: 'month_approvals', action: 'update_month_approvals'}, local: true, method: :patch) do |f| %>
           <% @month_approvals.each do |month_approval| %>
           <% applicant_user_id = month_approval.applicant_user_id %>
           <% user = User.find_by(id: applicant_user_id) %>
@@ -36,6 +36,7 @@
                     <%= link_to "確認", "#", class: "btn btn-md btn-primary btn-attendance-monitor"%>
                   </td>
                 </tr>
+              <% end %>
             </tbody>
           </table>
         <% end %>
