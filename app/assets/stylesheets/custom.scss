@@ -148,10 +148,29 @@ p {
   }
 }
 
-/* モーダルウインドウの位置調整 */
-
+///* 一ヶ月の勤怠承認モーダルウインドウの調整 *///
+/* 位置調整 */
 .modal-dialog-center {
   padding-top: 10%;
+}
+/* タイトル位置調整 */
+h3.modal-title {
+  text-align: center;
+}
+/* テーブルタイトル(th)、データ(td)位置調整 */
+#table-month_approvals {
+  th {
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+/* 指示者確認欄の幅調整 */
+.month-approval-form-control {
+  width: 100px;
+  height: 30px;
 }
 
 /* 勤怠編集画面登録関係のボタン */

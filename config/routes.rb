@@ -24,5 +24,6 @@ Rails.application.routes.draw do
     end
     resources :attendances, only: :update
     resources :month_approvals
+      patch :update_month_approvals, on: :collection
   end
 end
