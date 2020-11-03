@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   
   resources :bases
+  resources :month_approvals
   resources :users do
     get :search, on: :collection
     post :import, on: :collection

@@ -11,8 +11,10 @@ class MonthApprovalsController < ApplicationController
   
 # 一般ユーザーによる一ヶ月分の承認申請
   def create
-    @user = User.find(params[:user_id])
-    @month_approval = @user.month_approvals.build(month_approval_params)
+    current_user_id = current_user.id
+    @user = User.find(current_user_id)
+    # @user = User.find(params[:user_id])
+    @month_approval = MonthApproval.new(month_approval_params)
     
     if @month_approval.save
       flash[:success] = "承認申請しました。"
@@ -28,16 +30,18 @@ class MonthApprovalsController < ApplicationController
     @month_approvals = MonthApproval.where(approval_superior_id: @user.id)
   end
   
-  def update_month_approvals
-    ActiveRecord::Base.transaction do # トランザクションを開始します。
-      month_approval_params.each do |id, item|
-        month_approval = MonthApproval.find(params: [:user_id])
+  def update
+    ActiveRecord::Base.transaction do
+    # トランザクションを開始します。
+      month_approvals_params.each do |id, item|
+        month_approval = MonthApproval.find(id)
         month_approval.update_attributes!(item)
       end
     end
       flash[:success] = "1ヶ月分の勤怠申請を更新しました。"
       redirect_to user_url(date: params[:date])
-  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+  rescue ActiveRecord::RecordInvalid
+  # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
     redirect_to @user
   end
@@ -45,7 +49,11 @@ class MonthApprovalsController < ApplicationController
   private
   
     def month_approval_params
-      params.permit(:user_id, :applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
+      params.permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
+    end
+    
+    def month_approvals_params
+      params.permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)[:month_approvals]
     end
     
 end
