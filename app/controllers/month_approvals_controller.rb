@@ -25,16 +25,17 @@ class MonthApprovalsController < ApplicationController
     end
   end
 
-# 上長による一ヶ月の勤怠承認/否認
+# 上長による一ヶ月の勤怠承認/否認。editアクションで自分宛てに来ている承認申請を全て表示。
   def edit
     @month_approvals = MonthApproval.where(approval_superior_id: @user.id)
   end
-  
+
+# 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
   def update
     ActiveRecord::Base.transaction do
     # トランザクションを開始します。
-      month_approvals_params.each do |id, item|
-        month_approval = MonthApproval.find(id)
+      month_approval_params.each do |item|
+        month_approval = MonthApproval.find(id: month_approvals_params.id)
         month_approval.update_attributes!(item)
       end
     end
@@ -53,7 +54,7 @@ class MonthApprovalsController < ApplicationController
     end
     
     def month_approvals_params
-      params.permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)[:month_approvals]
+      params.permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
     end
     
 end
