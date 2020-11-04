@@ -24,7 +24,5 @@ Rails.application.routes.draw do
       get 'csv_output'
     end
     resources :attendances, only: :update
-    resources :month_approvals
-      patch :update_month_approvals, on: :collection
   end
 end

@@ -39,7 +39,7 @@
           【所属上長承認申請のお知らせ】
         </span>
         <span class = "box-month-approval-info">
-          <%= link_to "#{month_approval_count(@user.id)}件の通知があります", edit_user_month_approval_path(@user),
+          <%= link_to "#{month_approval_count(@user.id)}件の通知があります", edit_month_approval_path(@user),
               remote: true, class: "month-approval-number-info" %>
         </span>
       <% else %>

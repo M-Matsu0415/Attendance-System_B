@@ -34,8 +34,8 @@ class MonthApprovalsController < ApplicationController
   def update
     ActiveRecord::Base.transaction do
     # トランザクションを開始します。
-      month_approval_params.each do |item|
-        month_approval = MonthApproval.find(id: month_approvals_params.id)
+      params.each do |id, item|
+        month_approval = MonthApproval.find(id)
         month_approval.update_attributes!(item)
       end
     end
@@ -54,7 +54,7 @@ class MonthApprovalsController < ApplicationController
     end
     
     def month_approvals_params
-      params.permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
+      params.permit(month_approvals: [:applicant_user_id, :approval_superior_id, :approval_status, :approval_month])[:month_approvals]
     end
     
 end
