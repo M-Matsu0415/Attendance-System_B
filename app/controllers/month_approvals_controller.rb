@@ -1,5 +1,5 @@
 class MonthApprovalsController < ApplicationController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit]
   # before_action :logged_in_user, only: :create
   # before_action :admin_or_correct_user, only: :create
   # before_action :set_one_month, only: :create
@@ -31,16 +31,18 @@ class MonthApprovalsController < ApplicationController
   end
 
 # 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
-  def update
+  def update_month_approvals
+    current_user_id = current_user.id
+    @user = User.find(current_user_id)
     ActiveRecord::Base.transaction do
     # トランザクションを開始します。
-      params.each do |id, item|
+      month_approvals_params.each do |id, item|
         month_approval = MonthApproval.find(id)
         month_approval.update_attributes!(item)
       end
     end
       flash[:success] = "1ヶ月分の勤怠申請を更新しました。"
-      redirect_to user_url(date: params[:date])
+      redirect_to user_url @user
   rescue ActiveRecord::RecordInvalid
   # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
@@ -54,7 +56,7 @@ class MonthApprovalsController < ApplicationController
     end
     
     def month_approvals_params
-      params.permit(month_approvals: [:applicant_user_id, :approval_superior_id, :approval_status, :approval_month])[:month_approvals]
+      params.require(:month_approval).permit(month_approvals: [:approval_status])[:month_approvals]
     end
     
 end

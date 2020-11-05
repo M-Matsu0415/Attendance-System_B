@@ -45,26 +45,29 @@ p.month-approval-status_3{
 ///* 一ヶ月分の勤怠承認お知らせ表示 *///
 /* 上長側の表示 */
 /* お知らせありの場合 */
-.month-approval-info{
+.month_approval_info{
+  margin: 5px 0px 10px 10px;
+.month-approval-label{
   font-size: 15px;
   line-height: 1.25;
-  margin: 5px 0 10px 10px;
+  color: red;
+  margin: 5px 0px 10px 10px;
   font-weight: bold;
 }
-
-span.month-approval-info{
-  color: red;
-}
+/* 上長側の表示 */
 /* お知らせあり件数の表示 */
-span.box-month-approval-info{
+.month-approvals-number{
+  color: red;
   border: 3px solid red;
 }
-.month-approval-number-info{
-  color: red;
 }
+/* 上長側の表示 */
 /* お知らせなしの場合 */
-span.month-approval-no-info{
-  margin-left: 10px;
+.month-approval-no-info{
+  font-size: 15px;
+  line-height: 1.25;
+  margin: 5px 0px 10px 20px;
+  font-weight: bold;
 }
 
 ///* 勤怠変更承認お知らせ表示 *///

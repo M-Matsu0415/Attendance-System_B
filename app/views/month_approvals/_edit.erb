@@ -5,7 +5,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-        <%= form_with(model: @month_approvals, url: {controller: 'month_approvals', action: 'update'}, local: true, method: :patch) do |f| %>
+        <%= form_with(model: @month_approvals, url: month_approvals_update_month_approvals_path, local: true, method: :patch) do |f| %>
           <% @month_approvals.each do |month_approval| %>
             <%= f.fields_for "month_approvals[]", month_approval do |i| %>
               <% applicant_user_id = month_approval.applicant_user_id %>
@@ -30,8 +30,6 @@
                         </td>
                         <td>
                           <!--分からないのでfにしておく。-->
-                          <%= f.label "変更する" %>
-                          <%= f.check_box :must, id: "month-approval-change-check" %>
                         </td>
                         <td>
                           <%= link_to "確認", "#", class: "btn btn-md btn-primary btn-attendance-monitor"%>

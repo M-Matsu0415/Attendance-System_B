@@ -3,8 +3,8 @@ module MonthApprovalsHelper
 # 上長ユーザーが自分宛てに来ている一ヶ月承認申請の数をカウント
 # 上長の勤怠画面の一ヶ月承認申請のお知らせ表示に使用
   def month_approval_count(superior_id)
-    if MonthApproval.where(approval_superior_id: superior_id).present?
-      month_approvals = MonthApproval.where(approval_superior_id: superior_id)
+    if MonthApproval.where(approval_superior_id: superior_id, approval_status: 1).present?
+      month_approvals = MonthApproval.where(approval_superior_id: superior_id, approval_status: 1)
       return month_approvals.count
     else
       return 0

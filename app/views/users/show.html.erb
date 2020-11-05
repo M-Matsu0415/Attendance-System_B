@@ -33,19 +33,23 @@
 
 <div>
   <% if @user.superior == true %>
-    <div class = "month-approval-info">
+    <div>
       <% if month_approval_count(@user.id) >= 1 %>
-        <span class = "month-approval-info">
-          【所属上長承認申請のお知らせ】
-        </span>
-        <span class = "box-month-approval-info">
-          <%= link_to "#{month_approval_count(@user.id)}件の通知があります", edit_month_approval_path(@user),
-              remote: true, class: "month-approval-number-info" %>
-        </span>
+        <div class = month_approval_info>
+          <span>
+            <%= link_to "【所属上長承認申請のお知らせ】", edit_month_approval_path(@user),
+                remote: true, class: "month-approval-label" %>
+          </span>
+          <span class = "month-approvals-number">
+            <%= "#{month_approval_count(@user.id)}件の通知があります" %>
+          </span>
+        </div>
       <% else %>
-      <p class = "month-approval-no-info">
-        【所属上長承認申請のお知らせ】
-      </p>
+        <div class = "month-approval-no-info">
+          <span>
+            【所属上長承認申請のお知らせ】
+          </span>
+        </div>
       <% end %>
     </div>
     <div class = "attendance-approval-info">

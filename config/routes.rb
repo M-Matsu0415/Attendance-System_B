@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   
+  patch 'month_approvals/update_month_approvals'
   resources :bases
   resources :month_approvals
   resources :users do
