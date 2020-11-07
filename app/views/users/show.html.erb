@@ -196,6 +196,8 @@
                 <p class = month-approval-status_2><%= approval_superior.name %>から承認済</p>
               <% elsif @month_approval.approval_status == 3 %>
                 <p class = month-approval-status_3><%= approval_superior.name %>から否認済</p>
+              <% elsif @month_approval.approval_status == 4 %>
+                <p class = month-approval-status_4>なし</p>
               <% end %>
           <% else %>
             <p class = month-approval-status>なし</p>
@@ -209,6 +211,7 @@
             <%= f.hidden_field :approval_status, :value => 1 %>
             <%= f.hidden_field :approval_month, :value => attendance.worked_on %>
             <%= f.hidden_field :applicant_user_id, :value => @user.id %>
+            <%= f.hidden_field :user_id, :value => @user.id %>
             <%= f.submit "申請", class: "btn btn-md btn-primary btn-block btn-approval"%>
           <% end %>
       </div>

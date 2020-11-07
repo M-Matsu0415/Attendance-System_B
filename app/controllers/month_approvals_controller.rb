@@ -13,15 +13,16 @@ class MonthApprovalsController < ApplicationController
   def create
     current_user_id = current_user.id
     @user = User.find(current_user_id)
+    # x = month_approval_params(params[:month_approval])
     # @user = User.find(params[:user_id])
-    @month_approval = MonthApproval.new(month_approval_params)
-    
+    extract_params = month_approval_params[:month_approval]
+    @month_approval = MonthApproval.new(extract_params)
     if @month_approval.save
       flash[:success] = "承認申請しました。"
-      redirect_to @user
+        redirect_to @user
     else
       flash[:danger] = "承認申請に失敗しました。"
-      redirect_to @user
+        redirect_to @user
     end
   end
   
@@ -29,7 +30,7 @@ class MonthApprovalsController < ApplicationController
   def update
     current_user_id = current_user.id
     @user = User.find(current_user_id)
-      redirect_to @user
+    redirect_to @user
   end
 
 # 上長による一ヶ月の勤怠承認/否認。editアクションで自分宛てに来ている承認申請を全て表示。
@@ -74,7 +75,7 @@ class MonthApprovalsController < ApplicationController
   private
   
     def month_approval_params
-      params.permit(:applicant_user_id, :approval_superior_id, :approval_status, :approval_month)
+      params.permit(month_approval:[:user_id, :applicant_user_id, :approval_superior_id, :approval_status, :approval_month])
     end
     
     def month_approvals_params

@@ -21,6 +21,9 @@ class UsersController < ApplicationController
     @worked_sum = @attendances.where.not(started_at: nil).count
     @users = User.where(superior: true)
     @month_approval = MonthApproval.find_by(applicant_user_id: @user.id)
+    if @month_approval.nil?
+      @month_approval = MonthApproval.new
+    end
   end
   
   def new
