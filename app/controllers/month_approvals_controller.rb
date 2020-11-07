@@ -42,20 +42,18 @@ class MonthApprovalsController < ApplicationController
     # トランザクションを開始します。
       month_approvals_params.each do |id, item|
         month_approval = MonthApproval.find(id)
-          approval_status_before_update = month_approval.approval_status
+          if item["change_ok"] == "1"
             month_approval.update_attributes!(item)
-              approval_status_after_update = month_approval.approval_status
-                if approval_status_before_update != approval_status_after_update
-                  if approval_status_after_update == 1
-                    a += 1
-                  elsif approval_status_after_update == 2
-                    b += 1
-                  elsif approval_status_after_update == 3
-                    c += 1
-                  else
-                    d += 1
-                  end
-                end
+              if month_approval.approval_status == 1
+                a += 1
+              elsif month_approval.approval_status == 2
+                b += 1
+              elsif month_approval.approval_status == 3
+                c += 1
+              else
+                d += 1
+              end
+          end
       end
     end
       flash[:success] = "1ヶ月分の勤怠申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました。"
@@ -73,7 +71,6 @@ class MonthApprovalsController < ApplicationController
     end
     
     def month_approvals_params
-      debugger
       params.require(:month_approval).permit(month_approvals: [:approval_status, :change_ok])[:month_approvals]
     end
     
