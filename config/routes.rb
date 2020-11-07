@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   
   patch 'month_approvals/update_month_approvals'
   resources :bases
-  resources :month_approvals
   resources :users do
     get :search, on: :collection
     post :import, on: :collection
@@ -25,5 +24,6 @@ Rails.application.routes.draw do
       get 'csv_output'
     end
     resources :attendances, only: :update
+    resources :month_approvals, only: [:create, :update, :edit]
   end
 end
