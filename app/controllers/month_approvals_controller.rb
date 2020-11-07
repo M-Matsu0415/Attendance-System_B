@@ -32,10 +32,10 @@ class MonthApprovalsController < ApplicationController
 
 # 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
   def update_month_approvals
-    a = 0
-    b = 0
-    c = 0
-    d = 0
+    a = 0 # approval_status = 1(申請中)の件数(ローカル変数a)に初期値0を代入
+    b = 0 # approval_status = 2(承認)の件数(ローカル変数a)に初期値0を代入
+    c = 0 # approval_status = 1(否認)の件数(ローカル変数a)に初期値0を代入
+    d = 0 # approval_status = 1(なし)の件数(ローカル変数a)に初期値0を代入
     current_user_id = current_user.id
     @user = User.find(current_user_id)
     ActiveRecord::Base.transaction do
