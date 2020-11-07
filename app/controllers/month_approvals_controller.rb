@@ -1,10 +1,5 @@
 class MonthApprovalsController < ApplicationController
   before_action :set_user, only: [:edit]
-  # before_action :logged_in_user, only: :create
-  # before_action :admin_or_correct_user, only: :create
-  # before_action :set_one_month, only: :create
-  # before_action :set_user, only: :create
-  # before_action :set_one_month, only: :create
   
   def new
   end
@@ -13,10 +8,10 @@ class MonthApprovalsController < ApplicationController
   def create
     current_user_id = current_user.id
     @user = User.find(current_user_id)
-    # x = month_approval_params(params[:month_approval])
-    # @user = User.find(params[:user_id])
+    
     extract_params = month_approval_params[:month_approval]
     @month_approval = MonthApproval.new(extract_params)
+    
     if @month_approval.save
       flash[:success] = "承認申請しました。"
         redirect_to @user
@@ -26,11 +21,23 @@ class MonthApprovalsController < ApplicationController
     end
   end
   
-  # 一般ユーザーによる一ヶ月分の承認申請
+# 一般ユーザーによる一ヶ月分の承認申請(再申請)
   def update
     current_user_id = current_user.id
     @user = User.find(current_user_id)
-    redirect_to @user
+    
+    params_user_id = month_approval_params[:month_approval][:user_id]
+    @month_approval = MonthApproval.find_by(params_user_id)
+    extract_params = month_approval_params[:month_approval]
+    @month_approval.update_attributes(extract_params)
+    
+    if @month_approval.update_attributes(extract_params)
+      flash[:success] = "承認申請しました。"
+      redirect_to @user
+    else
+      flash[:danger] = "承認申請に失敗しました。"
+      redirect_to @user
+    end
   end
 
 # 上長による一ヶ月の勤怠承認/否認。editアクションで自分宛てに来ている承認申請を全て表示。
