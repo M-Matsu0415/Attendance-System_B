@@ -34,4 +34,17 @@ module MonthApprovalsHelper
     end
   end
   
+  def month_approval_categoly_count(data)
+    check_approval_status = month_approval.approval_status
+    if check_approval_status == 1
+      a = a + 1
+    elsif check_approval_status == 2
+      b = b + 1
+    elsif check_approval_status == 3
+      c = c + 1
+    else
+      d = d + 1
+    end
+  end
+  
 end

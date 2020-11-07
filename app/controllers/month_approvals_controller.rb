@@ -32,16 +32,33 @@ class MonthApprovalsController < ApplicationController
 
 # 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
   def update_month_approvals
+    a = 0
+    b = 0
+    c = 0
+    d = 0
     current_user_id = current_user.id
     @user = User.find(current_user_id)
     ActiveRecord::Base.transaction do
     # トランザクションを開始します。
       month_approvals_params.each do |id, item|
         month_approval = MonthApproval.find(id)
-        month_approval.update_attributes!(item)
+          approval_status_before_update = month_approval.approval_status
+            month_approval.update_attributes!(item)
+              approval_status_after_update = month_approval.approval_status
+                if approval_status_before_update != approval_status_after_update
+                  if approval_status_after_update == 1
+                    a += 1
+                  elsif approval_status_after_update == 2
+                    b += 1
+                  elsif approval_status_after_update == 3
+                    c += 1
+                  else
+                    d += 1
+                  end
+                end
       end
     end
-      flash[:success] = "1ヶ月分の勤怠申請を更新しました。"
+      flash[:success] = "1ヶ月分の勤怠申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました。"
       redirect_to user_url @user
   rescue ActiveRecord::RecordInvalid
   # トランザクションによるエラーの分岐です。
@@ -56,7 +73,8 @@ class MonthApprovalsController < ApplicationController
     end
     
     def month_approvals_params
-      params.require(:month_approval).permit(month_approvals: [:approval_status])[:month_approvals]
+      debugger
+      params.require(:month_approval).permit(month_approvals: [:approval_status, :change_ok])[:month_approvals]
     end
     
 end
