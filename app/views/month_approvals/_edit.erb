@@ -30,6 +30,9 @@
                           <td>
                             <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"], ["否認", "3"], ["なし", "4" ]], {},
                                 {required: true, class: "month-approval-form-control"}  %>
+                                <!--オプション設定をする個所を{}で囲むことでclass指定が可能となる。-->
+                                <!--{select機能のオプション(include_blank等} {htmlのオプション(id、class等)}の順番で書く。-->
+                                <!--select機能のオプションは使用しないため空欄としている。-->
                           </td>
                           <td>
                             <%= i.label "変更する" %>
