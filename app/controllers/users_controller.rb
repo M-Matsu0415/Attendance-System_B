@@ -54,9 +54,26 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy # destroyなのでuserに関わる関連データ(attendance)も削除される。
-    flash[:success] = "#{@user.name}のデータを削除しました。"
-    redirect_to users_url
+    if MonthApproval.where(approval_superior_id: params[:id]).present?
+      # ユーザー削除機能実行時に削除されるユーザーが上長に対する申請も削除する必要があるので
+      # 削除対象となるリソースを抽出する。
+      month_approvals_by_superiors = MonthApproval.where(params[:id])
+        ActiveRecord::Base.transaction do
+        # トランザクションを開始します。
+          month_approvals_by_superiors.each do |superior|
+            month_approval_by_superior = MonthApproval.find(superior.id)
+            month_approval_by_superior.destroy!
+        end
+      rescue ActiveRecord::RecordInvalid
+      # トランザクションによるエラーの分岐です。
+        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。"
+        redirect_to @user
+      end
+    end
+    
+    @user.destroy # destroyなのでuserに関わる関連データ(attendance、month_approval)も削除される。
+      flash[:success] = "#{@user.name}のデータを削除しました。"
+      redirect_to users_url
   end
   
   def edit_basic_info

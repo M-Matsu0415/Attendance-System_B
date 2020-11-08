@@ -2,6 +2,7 @@ module MonthApprovalsHelper
 
 # 上長ユーザーが自分宛てに来ている一ヶ月承認申請の数をカウント
 # 上長の勤怠画面の一ヶ月承認申請のお知らせ表示に使用
+# ユーザー削除機能実行時に削除されるユーザーが上長であるか否か判断するためにまずカウントする。
   def month_approval_count(superior_id)
     if MonthApproval.where(approval_superior_id: superior_id, approval_status: 1).present?
       month_approvals = MonthApproval.where(approval_superior_id: superior_id, approval_status: 1)
