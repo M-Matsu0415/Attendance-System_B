@@ -3,6 +3,10 @@
   <!--テーブルの各セルにボーダー(線)を付ける、condensed：通常よりも幅の狭いテーブル(=table-sm)-->
   <table class = "table table-bordered table-condensed user-table" id = "table-attendances-header">
     <tr>  <!--「table row」の略で表の行部分(横方向)を指定するタグ。この中に<<th>や<td>を入れる-->
+      <td>
+        <%= l(@first_day, format: :middle) %>　時間管理表
+        <!--lメソッドで日時のフォーマットを指定(middle：〇年△月)-->
+      </td>
       <td>指定勤務開始時間：<%= format_basic_info(@user.designated_work_start_time) %><br>
           指定勤務終了時間：<%= format_basic_info(@user.designated_work_end_time) %>
           
@@ -29,8 +33,8 @@
       <tr>
         <th rowspan = "3">日付</th>
         <th rowspan = "3">曜日</th>
-        <th colspan = "7">実績</th>
-        <th colspan = "6">時間外勤務</th>
+        <th colspan = "8">実績</th>
+        <th colspan = "5">時間外勤務</th>
       </tr>
       <tr>
         <th colspan = "2">出社</th>
@@ -109,14 +113,30 @@
     <tfoot>
       <!--rowspan:縦結合、colspan：横結合-->
       <tr>
-        <td colspan = "5">累計日数</td>
-        <td colspan = "5">総合勤務時間</td>
-        <td colspan = "5">累計在社時間</td>
+        <td colspan = "3">累計日数</td>
+        <td colspan = "3">総合勤務時間</td>
+        <td colspan = "3">累計在社時間</td>
+        <td colspan = "6">所属長承認</td>
       </tr>
       <tr>
-        <td colspan = "5"><%= @attendances.count %></td>
-        <td colspan = "5"><%= format_basic_info(@user.work_time).to_f*@worked_sum %></td>
-        <td colspan = "5"><%= format("%.2f", @total_working_times_display.to_f) %></td>
+        <td colspan = "3"><%= @attendances.count %></td>
+        <td colspan = "3"><%= format_basic_info(@user.work_time).to_f*@worked_sum %></td>
+        <td colspan = "3"><%= format("%.2f", @total_working_times_display.to_f) %></td>
+        <td colspan = "6">
+          <% if search_current_month_approval %>
+            <% approval_superior_id = @month_approval.approval_superior_id %>
+            <% approval_superior = User.find_by(id: approval_superior_id) %>
+              <% if @month_approval.approval_status == 1 %>
+                <%= approval_superior.name %>へ承認申請中
+              <% elsif @month_approval.approval_status == 2 %>
+                <%= approval_superior.name %>から承認済
+              <% elsif @month_approval.approval_status == 3 %>
+                <%= approval_superior.name %>から否認済
+              <% elsif @month_approval.approval_status == 4 %>
+                なし
+              <% end %>
+          <% end %>
+        </td>
       </tr>
     </tfoot>
   </table>

@@ -186,7 +186,7 @@
   <div class = "row">
     <div class = "col-md-2 pull-right month-approval">
       <div class = "panel panel-info">
-        <p class = "month-approval-label">所属上長承認</p>
+        <p class = "month-approval-label">所属長承認</p>
           <% if search_current_month_approval %>
             <% approval_superior_id = @month_approval.approval_superior_id %>
             <% approval_superior = User.find_by(id: approval_superior_id) %>

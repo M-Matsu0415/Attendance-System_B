@@ -78,19 +78,20 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
   
+  def set_month_approval
+    @month_approval = MonthApproval.find_by(applicant_user_id: @user.id, approval_superior_id: current_user.id)
+  end
+  
   # ページ出力前に1ヶ月分のデータの存在を確認・セットします。
   def get_one_month
-    @first_day = params[:date].nil? ?
-    Date.current.beginning_of_month : params[:date].to_date
-    # params[:date]がnilであれば、Date.current.beginning_of_monthをインスタンス変数に代入。nilでなければ
-    # params[:date]をDate型に変換したものを代入する。
-    # to_date：Time型からDate型に変換できる。
-    @last_day = @first_day.end_of_month
-    one_month = [*@first_day..@last_day] 
-    # 対象の月の日数(配列データ)を代入します。
-    @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
-    # ユーザーに紐付く一ヶ月分のレコードを検索し取得します。
-    
+    approval_month = @month_approval.approval_month
+      @first_day = approval_month
+      @last_day = @first_day.end_of_month
+        one_month = [*@first_day..@last_day] 
+        # 対象の月の日数(配列データ)を代入します。
+        @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
+        # ユーザーに紐付く一ヶ月分のレコードを検索し取得します。
+        
     unless one_month.count == @attendances.count 
     # それぞれの件数（日数）が一致するか評価します。データがないかもしれないために確認の意味で行う。
       ActiveRecord::Base.transaction do # トランザクションを開始します。
