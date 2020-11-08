@@ -9,15 +9,23 @@ class MonthApprovalsController < ApplicationController
     current_user_id = current_user.id
     @user = User.find(current_user_id)
     
-    extract_params = month_approval_params[:month_approval]
-    @month_approval = MonthApproval.new(extract_params)
+    if month_approval_params[:month_approval][:approval_superior_id].blank?
+      flash[:danger] = "上長の選択が「なし」になっています。"
+        redirect_to @user
     
-    if @month_approval.save
-      flash[:success] = "承認申請しました。"
-        redirect_to @user
     else
-      flash[:danger] = "承認申請に失敗しました。"
-        redirect_to @user
+      extract_params = month_approval_params[:month_approval]
+      @month_approval = MonthApproval.new(extract_params)
+    
+      if @month_approval.save
+        flash[:success] = "承認申請しました。"
+          redirect_to @user
+          
+      else
+        flash[:danger] = "承認申請に失敗しました。"
+          redirect_to @user
+          
+      end
     end
   end
   
@@ -26,17 +34,25 @@ class MonthApprovalsController < ApplicationController
     current_user_id = current_user.id
     @user = User.find(current_user_id)
     
-    params_user_id = month_approval_params[:month_approval][:user_id]
-    @month_approval = MonthApproval.find_by(params_user_id)
-    extract_params = month_approval_params[:month_approval]
-    @month_approval.update_attributes(extract_params)
+    if month_approval_params[:month_approval][:approval_superior_id].blank?
+      flash[:danger] = "上長の選択が「なし」になっています。"
+        redirect_to @user
     
-    if @month_approval.update_attributes(extract_params)
-      flash[:success] = "承認申請しました。"
-      redirect_to @user
     else
-      flash[:danger] = "承認申請に失敗しました。"
-      redirect_to @user
+      params_user_id = month_approval_params[:month_approval][:user_id]
+      @month_approval = MonthApproval.find_by(params_user_id)
+      extract_params = month_approval_params[:month_approval]
+      @month_approval.update_attributes(extract_params)
+    
+      if @month_approval.update_attributes(extract_params)
+        flash[:success] = "承認申請しました。"
+        redirect_to @user
+      
+      else
+        flash[:danger] = "承認申請に失敗しました。"
+        redirect_to @user
+        
+      end
     end
   end
 
@@ -59,14 +75,19 @@ class MonthApprovalsController < ApplicationController
         month_approval = MonthApproval.find(id)
           if item["change_ok"] == "1"
             month_approval.update_attributes!(item)
+            
               if month_approval.approval_status == 1
                 a += 1
+                
               elsif month_approval.approval_status == 2
                 b += 1
+                
               elsif month_approval.approval_status == 3
                 c += 1
+                
               else
                 d += 1
+                
               end
           end
       end
