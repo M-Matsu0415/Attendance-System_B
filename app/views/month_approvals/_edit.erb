@@ -28,7 +28,8 @@
                             <%= "#{extract_approval_month.mon}月" %>
                           </td>
                           <td>
-                            <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"], ["否認", "3"], ["なし", "4" ]], required: true, class: "month-approval-form-control" %>
+                            <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"], ["否認", "3"], ["なし", "4" ]], {},
+                                {required: true, class: "month-approval-form-control"}  %>
                           </td>
                           <td>
                             <%= i.label "変更する" %>
