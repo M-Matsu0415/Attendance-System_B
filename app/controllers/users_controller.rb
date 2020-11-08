@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :show_reference]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_or_correct_user, only: [:show, :create_month_approval]
@@ -157,6 +157,9 @@ class UsersController < ApplicationController
     @first_day = Date.current.beginning_of_month
     @last_day = @first_day.end_of_month
     @users = User.all
+  end
+  
+  def show_reference
   end
   
   private

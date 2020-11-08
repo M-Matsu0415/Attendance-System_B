@@ -34,7 +34,9 @@
                             <%= i.check_box :change_ok %>
                           </td>
                           <td>
-                            <%= link_to "確認", "#", class: "btn btn-md btn-primary btn-attendance-monitor"%>
+                            <% user_id = month_approval.user_id %>
+                            <% user = User.find(user_id) %>
+                            <%= link_to "確認", show_reference_user_path(user), class: "btn btn-md btn-primary btn-attendance-monitor"%>
                           </td>
                         </tr>
                       </tbody>
