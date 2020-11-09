@@ -6,21 +6,21 @@
         <span aria-hidden="true">&times;</span>
       </button>
         <%= form_with(model: @month_approvals, url: month_approvals_update_month_approvals_path, local: true, method: :patch) do |f| %>
-          <% @month_approvals.each do |month_approval| %>
-            <% if month_approval.approval_status == 1 %>
-              <%= f.fields_for "month_approvals[]", month_approval do |i| %>
-                <% applicant_user_id = month_approval.applicant_user_id %>
-                <% user = User.find_by(id: applicant_user_id) %>
-                  <h3 class = "modal-title"><%= "【#{user.name}さんからの一ヶ月分勤怠申請】" %></h3>
-                    <table class = "table table-bordered table-condensed table-bases" id = "table-month_approvals">
-                      <thead>
-                        <tr>
-                          <th>月</th>
-                          <th>指示者確認㊞</th>
-                          <th>変更確認</th>
-                          <th>勤怠を確認する</th>
-                        </tr>
-                      </thead>
+          <% @month_approvals.each do |id, month_approvals| %>
+            <% applicant_user_group_id = id.min %>
+            <%= f.fields_for "month_approvals[]", month_approvals do |i| %>
+              <% user = User.find_by(id: applicant_user_group_id) %>
+                <h3 class = "modal-title"><%= "【#{user.name}さんからの一ヶ月分勤怠申請】" %></h3>
+                  <table class = "table table-bordered table-condensed table-bases" id = "table-month_approvals">
+                    <thead>
+                      <tr>
+                        <th>月</th>
+                        <th>指示者確認㊞</th>
+                        <th>変更確認</th>
+                        <th>勤怠を確認する</th>
+                      </tr>
+                    </thead>
+                    <% month_approvals.each do |month_approval| %>
                       <tbody>
                         <tr>
                           <td>
@@ -45,10 +45,10 @@
                           </td>
                         </tr>
                       </tbody>
-                    </table>
+                    <% end %>
+                  </table>
               <% end %>
             <% end %>
-          <% end %>
           <%= f.submit "変更を送信する", class: "btn btn-md btn-primary btn-block btn-approval"%>
       <% end %>
     </div>

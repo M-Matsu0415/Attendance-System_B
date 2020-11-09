@@ -58,7 +58,10 @@ class MonthApprovalsController < ApplicationController
 
 # 上長による一ヶ月の勤怠承認/否認。editアクションで自分宛てに来ている承認申請を全て表示。
   def edit
-    @month_approvals = MonthApproval.where(approval_superior_id: @user.id).order(:applicant_user_id)
+    @month_approvals = MonthApproval.where(approval_superior_id: @user.id, approval_status: 1).group_by{|approval_data| [approval_data[:user_id]]}
+    # @month_approvals.each do |applicant_user_group_id, month_approvals|
+    #   debugger
+    # end
   end
 
 # 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
