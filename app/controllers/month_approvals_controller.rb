@@ -1,5 +1,6 @@
 class MonthApprovalsController < ApplicationController
-  before_action :set_user, only: [:edit]
+  before_action :set_user, only: :edit
+  before_action :set_one_month, only: :update_month_approval
   
   def new
   end
@@ -45,11 +46,11 @@ class MonthApprovalsController < ApplicationController
       @month_approval.update_attributes(extract_params)
     
       if @month_approval.update_attributes(extract_params)
-        flash[:success] = "承認申請しました。"
+        flash[:success] = "承認申請を再送しました。"
         redirect_to @user
       
       else
-        flash[:danger] = "承認申請に失敗しました。"
+        flash[:danger] = "承認申請の再送に失敗しました。"
         redirect_to @user
         
       end
@@ -58,10 +59,7 @@ class MonthApprovalsController < ApplicationController
 
 # 上長による一ヶ月の勤怠承認/否認。editアクションで自分宛てに来ている承認申請を全て表示。
   def edit
-    @month_approvals = MonthApproval.where(approval_superior_id: @user.id, approval_status: 1).group_by{|approval_data| [approval_data[:user_id]]}
-    # @month_approvals.each do |applicant_user_group_id, month_approvals|
-    #   debugger
-    # end
+    @month_approvals = MonthApproval.where(approval_superior_id: @user.id, approval_status: 1).group_by{|approval_data| [approval_data[:super_id]]}
   end
 
 # 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
@@ -110,7 +108,7 @@ class MonthApprovalsController < ApplicationController
     end
     
     def month_approvals_params
-      params.require(:month_approval).permit(month_approvals: [:approval_status, :change_ok])[:month_approvals]
+      params.permit(month_approvals: [:approval_status, :change_ok])[:month_approvals]
     end
     
 end

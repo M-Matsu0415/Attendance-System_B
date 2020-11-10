@@ -22,7 +22,9 @@ class UsersController < ApplicationController
     # 出勤時間が空白でない日数を数え、インスタンス変数(@worked_sum)に代入
     @worked_sum = @attendances.where.not(started_at: nil).count
     @users = User.where(superior: true)
-    @month_approval = MonthApproval.find_by(applicant_user_id: @user.id)
+    attendance_data_of_first_day = @attendances.find_by(worked_on: @first_day)
+    current_worked_on = attendance_data_of_first_day.worked_on
+    @month_approval = MonthApproval.find_by(user_id: @user.id, approval_month: current_worked_on)
     if @month_approval.nil?
       @month_approval = MonthApproval.new
     end

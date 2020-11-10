@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
     # 勤怠表示は、開いた瞬間は今現在の月の勤怠を表示するので、開いた他時にはcurrentメソッドで現在月の初日を取得する。
     # 勤怠表示にて翌月への切り替え(⇒ボタン)、前月への切り替え(⇐ボタン)が押されたら取得済みの現在月を基準に判断され
     # 翌月 or 前月の初日のデータがparams[:date]として送信される。
+    # フォーマットは、ja.ymlで指定されている、middle：年/月となる。
     # params[:date]がnilであれば、Date.current.beginning_of_monthをインスタンス変数に代入。nilでなければ
     # params[:date]をDate型に変換したものを代入する。
     # to_date：Time型からDate型に変換できる。
