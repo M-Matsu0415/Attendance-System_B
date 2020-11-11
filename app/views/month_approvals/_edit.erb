@@ -27,7 +27,7 @@
                               <%= "#{extract_approval_month.mon}月" %>
                             </td>
                             <td>
-                              <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"], ["否認", "3"], ["なし", "4" ]], 
+                              <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
                                   {required: true, class: "month-approval-form-control"} %>
                                   <!--オプション設定をする個所を{}で囲むことでclass指定が可能となる。-->
                                   <!--{select機能のオプション(include_blank等} {htmlのオプション(id、class等)}の順番で書く。-->
@@ -40,7 +40,8 @@
                             <td>
                               <% user_id = month_approval.user_id %>
                               <% user = User.find(user_id) %>
-                              <%= link_to "確認", show_reference_user_path(user), class: "btn btn-md btn-primary btn-attendance-monitor"%>
+                              <%= link_to "確認", show_reference_user_path(user, month_approval),
+                                  class: "btn btn-md btn-primary btn-attendance-monitor"%>
                             </td>
                           </tr>
                         </tbody>

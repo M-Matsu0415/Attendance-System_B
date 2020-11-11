@@ -80,13 +80,13 @@ class ApplicationController < ActionController::Base
   end
   
   def set_month_approval
-    @month_approval = MonthApproval.find_by(applicant_user_id: @user.id, approval_superior_id: current_user.id)
+    @month_approval = MonthApproval.find_by(user_id: params[:id], approval_superior_id: current_user.id)
   end
   
   # ページ出力前に1ヶ月分のデータの存在を確認・セットします。
   def get_one_month
-    approval_month = @month_approval.approval_month
-      @first_day = approval_month
+    month_approval = MonthApproval.find(params[:format])
+      @first_day = month_approval.approval_month
       @last_day = @first_day.end_of_month
         one_month = [*@first_day..@last_day] 
         # 対象の月の日数(配列データ)を代入します。
