@@ -79,10 +79,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
   
-  def set_month_approval
-    @month_approval = MonthApproval.find_by(user_id: params[:id], approval_superior_id: current_user.id)
-  end
-  
   # ページ出力前に1ヶ月分のデータの存在を確認・セットします。
   def get_one_month
     @month_approval = MonthApproval.find(params[:id])
