@@ -6,8 +6,8 @@
         <span aria-hidden="true">&times;</span>
       </button>
         <%= form_with(url: month_approvals_update_month_approvals_path, local: true, method: :patch) do |f| %>
-          <% @month_approvals.each do |applicant_user_group_id, month_approvals| %>
-            <% user = User.find_by(id: applicant_user_group_id) %>
+          <% @month_approvals.each do |user_group_id, month_approvals| %>
+            <% user = User.find_by(id: user_group_id) %>
               <h3 class = "modal-title"><%= "【#{user.name}さんからの一ヶ月分勤怠申請】" %></h3>
                 <table class = "table table-bordered table-condensed table-bases" id = "table-month_approvals">
                   <thead>

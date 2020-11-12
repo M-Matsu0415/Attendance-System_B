@@ -30,6 +30,7 @@ class AttendancesController < ApplicationController
   end
   
   def edit_one_month
+    @users = User.where(superior: true)
   end
   
   def update_one_month

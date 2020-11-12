@@ -9,7 +9,9 @@
         <th>曜日</th>
         <th>出勤時間</th>
         <th>退勤時間</th>
+        <th>翌日</th>
         <th>在社時間</th>
+        <th>指示者確認㊞</th>
         <th>備考</th>
       </tr>
     </thead>
@@ -25,15 +27,21 @@
               <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
               <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
             <% else %>
-              <td><%= attendance.time_field :started_at, class: "form-control" %></td>
-              <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+              <td><%= attendance.time_field :started_at_after_approval, class: "form-control" %></td>
+              <td><%= attendance.time_field :finished_at_after_approval, class: "form-control" %></td>
             <% end %>
+            <td><%= f.check_box :next_day %></td>
             <td>
               <% if day.started_at.present? && day.finished_at.present? %>
                 <%= working_times(day.started_at, day.finished_at) %>
               <% end %>
             </td>
             <td><%= attendance.text_field :note, class: "form-control" %></td>
+            <td><%= attendance.collection_select :change_approval_superior_id, @users, :id, :name, { include_blank: "なし" },
+                { class: "month-approval-select" } %>
+            <!--f.collection_select：保存先のカラム名, テーブル名, 実際にDBに保存させるカラム名, 選択肢に用いるカラム名-->
+            <!--オプションに{ }を付けることでclassが指定できCSSを当てることが出来る。-->
+            </td>
           </tr>
         <% end %>
       <% end %>

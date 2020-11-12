@@ -23,6 +23,19 @@
   }
   }
 
+/* ユーザー勤怠編集テーブル */
+
+#table-attendances {
+  th {
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
 /* ユーザー一覧表示*/
 
 .users-index {
