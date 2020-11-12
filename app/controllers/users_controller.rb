@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :show_reference]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval]
   before_action :set_month_approval, only: :show_reference
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
   before_action :correct_user, only: [:edit, :update]
