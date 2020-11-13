@@ -77,7 +77,7 @@
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendances-body">
     <thead>
       <tr>
-        <th rowspan = "3">残業申請</th>
+        <th rowspan = "3">残業<br>申請</th>
         <th rowspan = "3">日付</th>
         <th rowspan = "3">曜日</th>
         <th colspan = "7">実績</th>
@@ -85,14 +85,14 @@
       </tr>
       <tr>
         <th colspan = "2">出社</th>
-        <th rowspan = "2">勤怠登録</th>
+        <th class = "attendance-btn" rowspan = "2">勤怠登録</th>
         <th colspan = "2">退社</th>
-        <th rowspan = "2">在社<br>時間</th>
+        <th class = "working-time" rowspan = "2">在社<br>時間</th>
         <th class = "note-area" rowspan = "2">備考</th>
         <th colspan = "2">終了予定時間</th>
-        <th rowspan = "2">時間外<br>時間</th>
+        <th class = "working-time" rowspan = "2">時間外<br>時間</th>
         <th class = "overwork-content" rowspan = "2">業務処理内容</th>
-        <th rowspan = "2">指示者<br>確認㊞</th>
+        <th class = "superior-check" rowspan = "2">指示者確認㊞</th>
       </tr>
       <tr>
         <th>時</th>
@@ -108,7 +108,7 @@
       <% @attendances.each do |day| %>
         <tr>
           <td>
-            <%= link_to "残業申請", '#', method: :patch, class: "btn btn-primary btn-overwork" %>
+            <%= link_to "申請", '#', method: :patch, class: "btn btn-primary btn-overwork" %>
           </td>
           <td><%= l(day.worked_on, format: :short) %></td>
 
@@ -132,7 +132,7 @@
             <% end %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
-              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-block btn-attendance" %>
+              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
           <td><%= day.finished_at.hour if day.finished_at.present? %></td>
@@ -161,7 +161,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td></td>
+          <td><%= superior_check_status(day) %></td>
         </tr>
       <% end %>
     </tbody>

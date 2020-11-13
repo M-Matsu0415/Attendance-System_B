@@ -44,4 +44,18 @@ module AttendancesHelper
   def finished_at_min_f(finished)
     format("%.2f", ((finished)/60.00))
   end
+  
+  def superior_check_status(attendance)
+    superior_id = attendance.change_approval_superior_id
+    if superior_id.present?
+      superior = User.find(superior_id)
+        if attendance.change_approval_status == 1
+          return "#{superior.name}へ変更申請中"
+        elsif attendance.change_approval_status == 2
+          return "#{superior.name}より変更承認済"
+        elsif attendance.change_approval_status == 3
+          return "#{superior.name}より変更否認済"
+        end
+    end
+  end
 end

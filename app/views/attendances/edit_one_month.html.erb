@@ -1,5 +1,5 @@
 <% provide(:title, @user.name) %>
-<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day), local: true, method: :patch) do |f| %>
+<%= form_with(model: @user, url: attendances_request_one_month_change_user_path(date: @first_day), local: true, method: :patch) do |f| %>
 <div>
   <h1>勤怠編集画面</h1>
   <table class = "table table-bordered table-condensed table-hover" id = "table-attendances">
@@ -20,29 +20,33 @@
         <%= f.fields_for "attendances[]", day do |attendance| %>
         <!-- fields_forは、form_with内で異なるモデルを編集したい時に使うことができる。-->
         <!-- attendances[]は、attendances[id][カラム名]という形式で展開される。-->
-          <tr>
-            <td><%= l(day.worked_on, format: :short) %></td>
-            <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-            <% if Date.current < day.worked_on %>
-              <td><%= attendance.time_field :started_at_after_approval, readonly: true, class: "form-control" %></td>
-              <td><%= attendance.time_field :finished_at_after_approval, readonly: true, class: "form-control" %></td>
-            <% else %>
-              <td><%= attendance.time_field :started_at_after_approval, class: "form-control" %></td>
-              <td><%= attendance.time_field :finished_at_after_approval, class: "form-control" %></td>
-            <% end %>
-            <td><%= f.check_box :next_day %></td>
-            <td>
-              <% if day.started_at_after_approval.present? && day.finished_at_after_approval.present? %>
-                <%= working_times(day.started_at_after_approval, day.finished_at_after_approval) %>
+          <%= attendance.hidden_field :change_approval_status, :value => 1 %>
+          <!--hidden_fieldを使用して編集画面にないが必要な情報を書き込み-->
+            <tr>
+              <td><%= l(day.worked_on, format: :short) %></td>
+              <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+              <% if Date.current < day.worked_on %>
+                <td><%= attendance.time_field :started_at_after_approval, readonly: true, class: "form-control" %></td>
+                <td><%= attendance.time_field :finished_at_after_approval, readonly: true, class: "form-control" %></td>
+              <% else %>
+                <td><%= attendance.time_field :started_at_after_approval, class: "form-control" %></td>
+                <td><%= attendance.time_field :finished_at_after_approval, class: "form-control" %></td>
               <% end %>
-            </td>
-            <td><%= attendance.text_field :note, class: "form-control" %></td>
-            <td><%= attendance.collection_select :change_approval_superior_id, @users, :id, :name, { include_blank: "なし" },
-                { class: "month-approval-select" } %>
-            <!--f.collection_select：保存先のカラム名, テーブル名, 実際にDBに保存させるカラム名, 選択肢に用いるカラム名-->
-            <!--オプションに{ }を付けることでclassが指定できCSSを当てることが出来る。-->
-            </td>
-          </tr>
+                <td>
+                  <%= attendance.check_box :next, {}, "true", "false" %>
+                </td>
+                <td>
+                  <% if day.started_at_after_approval.present? && day.finished_at_after_approval.present? %>
+                    <%= working_times(day.started_at_after_approval, day.finished_at_after_approval) %>
+                  <% end %>
+                </td>
+                <td><%= attendance.text_field :note, class: "form-control" %></td>
+                <td><%= attendance.collection_select :change_approval_superior_id, @users, :id, :name, { include_blank: "なし" },
+                    { class: "month-approval-select" } %>
+                <!--f.collection_select：保存先のカラム名, テーブル名, 実際にDBに保存させるカラム名, 選択肢に用いるカラム名-->
+                <!--オプションに{ }を付けることでclassが指定できCSSを当てることが出来る。-->
+                </td>
+            </tr>
         <% end %>
       <% end %>
     </tbody>

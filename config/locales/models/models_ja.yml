@@ -19,6 +19,8 @@ ja:
           updated_at: 更新日
         attendance:
           worked_on: 日付
+          started_at_after_approval: 申請出勤時間
+          finished_at_after_approval: 申請退勤時間
           started_at: 出勤時間
           finished_at: 退勤時間
           note: 備考
