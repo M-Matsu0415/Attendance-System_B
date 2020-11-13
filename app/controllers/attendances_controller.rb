@@ -6,7 +6,8 @@ class AttendancesController < ApplicationController
   
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
   # 勤怠登録失敗した場合のエラーコメントを定数として定義
-  
+
+# 出社時/退社時の勤怠登録  
   def update
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
@@ -28,17 +29,21 @@ class AttendancesController < ApplicationController
     end
     redirect_to @user
   end
-  
+
+# 勤怠編集画面  
   def edit_one_month
     @users = User.where(superior: true)
   end
-  
+
+# 申請ユーザーからの勤怠変更申請  
   def update_one_month
     ActiveRecord::Base.transaction do # トランザクションを開始する。
       attendances_params.each do |id, item|
         attendance = Attendance.find(id)
+        
         # 出勤時間、もしくは退勤時間のみが入っている時には登録できないようにします。
-        if item[:started_at].present? && item[:finished_at].blank? && Date.current != attendance.worked_on
+        if item[:started_at_after_approval].present? && item[:finished_at_after_approval].blank? &&
+          Date.current != attendance.worked_on
         flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
         redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
         end
@@ -58,7 +63,8 @@ class AttendancesController < ApplicationController
 
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_after_approval, 
+      :finished_at_after_approval, :change_approval_superior_id, :change_approval_status, :note])[:attendances]
     end
     
 end
