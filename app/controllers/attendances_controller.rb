@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_one_month, :request_one_month_change]
+  before_action :set_user, only: [:edit_one_month, :request_one_month_change, :change_approval]
   before_action :logged_in_user, only: [:update, :edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :request_one_month_change]
   before_action :set_one_month, only: :edit_one_month
@@ -62,12 +62,17 @@ class AttendancesController < ApplicationController
     redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
+  # 上長ユーザーの勤怠変更承認画面  
+  def change_approval
+    @attendances = Attendance.where(change_approval_superior_id: @user.id)
+  end
+  
   private
 
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_after_approval, 
-      :finished_at_after_approval, :change_approval_superior_id, :change_approval_status, :note, :next])[:attendances]
+      :finished_at_after_approval, :change_approval_superior_id, :change_approval_status, :note, :change_next_day_check])[:attendances]
     end
     
 end

@@ -33,7 +33,7 @@
                 <td><%= attendance.time_field :finished_at_after_approval, class: "form-control" %></td>
               <% end %>
                 <td>
-                  <%= attendance.check_box :next, {}, "true", "false" %>
+                  <%= attendance.check_box :change_next_day_check %>
                 </td>
                 <td>
                   <% if day.started_at_after_approval.present? && day.finished_at_after_approval.present? %>

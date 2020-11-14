@@ -52,17 +52,28 @@
         </div>
       <% end %>
     </div>
-    <div class = "attendance-approval-info">
-      <span class = "attendance-approval-no-info">
-        【勤怠変更申請のお知らせ】
-      </apan>
-    </div>
-    <div class = "overwork-approval-info">
-      <span class = "overwork-approval-no-info">
-        【残業申請のお知らせ】
-      </span>
-    </div>
-  <% end %>
+      <% if change_approval_count(@user.id) >= 1 %>
+        <div class = "change-approval-info">
+          <span>
+            <%= link_to "【勤怠変更申請のお知らせ】", attendances_request_one_month_change_user_path(@user),
+                remote: true, class: "change-approval-label" %>
+          </span>
+          <span class = "change-approvals-number">
+            <%= "#{change_approval_count(@user.id)}件の通知があります" %>
+          </span>
+        </div>
+      <% else %>
+        <div class = "change-approval-no-info">
+          <span>
+            【勤怠変更申請のお知らせ】
+          </apan>
+        </div>
+      <% end %>
+      <div class = "overwork-approval-info">
+        <span class = "overwork-approval-no-info">
+          【残業申請のお知らせ】
+        </span>
+      </div>
 </div>
 
 <div class = "col-md-12 col-md pull-left btn-users-show">
@@ -81,7 +92,8 @@
         <th rowspan = "3">日付</th>
         <th rowspan = "3">曜日</th>
         <th colspan = "7">実績</th>
-        <th colspan = "6">時間外勤務</th>
+        <th colspan = "4">時間外勤務</th>
+        <th class = "superior-check" rowspan = "3">指示者確認㊞</th>
       </tr>
       <tr>
         <th colspan = "2">出社</th>
@@ -92,7 +104,6 @@
         <th colspan = "2">終了予定時間</th>
         <th class = "working-time" rowspan = "2">時間外<br>時間</th>
         <th class = "overwork-content" rowspan = "2">業務処理内容</th>
-        <th class = "superior-check" rowspan = "2">指示者確認㊞</th>
       </tr>
       <tr>
         <th>時</th>
@@ -107,9 +118,12 @@
     <tbody>
       <% @attendances.each do |day| %>
         <tr>
+          <!--残業申請ボタン-->
           <td>
             <%= link_to "申請", '#', method: :patch, class: "btn btn-primary btn-overwork" %>
           </td>
+          
+          <!--日付表示-->
           <td><%= l(day.worked_on, format: :short) %></td>
 
           <% if $days_of_the_week[day.worked_on.wday] == "土" %> 
@@ -119,29 +133,44 @@
           <% else %> 
             <% week_text = "weekday" %>
           <% end %>
+          
+          <!--曜日表示-->
           <td class = "<%= week_text %>">
             <%= $days_of_the_week[day.worked_on.wday] %></td>
           <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
           <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
+          <!--application_controllerの配列記載 ⇒ $days_of_the_week = %w{日 月 火 水 木 金 土}-->
 
+　　　　　<!--出社時間(時)表示-->
           <td><%= day.started_at.hour if day.started_at.present? %></td>
+          
+          <!--出社時間(分)表示-->
           <td>
             <% if day.started_at.present? %>
               <% @started_at_min = started_at_min_or_finished_at_min(day.started_at.min) %>
               <%= @started_at_min %>
-            <% end %></td>
+            <% end %>
+          </td>
+          
+          <!--勤怠登録ボタン-->
           <td>
             <% if btn_text = attendance_state(day) %>
               <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
             <% end %>
           </td>
+          
+          <!--退社時間(時)表示-->
           <td><%= day.finished_at.hour if day.finished_at.present? %></td>
+          
+          <!--退社時間(分)表示-->
           <td>
             <% if day.finished_at.present? %>
               <% @finished_at_min = started_at_min_or_finished_at_min(day.finished_at.min) %>
               <%= @finished_at_min %>
             <% end %>
           </td>
+          
+          <!--在社時間表示-->
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
             
@@ -156,11 +185,15 @@
             
             <% end %>
           </td>
+          
+          <!--備考表示-->
           <td><%= day.note %></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
+          
+          <!--指示者確認㊞表示-->
           <td><%= superior_check_status(day) %></td>
         </tr>
       <% end %>
@@ -221,3 +254,5 @@
 
 <!--モーダルウインドウ表示-->
 <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="change_approval" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<% end %>

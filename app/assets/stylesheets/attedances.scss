@@ -16,10 +16,18 @@
     vertical-align: middle;
     text-align: center;
   }
+
   td {
     vertical-align: middle;
     text-align: center;
     width: 50px;
+  }
+  td:nth-child(10) {
+    text-align: left;
+    font-size: 85%;
+  }
+  td:nth-child(15) {
+    text-align: left;
     font-size: 85%;
   }
   }
@@ -82,6 +90,34 @@
 
 .working-time {
     width: 50x;
+}
+
+///* 勤怠変更承認お知らせ表示 *///
+/* 上長側の表示 */
+/* お知らせありの場合 */
+.change-approval-info{
+  margin: 5px 0px 10px 10px;
+.change-approval-label{
+  font-size: 15px;
+  line-height: 1.25;
+  color: red;
+  margin: 5px 0px 10px 10px;
+  font-weight: bold;
+}
+/* 上長側の表示 */
+/* お知らせあり件数の表示 */
+.change-approvals-number{
+  color: red;
+  border: 3px solid red;
+}
+}
+/* 上長側の表示 */
+/* お知らせなしの場合 */
+.change-approval-no-info{
+  font-size: 15px;
+  line-height: 1.25;
+  margin: 5px 0px 10px 20px;
+  font-weight: bold;
 }
 
 /* csvファイルインポートボタン */

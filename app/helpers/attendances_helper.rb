@@ -58,4 +58,16 @@ module AttendancesHelper
         end
     end
   end
+  
+  # 上長ユーザーが自分宛てに来ている勤怠変更承認申請の数をカウント
+  # 上長の勤怠画面の勤怠変更承認申請のお知らせ表示に使用
+  # ユーザー削除機能実行時に削除されるユーザーが上長であるか否か判断するためにまずカウントする。
+  def change_approval_count(superior_id)
+    if Attendance.where(change_approval_superior_id: superior_id, change_approval_status: 1).present?
+      change_approvals = Attendance.where(change_approval_superior_id: superior_id, change_approval_status: 1)
+      return change_approvals.count
+    else
+      return 0
+    end
+  end
 end

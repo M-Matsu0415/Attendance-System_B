@@ -74,33 +74,6 @@ p.month-approval-status_4{
   font-weight: bold;
 }
 
-///* 勤怠変更承認お知らせ表示 *///
-/* 上長側の表示 */
-/* お知らせありの場合 */
-.attendance-approval-info{
-  font-size: 15px;
-  line-height: 1.25;
-  margin: 5px 0 10px 10px;
-  font-weight: bold;
-}
-
-span.attendance-approval-info{
-  color: red;
-}
-/* お知らせあり件数の表示 */
-span.box-attendance-approval-info{
-  border: 3px solid red;
-}
-/* お知らせあり件数の表示 */
-.attendance-approval-number-info{
-  border: 3px solid red;
-}
-
-/* お知らせなしの場合 */
-span.attendance-approval-no-info{
-  margin-left: 10px;
-}
-
 ///* 残業承認お知らせ表示 *///
 /* 上長側の表示 */
 /* お知らせありの場合 */

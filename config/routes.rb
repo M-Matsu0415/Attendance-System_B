@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       patch 'update_basic_info'
       get 'attendances/edit_one_month'
       patch 'attendances/request_one_month_change'
+      get 'attendances/request_one_month_change'
       patch 'attendances/approval_one_month_change'
       get 'csv_output'
       get 'show_reference'
