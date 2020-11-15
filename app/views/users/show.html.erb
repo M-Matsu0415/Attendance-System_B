@@ -74,6 +74,7 @@
           【残業申請のお知らせ】
         </span>
       </div>
+  <% end %>
 </div>
 
 <div class = "col-md-12 col-md pull-left btn-users-show">
@@ -126,6 +127,7 @@
           <!--日付表示-->
           <td><%= l(day.worked_on, format: :short) %></td>
 
+          <!--曜日表示-->
           <% if $days_of_the_week[day.worked_on.wday] == "土" %> 
             <% week_text = "saturday" %>
           <% elsif $days_of_the_week[day.worked_on.wday] == "日" %> 
@@ -134,8 +136,7 @@
             <% week_text = "weekday" %>
           <% end %>
           
-          <!--曜日表示-->
-          <td class = "<%= week_text %>">
+          <td class = "<%= week_text %>" %>
             <%= $days_of_the_week[day.worked_on.wday] %></td>
           <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
           <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
@@ -255,4 +256,3 @@
 <!--モーダルウインドウ表示-->
 <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="approval_one_month_change" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<% end %>

@@ -40,30 +40,57 @@
                   </thead>
                     <% attendances.each do |attendance| %>
                       <%= f.fields_for "attendances[]", attendance do |i| %>
-                        <table class = "table table-bordered table-condensed table-hover" id = "table-attendances-body">
                         <tbody>
                           <tr>
                             <td>
-                              <%= attendance.worked_on %>
+                              <% worked_on = attendance.worked_on %>
+                              <%= l(attendance.worked_on, format: :short) %>
                             </td>
+                            
+                            <!--曜日表示-->
+                            <% if $days_of_the_week[attendance.worked_on.wday] == "土" %> 
+                              <% week_text = "saturday" %>
+                            <% elsif $days_of_the_week[attendance.worked_on.wday] == "日" %> 
+                              <% week_text = "sunday" %>
+                            <% else %> 
+                              <% week_text = "weekday" %>
+                            <% end %>
+                            <td class = "<%= week_text %>" %>
+                              <%= $days_of_the_week[attendance.worked_on.wday] %></td>
+                              <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
+                              <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
+                              <!--application_controllerの配列記載 ⇒ $days_of_the_week = %w{日 月 火 水 木 金 土}-->
+
+                            <!--現在登録されている出社時間(時)表示-->
+                            <td><%= attendance.started_at.hour if attendance.started_at.present? %></td>
+          
+                            <!--現在登録されている出社時間(分)表示-->
                             <td>
-                              <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
-                                  {}, {required: true, class: "month-approval-form-control"} %>
+                              <% if attendance.started_at.present? %>
+                                <% @started_at_min = started_at_min_or_finished_at_min(attendance.started_at.min) %>
+                                <%= @started_at_min %>
+                              <% end %>
+                            </td>
+          
+                            <td>
+                              <%= i.select :change_approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
+                                  {}, {required: true, class: "change-approval-form-control"} %>
                               <!--オプション設定をする個所を{}で囲むことでclass指定が可能となる。但し、強制的に空欄が選択肢に入る。-->
                               <!--{select機能のオプション(include_blank等} {htmlのオプション(id、class等)}の順番で書く。-->
                               <!--select機能のオプションは使用しないため空欄としている。-->
+                            </td>
+                            <td>
+                              <%= i.text_field :note %>
                             </td>
                             <td>
                               <%= i.label "変更する" %>
                               <%= i.check_box :change_ok %>
                             </td>
                             <td>
-                              <%= link_to "確認", show_reference_user_path(month_approval),
+                              <%= link_to "確認", show_reference_user_path(attendance),
                                   class: "btn btn-md btn-primary btn-attendance-monitor"%>
                             </td>
                           </tr>
-                        </tbody>
-                         
                         </tbody>
                       <% end %>
                     <% end %>
