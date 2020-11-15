@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_one_month, :request_one_month_change, :approval_one_month_change]
+  before_action :set_user, only: [:edit_one_month, :request_one_month_change, :edit_approval_one_month_change]
   before_action :logged_in_user, only: [:update, :edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :request_one_month_change]
   before_action :set_one_month, only: :edit_one_month
@@ -7,7 +7,7 @@ class AttendancesController < ApplicationController
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
   # 勤怠登録失敗した場合のエラーコメントを定数として定義
 
-# 出社時/退社時の勤怠登録  
+  # 出社時/退社時の勤怠登録  
   def update
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
@@ -30,12 +30,12 @@ class AttendancesController < ApplicationController
     redirect_to @user
   end
 
-# 勤怠編集画面  
+  # 勤怠編集画面  
   def edit_one_month
     @users = User.where(superior: true)
   end
 
-# 申請ユーザーからの勤怠変更申請  
+  # 申請ユーザーからの勤怠変更申請  
   def request_one_month_change
     ActiveRecord::Base.transaction do # トランザクションを開始する。
       attendances_params.each do |id, item|
@@ -63,8 +63,47 @@ class AttendancesController < ApplicationController
   end
   
   # 上長ユーザーの勤怠変更承認画面  
-  def approval_one_month_change
+  def edit_approval_one_month_change
     @attendances = Attendance.where(change_approval_superior_id: @user.id).group_by{|attendance_data| [attendance_data[:user_id]]}
+  end
+  
+  # 上長ユーザーからの勤怠変更承認  
+  def approval_one_month_change
+    a = 0 # approval_status = 1(申請中)の件数(ローカル変数a)に初期値0を代入
+    b = 0 # approval_status = 2(承認)の件数(ローカル変数b)に初期値0を代入
+    c = 0 # approval_status = 3(否認)の件数(ローカル変数c)に初期値0を代入
+    d = 0 # approval_status = 4(なし)の件数(ローカル変数d)に初期値0を代入
+    current_user_id = current_user.id
+    @user = User.find(current_user_id)
+    ActiveRecord::Base.transaction do
+    # トランザクションを開始します。
+      attendances_params.each do |id, item|
+        attendance = Attendance.find(id)
+          if item["change_ok"] == "1"
+            attendance.update_attributes!(item)
+            
+              if attendance.change_approval_status == 1
+                a += 1
+                
+              elsif attendance.change_approval_status == 2
+                b += 1
+                
+              elsif attendance.change_approval_status == 3
+                c += 1
+                
+              else
+                d += 1
+                
+              end
+          end
+      end
+    end
+      flash[:success] = "勤怠変更申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました。"
+      redirect_to user_url @user
+  rescue ActiveRecord::RecordInvalid
+  # トランザクションによるエラーの分岐です。
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+    redirect_to @user
   end
   
   private

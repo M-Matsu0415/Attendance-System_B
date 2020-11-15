@@ -5,7 +5,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-        <%= form_with(url: attendances_approval_one_month_change_user_path, local: true, method: :patch) do |f| %>
+        <%= form_with(model: @user, url: attendances_approval_one_month_change_user_path, local: true, method: :patch) do |f| %>
           <% @attendances.each do |user_group_id, attendances| %>
             <% user = User.find_by(id: user_group_id) %>
               <h3 class = "modal-title"><%= "【#{user.name}さんからの勤怠変更申請】" %></h3>
@@ -52,7 +52,7 @@
                               <% week_text = "saturday" %>
                             <% elsif $days_of_the_week[attendance.worked_on.wday] == "日" %> 
                               <% week_text = "sunday" %>
-                            <% else %> 
+                            <% else %>
                               <% week_text = "weekday" %>
                             <% end %>
                             <td class = "<%= week_text %>" %>
@@ -65,12 +65,25 @@
                             <td><%= attendance.started_at.hour if attendance.started_at.present? %></td>
           
                             <!--現在登録されている出社時間(分)表示-->
-                            <td>
-                              <% if attendance.started_at.present? %>
-                                <% @started_at_min = started_at_min_or_finished_at_min(attendance.started_at.min) %>
-                                <%= @started_at_min %>
-                              <% end %>
-                            </td>
+                            <td><%= attendance.started_at.min if attendance.started_at.present? %></td>
+                            
+                            <!--現在登録されている退社時間(時)表示-->
+                            <td><%= attendance.finished_at.hour if attendance.finished_at.present? %></td>
+          
+                            <!--現在登録されている退社時間(分)表示-->
+                            <td><%= attendance.finished_at.min if attendance.finished_at.present? %></td>
+                            
+                            <!--変更申請されている出社時間(時)表示、承認すればこの時間で正式登録される。-->
+                            <td><%= attendance.started_at_after_approval.hour if attendance.started_at_after_approval.present? %></td>
+          
+                            <!--変更申請されている出社時間(分)表示、承認すればこの時間で正式登録される。-->
+                            <td><%= attendance.started_at_after_approval.min if attendance.started_at_after_approval.present? %></td>
+                            
+                            <!--変更登録されている退社時間(時)表示、承認すればこの時間で正式登録される。-->
+                            <td><%= attendance.finished_at_after_approval.hour if attendance.finished_at_after_approval.present? %></td>
+          
+                            <!--変更登録されている退社時間(分)表示、承認すればこの時間で正式登録される。-->
+                            <td><%= attendance.finished_at_after_approval.min if attendance.finished_at_after_approval.present? %></td>
           
                             <td>
                               <%= i.select :change_approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 

@@ -66,8 +66,8 @@ class MonthApprovalsController < ApplicationController
   def update_month_approvals
     a = 0 # approval_status = 1(申請中)の件数(ローカル変数a)に初期値0を代入
     b = 0 # approval_status = 2(承認)の件数(ローカル変数b)に初期値0を代入
-    c = 0 # approval_status = 1(否認)の件数(ローカル変数c)に初期値0を代入
-    d = 0 # approval_status = 1(なし)の件数(ローカル変数d)に初期値0を代入
+    c = 0 # approval_status = 3(否認)の件数(ローカル変数c)に初期値0を代入
+    d = 0 # approval_status = 4(なし)の件数(ローカル変数d)に初期値0を代入
     current_user_id = current_user.id
     @user = User.find(current_user_id)
     ActiveRecord::Base.transaction do

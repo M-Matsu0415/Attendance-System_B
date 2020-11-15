@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       patch 'attendances/request_one_month_change'
       get 'attendances/request_one_month_change'
       patch 'attendances/approval_one_month_change'
-      get 'attendances/approval_one_month_change'
+      get 'attendances/edit_approval_one_month_change'
       get 'csv_output'
       get 'show_reference'
     end
