@@ -148,17 +148,18 @@ p {
   }
 }
 
-///* 一ヶ月の勤怠承認モーダルウインドウの調整 *///
-/* 位置調整 */
+///* モーダルウインドウ *///
+/* 位置調整(共通) */
 .modal-dialog-center {
   padding-top: 10%;
 }
-/* タイトル位置調整 */
+/* タイトル位置調整(共通) */
 h3.modal-title {
   text-align: center;
 }
+
 /* テーブルタイトル(th)、データ(td)位置調整 */
-#table-month_approvals {
+#table-modal {
   th {
     text-align: center;
   }
@@ -174,11 +175,9 @@ h3.modal-title {
 }
 
 /* 勤怠編集画面登録関係のボタン */
-
 .btn-attendance-top {
   margin: 2px;
 }
-
 .btn-attendance-bottom {
   margin: 2px 4px;
 }

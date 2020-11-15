@@ -55,7 +55,7 @@
       <% if change_approval_count(@user.id) >= 1 %>
         <div class = "change-approval-info">
           <span>
-            <%= link_to "【勤怠変更申請のお知らせ】", attendances_request_one_month_change_user_path(@user),
+            <%= link_to "【勤怠変更申請のお知らせ】", attendances_approval_one_month_change_user_path(@user),
                 remote: true, class: "change-approval-label" %>
           </span>
           <span class = "change-approvals-number">
@@ -254,5 +254,5 @@
 
 <!--モーダルウインドウ表示-->
 <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-<div id="change_approval" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="approval_one_month_change" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <% end %>

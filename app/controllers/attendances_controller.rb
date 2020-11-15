@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_one_month, :request_one_month_change, :change_approval]
+  before_action :set_user, only: [:edit_one_month, :request_one_month_change, :approval_one_month_change]
   before_action :logged_in_user, only: [:update, :edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :request_one_month_change]
   before_action :set_one_month, only: :edit_one_month
@@ -63,8 +63,8 @@ class AttendancesController < ApplicationController
   end
   
   # 上長ユーザーの勤怠変更承認画面  
-  def change_approval
-    @attendances = Attendance.where(change_approval_superior_id: @user.id)
+  def approval_one_month_change
+    @attendances = Attendance.where(change_approval_superior_id: @user.id).group_by{|attendance_data| [attendance_data[:user_id]]}
   end
   
   private

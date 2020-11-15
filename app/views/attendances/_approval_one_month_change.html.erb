@@ -5,26 +5,46 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-        <%= form_with(url: month_approvals_update_month_approvals_path, local: true, method: :patch) do |f| %>
-          <% @month_approvals.each do |user_group_id, month_approvals| %>
+        <%= form_with(url: attendances_approval_one_month_change_user_path, local: true, method: :patch) do |f| %>
+          <% @attendances.each do |user_group_id, attendances| %>
             <% user = User.find_by(id: user_group_id) %>
-              <h3 class = "modal-title"><%= "【#{user.name}さんからの一ヶ月分勤怠申請】" %></h3>
-                <table class = "table table-bordered table-condensed table-bases" id = "table-month_approvals">
+              <h3 class = "modal-title"><%= "【#{user.name}さんからの勤怠変更申請】" %></h3>
+                <table class = "table table-bordered table-condensed table-bases" id = "table-modal">
                   <thead>
                     <tr>
-                      <th>月</th>
-                      <th>指示者確認㊞</th>
-                      <th>変更確認</th>
-                      <th>勤怠を確認する</th>
+                      <th rowspan = "3">日付</th>
+                      <th rowspan = "3">曜日</th>
+                      <th colspan = "4">変更前</th>
+                      <th colspan = "4">変更後</th>
+                      <th rowspan = "3">備考</th>
+                      <th rowspan = "3">指示者確認㊞</th>
+                      <th rowspan = "3">変更</th>
+                      <th rowspan = "3">勤怠を確認する</th>
+                    </tr>
+                    <tr>
+                      <th colspan = "2">出社</th>
+                      <th colspan = "2">退社</th>
+                      <th colspan = "2">出社</th>
+                      <th colspan = "2">退社</th>
+                    </tr>
+                    <tr>
+                      <th>時</th>
+                      <th>分</th>
+                      <th>時</th>
+                      <th>分</th>
+                      <th>時</th>
+                      <th>分</th>
+                      <th>時</th>
+                      <th>分</th>
                     </tr>
                   </thead>
-                    <% month_approvals.each do |month_approval| %>
-                      <%= f.fields_for "month_approvals[]", month_approval do |i| %>
+                    <% attendances.each do |attendance| %>
+                      <%= f.fields_for "attendances[]", attendance do |i| %>
+                        <table class = "table table-bordered table-condensed table-hover" id = "table-attendances-body">
                         <tbody>
                           <tr>
                             <td>
-                              <% extract_approval_month = month_approval.approval_month %>
-                              <%= "#{extract_approval_month.mon}月" %>
+                              <%= attendance.worked_on %>
                             </td>
                             <td>
                               <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
@@ -42,6 +62,8 @@
                                   class: "btn btn-md btn-primary btn-attendance-monitor"%>
                             </td>
                           </tr>
+                        </tbody>
+                         
                         </tbody>
                       <% end %>
                     <% end %>
