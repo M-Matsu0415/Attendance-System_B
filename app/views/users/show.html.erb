@@ -148,6 +148,7 @@
           <!--出社時間(分)表示-->
           <td>
             <% if day.started_at.present? %>
+              <!--出社時間の「分」の部分(0～59)をヘルパーメソッドで「0分,15分,30分,45分」に変換-->
               <% @started_at_min = started_at_min_or_finished_at_min(day.started_at.min) %>
               <%= @started_at_min %>
             <% end %>
@@ -166,6 +167,7 @@
           <!--退社時間(分)表示-->
           <td>
             <% if day.finished_at.present? %>
+              <!--退社時間の「分」の部分(0～59)をヘルパーメソッドで「0分,15分,30分,45分」に変換-->
               <% @finished_at_min = started_at_min_or_finished_at_min(day.finished_at.min) %>
               <%= @finished_at_min %>
             <% end %>
@@ -174,16 +176,22 @@
           <!--在社時間表示-->
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-            
-              <% started_at_min_f = (@started_at_min / 60.00) %>
-              <% started_at = day.started_at.hour + started_at_min_f %>
+              <% if day.change_next_day_check == true %>
+                <% started_at_min_f = (@started_at_min / 60.00) %>
+                <% started_at = day.started_at.hour + started_at_min_f %>
               
-              <% finished_at_min_f = (@finished_at_min / 60.00) %>
-              <% finished_at = day.finished_at.hour + finished_at_min_f.to_f %>
+                <% finished_at_min_f = (@finished_at_min / 60.00) %>
+                <% finished_at = day.finished_at.hour + finished_at_min_f.to_f + 24.00  %>
+              <% else %>
+                <% started_at_min_f = (@started_at_min / 60.00) %>
+                <% started_at = day.started_at.hour + started_at_min_f %>
+              
+                <% finished_at_min_f = (@finished_at_min / 60.00) %>
+                <% finished_at = day.finished_at.hour + finished_at_min_f.to_f %>
+              <% end %>
               
               <%= str_times = working_times_display(started_at, finished_at) %>
               <% @total_working_times_display = @total_working_times_display.to_f + str_times.to_f %>
-            
             <% end %>
           </td>
           

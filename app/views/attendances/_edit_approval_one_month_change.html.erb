@@ -63,9 +63,11 @@
 
                             <!--現在登録されている出社時間(時)表示-->
                             <td><%= attendance.started_at.hour if attendance.started_at.present? %></td>
+                                <%= i.hidden_field :started_at, :value => attendance.started_at_after_approval %>
           
                             <!--現在登録されている出社時間(分)表示-->
                             <td><%= attendance.started_at.min if attendance.started_at.present? %></td>
+                                <%= i.hidden_field :finished_at, :value => attendance.finished_at_after_approval %>
                             
                             <!--現在登録されている退社時間(時)表示-->
                             <td><%= attendance.finished_at.hour if attendance.finished_at.present? %></td>

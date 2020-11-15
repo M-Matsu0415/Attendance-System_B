@@ -57,15 +57,34 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    # 一ヶ月分の勤怠承認削除
     if MonthApproval.where(approval_superior_id: params[:id]).present?
-      # ユーザー削除機能実行時に削除されるユーザーが上長に対する申請も削除する必要があるので
-      # 削除対象となるリソースを抽出する。
+      # ユーザー削除機能実行時に削除されるユーザーが申請中の上長であった場合は
+      # 申請も削除する必要があるので、削除対象となるリソースがあれば抽出する。
       month_approvals_by_superiors = MonthApproval.where(params[:id])
         ActiveRecord::Base.transaction do
         # トランザクションを開始します。
           month_approvals_by_superiors.each do |superior|
             month_approval_by_superior = MonthApproval.find(superior.id)
             month_approval_by_superior.destroy!
+        end
+      rescue ActiveRecord::RecordInvalid
+      # トランザクションによるエラーの分岐です。
+        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。"
+        redirect_to @user
+      end
+    end
+    
+    # 勤怠変更申請一部をnilに変更
+    if Attendance.where(change_approval_superior_id: params[:id]).present?
+      # ユーザー削除機能実行時に削除されるユーザーが申請中の上長であった場合は
+      # 申請も削除する必要があるので、削除対象となるリソースがあれば抽出する。
+      change_approvals_by_superiors = Attendance.where(change_approval_superior_id: @user.id)
+        ActiveRecord::Base.transaction do
+        # トランザクションを開始します。
+          change_approvals_by_superiors.each do |change_approval_by_superior|
+            change_approval_by_superior.update_attributes!(started_at_after_approval: nil, finished_at_after_approval: nil,
+            change_approval_superior_id: nil, change_approval_status: nil, note: nil, change_next_day_check: nil)
         end
       rescue ActiveRecord::RecordInvalid
       # トランザクションによるエラーの分岐です。

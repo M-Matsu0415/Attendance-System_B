@@ -37,7 +37,7 @@
                 </td>
                 <td>
                   <% if day.started_at_after_approval.present? && day.finished_at_after_approval.present? %>
-                    <%= working_times(day.started_at_after_approval, day.finished_at_after_approval) %>
+                    <%= working_times(day.started_at_after_approval, day.finished_at_after_approval, day.change_next_day_check) %>
                   <% end %>
                 </td>
                 <td><%= attendance.text_field :note, class: "form-control" %></td>
