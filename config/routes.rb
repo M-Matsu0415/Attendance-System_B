@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'
-      get 'attendances/edit_one_month'
+      get 'attendances/edit_request_one_month_change'
       patch 'attendances/request_one_month_change'
       get 'attendances/request_one_month_change'
       patch 'attendances/approval_one_month_change'

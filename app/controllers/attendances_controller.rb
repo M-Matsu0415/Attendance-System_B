@@ -1,8 +1,8 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_one_month, :request_one_month_change, :edit_approval_one_month_change]
-  before_action :logged_in_user, only: [:update, :edit_one_month]
-  before_action :admin_or_correct_user, only: [:update, :edit_one_month, :request_one_month_change]
-  before_action :set_one_month, only: :edit_one_month
+  before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change]
+  before_action :logged_in_user, only: [:update, :edit_request_one_month_change]
+  before_action :admin_or_correct_user, only: [:update, :edit_request_one_month_change, :request_one_month_change]
+  before_action :set_one_month, only: :edit_request_one_month_change
   
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
   # 勤怠登録失敗した場合のエラーコメントを定数として定義
@@ -31,7 +31,7 @@ class AttendancesController < ApplicationController
   end
 
   # 勤怠編集画面  
-  def edit_one_month
+  def edit_request_one_month_change
     @users = User.where(superior: true)
   end
 
@@ -112,12 +112,19 @@ class AttendancesController < ApplicationController
     @users = User.where(superior: true)
   end
   
+  # 一般ユーザーからの残業申請処理  
+  def request_overwork
+    @attendance = Attendance.find(params[:id])
+    @users = User.where(superior: true)
+  end
+  
   private
 
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_after_approval, :finished_at_after_approval, 
-      :change_approval_superior_id, :change_approval_status, :note, :change_next_day_check, :change_ok])[:attendances]
+      :change_approval_superior_id, :change_approval_status, :note, :change_next_day_check, :overwork_finished_at, :overwork_approval_superior_id, 
+      :overwork_content, :overwork_approval_status, :overwork_next_day_check, :change_ok])[:attendances]
     end
     
 end
