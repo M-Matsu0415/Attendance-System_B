@@ -1,0 +1,63 @@
+<!--申請ユーザーが残業申請を実行するモーダルウィンドウ-->
+<div class="modal-dialog modal-lg modal-dialog-center">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        <%= form_with(model: @attendance, url: attendances_request_overwork_user_path, local: true, method: :patch) do |f| %>
+          <h3 class = "modal-title"><%= "【残業申請】" %></h3>
+            <table class = "table table-bordered table-condensed table-bases" id = "table-modal">
+              <thead>
+                <tr>
+                  <th>日付</th>
+                  <th>曜日</th>
+                  <th>終了予定時刻</th>
+                  <th>翌日</th>
+                  <th>業務処理内容</th>
+                  <th>指示者確認㊞</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <% worked_on = @attendance.worked_on %>
+                    <%= l(@attendance.worked_on, format: :short) %>
+                  </td>
+                            
+                  <!--曜日表示-->
+                  <% if $days_of_the_week[@attendance.worked_on.wday] == "土" %> 
+                    <% week_text = "saturday" %>
+                  <% elsif $days_of_the_week[@attendance.worked_on.wday] == "日" %> 
+                    <% week_text = "sunday" %>
+                  <% else %>
+                    <% week_text = "weekday" %>
+                  <% end %>
+                  <td class = "<%= week_text %>" %>
+                    <%= $days_of_the_week[@attendance.worked_on.wday] %></td>
+                    <!--eachメソッドの変数(day)を使用し、wdayメソッドで曜日に相当する数字(日曜日から始まり0から数える)を取得-->
+                    <!--$days_of_the_weekはapplication_controllerで配列(0：日曜日～6：土曜日)で定義されている。-->
+                    <!--application_controllerの配列記載 ⇒ $days_of_the_week = %w{日 月 火 水 木 金 土}-->
+
+                  <!--終了予定時刻：申請者が希望する時刻を記入-->
+                  <td><%= f.time_field :overwork_finished_at, class: "form-control" %></td>
+          
+                  <!--翌日チェックボックス-->
+                  <td><%= f.check_box :overwork_next_day_check %></td>
+                            
+                  <!--業務処理内容-->
+                  <td><%= f.text_field :overwork_content, class: "form-control" %></td>
+          
+                  <!--申請者確認㊞-->
+                  <td>
+                    <%= f.collection_select :overwork_approval_superior_id, @users, :id, :name, { include_blank: "なし" },
+                    { class: "approval-select" } %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <%= f.submit "変更を送信する", class: "btn btn-md btn-primary btn-block btn-approval"%>
+        <% end %>
+    </div>
+  </div>
+</div>

@@ -40,6 +40,7 @@
                   </thead>
                     <% attendances.each do |attendance| %>
                       <%= f.fields_for "attendances[]", attendance do |i| %>
+                      <% @attendance = attendance %>
                         <tbody>
                           <tr>
                             <td>

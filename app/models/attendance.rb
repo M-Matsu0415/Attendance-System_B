@@ -16,7 +16,7 @@ class Attendance < ApplicationRecord
   validate :started_at_after_approval_then_finished_at_after_approval_fast_if_invalid
   
   def started_at_after_approval_then_finished_at_after_approval_fast_if_invalid
-    if change_next_day_check == 0
+    if change_next_day_check == false
       if started_at_after_approval.present? && finished_at_after_approval.present?
         errors.add(:started_at_after_approval, "より早い退勤時間は無効です") if started_at_after_approval > finished_at_after_approval
       end

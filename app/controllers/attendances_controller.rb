@@ -46,8 +46,8 @@ class AttendancesController < ApplicationController
           # 出勤時間、もしくは退勤時間のみが入っている時には登録できないようにします。
           if item[:started_at_after_approval].present? && item[:finished_at_after_approval].blank? &&
             Date.current != attendance.worked_on
-          flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-          redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+              flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+              redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
           end
 
           attendance.update_attributes!(item)
@@ -56,10 +56,10 @@ class AttendancesController < ApplicationController
       end
     end
     flash[:success] = "勤怠変更を申請しました。"
-    redirect_to user_url(date: params[:date])
+      redirect_to user_url(date: params[:date])
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐
-    flash[:danger] = "無効な入力データがあった為、更新をキャンセル。"
-    redirect_to attendances_edit_one_month_user_url(date: params[:date])
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
   # 上長ユーザーの勤怠変更承認画面  
@@ -99,11 +99,17 @@ class AttendancesController < ApplicationController
       end
     end
       flash[:success] = "勤怠変更申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました。"
-      redirect_to user_url @user
+        redirect_to user_url @user
   rescue ActiveRecord::RecordInvalid
   # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-    redirect_to @user
+      redirect_to @user
+  end
+  
+  # 残業申請モーダル画面  
+  def edit_request_overwork
+    @attendance = Attendance.find(params[:id])
+    @users = User.where(superior: true)
   end
   
   private

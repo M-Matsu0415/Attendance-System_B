@@ -121,7 +121,7 @@
         <tr>
           <!--残業申請ボタン-->
           <td>
-            <%= link_to "申請", '#', method: :patch, class: "btn btn-primary btn-overwork" %>
+            <%= link_to "申請", attendances_edit_request_overwork_user_url(day), remote: true, class: "btn btn-primary btn-overwork" %>
           </td>
           
           <!--日付表示-->
@@ -264,3 +264,4 @@
 <!--モーダルウインドウ表示-->
 <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="edit_approval_one_month_change" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit_request_overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
