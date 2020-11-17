@@ -35,45 +35,61 @@
   <% if @user.superior == true %>
     <div>
       <% if month_approval_count(@user.id) >= 1 %>
-        <div class = month_approval_info>
+        <div class = approval-info>
           <span>
             <%= link_to "【所属長承認申請のお知らせ】", edit_user_month_approval_path(@user),
-                remote: true, class: "month-approval-label" %>
+                remote: true, class: "approval-label" %>
           </span>
-          <span class = "month-approvals-number">
+          <span class = "approvals-number">
             <%= "#{month_approval_count(@user.id)}件の通知があります" %>
           </span>
         </div>
       <% else %>
-        <div class = "month-approval-no-info">
+        <div class = "approval-no-info">
           <span>
             【所属長承認申請のお知らせ】
           </span>
         </div>
       <% end %>
     </div>
+    <div>
       <% if change_approval_count(@user.id) >= 1 %>
-        <div class = "change-approval-info">
+        <div class = "approval-info">
           <span>
             <%= link_to "【勤怠変更申請のお知らせ】", attendances_edit_approval_one_month_change_user_path(@user),
-                remote: true, class: "change-approval-label" %>
+                remote: true, class: "approval-label" %>
           </span>
-          <span class = "change-approvals-number">
+          <span class = "approvals-number">
             <%= "#{change_approval_count(@user.id)}件の通知があります" %>
           </span>
         </div>
       <% else %>
-        <div class = "change-approval-no-info">
+        <div class = "approval-no-info">
           <span>
             【勤怠変更申請のお知らせ】
           </apan>
         </div>
       <% end %>
-      <div class = "overwork-approval-info">
-        <span class = "overwork-approval-no-info">
-          【残業申請のお知らせ】
-        </span>
-      </div>
+    </div>
+    <div>
+      <% if overwork_approval_count(@user.id) >= 1 %>
+        <div class = "approval-info">
+          <span>
+            <%= link_to "【残業申請のお知らせ】", attendances_edit_approval_overwork_user_path(@user),
+                remote: true, class: "approval-label" %>
+          </span>
+          <span class = "approvals-number">
+            <%= "#{overwork_approval_count(@user.id)}件の通知があります" %>
+          </span>
+        </div>
+      <% else %>
+        <div class = "approval-no-info">
+          <span>
+            【残業申請のお知らせ】
+          </span>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
 
@@ -203,7 +219,10 @@
           <td></td>
           
           <!--指示者確認㊞表示-->
-          <td><%= superior_check_status(day) %></td>
+          <td>
+            <%= change_one_month_superior_check_status(day) %><br>
+            <%= overwork_superior_check_status(day) %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -265,3 +284,4 @@
 <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="edit_approval_one_month_change" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="edit_request_overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit_approval_overwork" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

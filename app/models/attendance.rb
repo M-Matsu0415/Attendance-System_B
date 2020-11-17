@@ -9,6 +9,7 @@ class Attendance < ApplicationRecord
   validates :started_at, presence: true, on: :approval_one_month_change
   validates :overwork_finished_at, presence: true, on: :request_overwork
   validates :overwork_approval_status, presence: true, on: :request_overwork
+  validates :overwork_next_day_check, presence: true, on: :request_overwork
   
   validates_acceptance_of :change_ok, allow_nil: false, on: :approval_one_month_change
   

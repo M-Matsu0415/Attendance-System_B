@@ -92,36 +92,50 @@
     width: 50x;
 }
 
-///* 勤怠変更承認お知らせ表示 *///
-/* 上長側の表示 */
-/* お知らせありの場合 */
-.change-approval-info{
+///* 勤怠変更画面承認者選択スイッチ *///
+.approval-select{
+  width: 125px;
+  height: 30px;
+}
+
+///* 各承認の上長勤怠画面お知らせ表示 *///
+
+  /* 上長側の表示 */
+  /* お知らせありの場合 */
+.approval-info{
   margin: 5px 0px 10px 10px;
-.change-approval-label{
+.approval-label{
   font-size: 15px;
   line-height: 1.25;
   color: red;
   margin: 5px 0px 10px 10px;
   font-weight: bold;
 }
-/* 上長側の表示 */
-/* お知らせあり件数の表示 */
-.change-approvals-number{
+  /* 上長側の表示 */
+  /* お知らせあり件数の表示 */
+.approvals-number{
   color: red;
   border: 3px solid red;
 }
 }
-/* 上長側の表示 */
-/* お知らせなしの場合 */
-.change-approval-no-info{
+  /* 上長側の表示 */
+  /* お知らせなしの場合 */
+.approval-no-info{
   font-size: 15px;
   line-height: 1.25;
   margin: 5px 0px 10px 20px;
   font-weight: bold;
 }
 
-/* csvファイルインポートボタン */
+///* 一ヶ月分の勤怠承認モーダルウィンドウ *///
+/* 上長側の表示 */
+/* 指示者確認㊞選択ボックス */
+.month-approval-form-control{
+  width: 150px;
+  height: 30px;
+}
 
+/* csvファイルインポートボタン */
 .btn-csv-import {
   margin-top: 5px;
   width: 275px;

@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change]
+  before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change, :edit_approval_overwork]
   before_action :logged_in_user, only: [:update, :edit_request_one_month_change]
   before_action :admin_or_correct_user, only: [:update, :edit_request_one_month_change, :request_one_month_change]
   before_action :set_one_month, only: :edit_request_one_month_change
@@ -38,7 +38,7 @@ class AttendancesController < ApplicationController
   # 申請ユーザーからの勤怠変更申請  
   def request_one_month_change
     ActiveRecord::Base.transaction do # トランザクションを開始する。
-      attendances_params.each do |id, item|
+      attendances_one_month_params.each do |id, item|
         attendance = Attendance.find(id)
         
         if item[:change_approval_superior_id].present? && item[:change_approval_status] == "1"
@@ -77,7 +77,7 @@ class AttendancesController < ApplicationController
     @user = User.find(current_user_id)
     ActiveRecord::Base.transaction do
     # トランザクションを開始します。
-      attendances_params.each do |id, item|
+      attendances_one_month_params.each do |id, item|
         attendance = Attendance.find(id)
           if item["change_ok"] == "1"
             attendance.update_attributes!(item)
@@ -106,25 +106,42 @@ class AttendancesController < ApplicationController
       redirect_to @user
   end
   
-  # 残業申請モーダル画面  
+  # 一般/上長ユーザーの残業申請モーダル画面  
   def edit_request_overwork
     @attendance = Attendance.find(params[:id])
     @users = User.where(superior: true)
   end
   
-  # 一般ユーザーからの残業申請処理  
+  # 一般/上長ユーザーからの残業申請処理  
   def request_overwork
-    @attendance = Attendance.find(params[:id])
-    @users = User.where(superior: true)
+    attendance = Attendance.find(params[:id])
+    @user = User.find(attendance.user_id)
+    
+      if attendance.update_attributes!(attendances_overwork_params)
+        flash[:info] = "残業申請を送信しました。"
+          redirect_to @user
+      else
+        flash[:danger] = "残業申請に失敗しました"
+          redirect_to @user
+      end
+  end
+  
+  # 上長ユーザーの残業承認モーダル画面  
+  def edit_approval_overwork
+    @attendances = Attendance.where(overwork_approval_superior_id: @user.id).group_by{|attendance_data| [attendance_data[:user_id]]}
   end
   
   private
 
-    # 1ヶ月分の勤怠情報を扱います。
-    def attendances_params
+    # 1ヶ月分の勤怠変更情報を扱います。
+    def attendances_one_month_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_after_approval, :finished_at_after_approval, 
-      :change_approval_superior_id, :change_approval_status, :note, :change_next_day_check, :overwork_finished_at, :overwork_approval_superior_id, 
-      :overwork_content, :overwork_approval_status, :overwork_next_day_check, :change_ok])[:attendances]
+      :change_approval_superior_id, :change_approval_status, :note, :change_next_day_check, :change_ok])[:attendances]
+    end
+    
+    def attendances_overwork_params
+      params.require(:attendance).permit(:overwork_finished_at, :overwork_approval_superior_id, 
+      :overwork_content, :overwork_approval_status, :overwork_next_day_check, :change_ok)
     end
     
 end

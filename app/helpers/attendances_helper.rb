@@ -49,7 +49,8 @@ module AttendancesHelper
     format("%.2f", ((finished)/60.00))
   end
   
-  def superior_check_status(attendance)
+  # 勤怠変更申請の上長承認状況(勤怠表示画面に表示)
+  def change_one_month_superior_check_status(attendance)
     superior_id = attendance.change_approval_superior_id
     if superior_id.present?
       superior = User.find(superior_id)
@@ -63,6 +64,21 @@ module AttendancesHelper
     end
   end
   
+  # 残業申請の上長承認状況(勤怠表示画面に表示)
+  def overwork_superior_check_status(attendance)
+    superior_id = attendance.overwork_approval_superior_id
+    if superior_id.present?
+      superior = User.find(superior_id)
+        if attendance.overwork_approval_status == 1
+          return "#{superior.name}へ残業申請中"
+        elsif attendance.overwork_approval_status == 2
+          return "#{superior.name}より残業承認済"
+        elsif attendance.overwork_approval_status == 3
+          return "#{superior.name}より残業否認済"
+        end
+    end
+  end
+  
   # 上長ユーザーが自分宛てに来ている勤怠変更承認申請の数をカウント
   # 上長の勤怠画面の勤怠変更承認申請のお知らせ表示に使用
   # ユーザー削除機能実行時に削除されるユーザーが上長であるか否か判断するためにまずカウントする。
@@ -72,6 +88,27 @@ module AttendancesHelper
       return change_approvals.count
     else
       return 0
+    end
+  end
+  
+  # 上長ユーザーが自分宛てに来ている残業承認申請の数をカウント
+  # 上長の勤怠画面の残業承認申請のお知らせ表示に使用
+  # ユーザー削除機能実行時に削除されるユーザーが上長であるか否か判断するためにまずカウントする。
+  def overwork_approval_count(superior_id)
+    if Attendance.where(overwork_approval_superior_id: superior_id, overwork_approval_status: 1).present?
+      overwork_approvals = Attendance.where(overwork_approval_superior_id: superior_id, overwork_approval_status: 1)
+      return overwork_approvals.count
+    else
+      return 0
+    end
+  end
+  
+  # 上長ユーザーが自分宛てに来ている残業承認申請モーダルを開いたときに表示する時間外時間
+  def overtime_calculation(attendance, user)
+    if attendance.overwork_next_day_check == true
+      format("%.2f", ((((attendance.overwork_finished_at - user.designated_work_end_time) / 60) / 60.0) + 24.00))
+    else
+      format("%.2f", ((attendance.overwork_finished_at - user.designated_work_end_time) / 60) / 60.0)
     end
   end
 end

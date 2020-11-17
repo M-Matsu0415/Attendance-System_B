@@ -8,10 +8,9 @@
 .btn-approval {
   margin-top: 10px;
 }
-/* 承認者選択スイッチ */
-/* 一ヶ月分・勤怠変更・残業承認共通 */ 
 
-.approval-select{
+/* 承認者選択スイッチ */
+.month-approval-select{
   width: 150px;
   height: 30px;
 }
@@ -45,60 +44,6 @@ p.month-approval-status_3{
 p.month-approval-status_4{
   font-size: 15px;
   line-height: 7.5px;
-}
-
-///* 一ヶ月分の勤怠承認お知らせ表示 *///
-/* 上長側の表示 */
-/* お知らせありの場合 */
-.month_approval_info{
-  margin: 5px 0px 10px 10px;
-.month-approval-label{
-  font-size: 15px;
-  line-height: 1.25;
-  color: red;
-  margin: 5px 0px 10px 10px;
-  font-weight: bold;
-}
-/* 上長側の表示 */
-/* お知らせあり件数の表示 */
-.month-approvals-number{
-  color: red;
-  border: 3px solid red;
-}
-}
-/* 上長側の表示 */
-/* お知らせなしの場合 */
-.month-approval-no-info{
-  font-size: 15px;
-  line-height: 1.25;
-  margin: 5px 0px 10px 20px;
-  font-weight: bold;
-}
-
-///* 残業承認お知らせ表示 *///
-/* 上長側の表示 */
-/* お知らせありの場合 */
-.overwork-approval-info{
-  font-size: 15px;
-  line-height: 1.25;
-  margin: 5px 0 10px 10px;
-  font-weight: bold;
-}
-
-span.overwork-approval-info{
-  color: red;
-}
-/* お知らせあり件数の表示 */
-span.box-overwork-approval-info{
-  border: 3px solid red;
-}
-.overwork-approval-number-info{
-  border: 3px solid red;
-}
-
-/* お知らせなしの場合 */
-span.overwork-approval-no-info{
-  margin-left: 10px;
 }
 
 ///* 一ヶ月分の勤怠承認モーダルウィンドウ *///
