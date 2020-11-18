@@ -5,7 +5,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-        <%= form_with(model: @user, url: attendances_edit_approval_overwork_user_path, local: true, method: :patch) do |f| %>
+        <%= form_with(model: @user, url: attendances_approval_overwork_user_path, local: true, method: :patch) do |f| %>
           <% @attendances.each do |user_group_id, attendances| %>
             <% user = User.find_by(id: user_group_id) %>
               <h3 class = "modal-title"><%= "【#{user.name}さんからの残業申請】" %></h3>
@@ -78,7 +78,7 @@
                             
                               <!--勤怠確認ボタン-->
                               <td>
-                                <%= link_to "確認", show_reference_user_path(attendance),
+                                <%= link_to "確認", show_reference_change_or_overwork_user_path(attendance),
                                     class: "btn btn-md btn-primary btn-attendance-monitor"%>
                               </td>
                             </tr>

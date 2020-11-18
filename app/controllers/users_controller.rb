@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   before_action :admin_or_correct_user, only: [:show, :create_month_approval]
   before_action :admin_user, only: :destroy
   before_action :set_one_month, only: [:show, :csv_output, :create_month_approval]
-  before_action :get_one_month, only: :show_reference
+  before_action :get_one_month_for_month_approval, only: :show_reference
+  before_action :get_one_month_for_change_or_overwork, only: :show_reference_change_or_overwork
   
 
   def index
@@ -182,6 +183,10 @@ class UsersController < ApplicationController
   end
   
   def show_reference
+    @worked_sum = @attendances.where.not(started_at: nil).count
+  end
+  
+  def show_reference_change_or_overwork
     @worked_sum = @attendances.where.not(started_at: nil).count
   end
   

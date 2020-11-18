@@ -79,8 +79,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
   
-  # ページ出力前に1ヶ月分のデータの存在を確認・セットします。
-  def get_one_month
+  # 1ヵ月分の勤怠承認の勤怠確認に使用：ページ出力前に1ヶ月分のデータの存在を確認・セットします。
+  def get_one_month_for_month_approval
     @month_approval = MonthApproval.find(params[:id])
     applicant_user_id = @month_approval.user_id
     @user = User.find(applicant_user_id)
@@ -103,6 +103,32 @@ class ApplicationController < ActionController::Base
       end
       @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     end
+  
+  # 勤怠変更、および残業承認の勤怠確認に使用：ページ出力前に1ヶ月分のデータの存在を確認・セットします。
+  def get_one_month_for_change_or_overwork
+    @attendance = Attendance.find(params[:id])
+    @user = User.find(@attendance.user_id)
+      approval_date = @attendance.worked_on
+      @first_day = approval_date.beginning_of_month
+      @last_day = approval_date.end_of_month
+        one_month = [*@first_day..@last_day] 
+        # 対象の月の日数(配列データ)を代入します。
+        @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
+        # ユーザーに紐付く一ヶ月分のレコードを検索し取得します。
+        
+    unless one_month.count == @attendances.count 
+    # それぞれの件数（日数）が一致するか評価します。データがないかもしれないために確認の意味で行う。
+      ActiveRecord::Base.transaction do # トランザクションを開始します。
+        # トランザクション：指定したブロックにあるデータベースの操作が全部成功することを保証するための機能。
+        # 繰り返し処理により、1ヶ月分の勤怠データを生成します。
+        # worked_onに日付の入ったAttendanceモデルのデータが生成される。
+        # create!：最後に!を付けることで保存できない場合例外ActiveRecord::RecordInvalidが発生する。
+        # トランザクションは例外が発生した場合にロールバックされる。
+        one_month.each { |day| @user.attendances.create!(worked_on: day) }
+      end
+      @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
+    end
+  end
     
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"

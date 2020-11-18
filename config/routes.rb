@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       get 'attendances/edit_approval_overwork'
       get 'csv_output'
       get 'show_reference'
+      get 'show_reference_change_or_overwork'
     end
     resources :attendances, only: :update
     resources :month_approvals, only: [:create, :update, :edit]
