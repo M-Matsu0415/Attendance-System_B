@@ -248,21 +248,19 @@
     <div class = "col-md-2 pull-right month-approval">
       <div class = "panel panel-info">
         <p class = "month-approval-label">所属長承認</p>
-          <% if @month_approval.present? %>
-            <% approval_superior_id = @month_approval.approval_superior_id %>
-            <% approval_superior = User.find_by(id: approval_superior_id) %>
-              <% if @month_approval.approval_status == 1 %>
-                <p class = month-approval-status_1><%= approval_superior.name %>へ承認申請中</p>
-              <% elsif @month_approval.approval_status == 2 %>
-                <p class = month-approval-status_2><%= approval_superior.name %>から承認済</p>
-              <% elsif @month_approval.approval_status == 3 %>
-                <p class = month-approval-status_3><%= approval_superior.name %>から否認済</p>
-              <% elsif @month_approval.approval_status == 4 %>
-                <p class = month-approval-status_4>なし</p>
-              <% end %>
-          <% else %>
-            <p class = month-approval-status>なし</p>
-          <% end %>
+          <% approval_superior_id = @month_approval.approval_superior_id %>
+          <% approval_superior = User.find_by(id: approval_superior_id) %>
+            <% if @month_approval.approval_status == 1 %>
+              <p class = "month-approval-status_1"><%= approval_superior.name %>へ承認申請中</p>
+            <% elsif @month_approval.approval_status == 2 %>
+              <p class = "month-approval-status_2"><%= approval_superior.name %>から承認済</p>
+            <% elsif @month_approval.approval_status == 3 %>
+              <p class = "month-approval-status_3"><%= approval_superior.name %>から否認済</p>
+            <% elsif @month_approval.approval_status == 4 %>
+              <p class = "month-approval-status_4">なし</p>
+            <% else %>
+              <p class = "month-approval-status">なし</p>
+            <% end %>
           <% attendance = @attendances.first %>
           <%= form_with(model: [@user, @month_approval], local: true) do |f| %>
             <!--form_withメソッドは新規オブジェクトならPOSTリクエスト、既存オブジェクトならPATCHリクエストが送信される。-->
