@@ -52,9 +52,11 @@
           
                               <!--指定勤務終了時間表示-->
                               <td><%= l(user.designated_work_end_time, format: :time) %></td>
-                            
+
                               <!--時間外時間：ヘルパーメソッドで計算-->
-                              <td><%= overtime_calculation(attendance,user) %></td>
+                              <td>
+                                <%= overtime_calculation(attendance, user) %>
+                              </td>
           
                               <!--業務処理内容表示-->
                               <td><%= attendance.overwork_content %></td>
