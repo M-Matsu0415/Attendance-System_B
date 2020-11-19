@@ -64,7 +64,7 @@
                               <!--指示者確認㊞-->
                               <td>
                                 <%= i.select :overwork_approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
-                                    {}, {required: true, class: "change-approval-form-control"} %>
+                                    {}, {required: true, class: "approval-select"} %>
                                 <!--オプション設定をする個所を{}で囲むことでclass指定が可能となる。但し、強制的に空欄が選択肢に入る。-->
                                 <!--{select機能のオプション(include_blank等} {htmlのオプション(id、class等)}の順番で書く。-->
                                 <!--select機能のオプションは使用しないため空欄としている。-->
@@ -78,7 +78,7 @@
                             
                               <!--勤怠確認ボタン-->
                               <td>
-                                <%= link_to "確認", show_reference_change_or_overwork_user_path(attendance),
+                                <%= link_to "確認", reference_change_or_overwork_user_url(attendance),
                                     class: "btn btn-md btn-primary btn-attendance-monitor"%>
                               </td>
                             </tr>

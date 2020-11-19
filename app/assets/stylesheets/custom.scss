@@ -174,11 +174,14 @@ h3.modal-title {
   height: 30px;
 }
 
-/* 勤怠編集画面登録関係のボタン */
+/* ユーザー編集/csv出力ボタン */
 .btn-attendance-top {
   margin: 2px;
 }
+
+/* 勤怠修正ログボタン */
 .btn-attendance-bottom {
   margin: 2px 4px;
+  margin-top: 2.5px;
 }
 

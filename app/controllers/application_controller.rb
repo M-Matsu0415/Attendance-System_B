@@ -104,6 +104,11 @@ class ApplicationController < ActionController::Base
       @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     end
   
+  rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
+    flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
+    redirect_to root_url
+  end
+  
   # 勤怠変更、および残業承認の勤怠確認に使用：ページ出力前に1ヶ月分のデータの存在を確認・セットします。
   def get_one_month_for_change_or_overwork
     @attendance = Attendance.find(params[:id])
@@ -128,11 +133,10 @@ class ApplicationController < ActionController::Base
       end
       @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     end
-  end
     
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
     redirect_to root_url
   end
-
 end
+  

@@ -29,8 +29,8 @@ Rails.application.routes.draw do
       patch 'attendances/approval_overwork'
       get 'attendances/edit_approval_overwork'
       get 'csv_output'
-      get 'show_reference'
-      get 'show_reference_change_or_overwork'
+      get 'reference_month_approval'
+      get 'reference_change_or_overwork'
     end
     resources :attendances, only: :update
     resources :month_approvals, only: [:create, :update, :edit]
