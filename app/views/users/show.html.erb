@@ -212,11 +212,39 @@
           </td>
           
           <!--備考表示-->
-          <td><%= day.note %></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>
+            <% if day.note.present? %>
+              <%= day.note %>
+            <% end %>
+          </td>
+          
+          <!--終了予定時間(時)表示-->
+          <td>
+            <% if day.overwork_finished_at.present? %>
+              <%= day.overwork_finished_at.hour %>
+            <% end %>
+          </td>
+          
+          <!--終了予定時間(分)表示-->
+          <td>
+            <% if day.overwork_finished_at.present? %>
+              <%= day.overwork_finished_at.min %>
+            <% end %>
+          </td>
+          
+          <!--時間外時間表示-->
+          <td>
+            <% if day.overwork_finished_at.present? %>
+              <%= overtime_calculation(day, @user) %>
+            <% end %>
+          </td>
+          
+          <!--終了予定時間(時)表示-->
+          <td>
+            <% if day.overwork_finished_at.present? %>
+              <%= day.overwork_content %>
+            <% end %>
+          </td>
           
           <!--指示者確認㊞表示-->
           <td>

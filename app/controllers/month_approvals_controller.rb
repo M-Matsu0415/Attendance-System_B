@@ -12,7 +12,8 @@ class MonthApprovalsController < ApplicationController
     
     if month_approval_params[:month_approval][:approval_superior_id].blank?
       flash[:danger] = "上長の選択が「なし」になっています。"
-        redirect_to @user
+        @first_day = month_approval_params[:month_approval][:approval_month]
+          redirect_to user_url(@user, date: @first_day)
     
     else
       extract_params = month_approval_params[:month_approval]
@@ -20,11 +21,12 @@ class MonthApprovalsController < ApplicationController
     
       if @month_approval.save
         flash[:success] = "承認申請しました。"
-          redirect_to @user
+          @first_day = @month_approval.approval_month
+            redirect_to user_url(@user, date: @first_day)
           
       else
         flash[:danger] = "承認申請に失敗しました。"
-          redirect_to @user
+          redirect_to user_url(@user, date: @first_day)
           
       end
     end
@@ -37,21 +39,21 @@ class MonthApprovalsController < ApplicationController
     
     if month_approval_params[:month_approval][:approval_superior_id].blank?
       flash[:danger] = "上長の選択が「なし」になっています。"
-        redirect_to @user
+        @first_day = month_approval_params[:month_approval][:approval_month]
+          redirect_to user_url(@user, date: @first_day)
     
     else
-      params_user_id = month_approval_params[:month_approval][:user_id]
-      @month_approval = MonthApproval.find_by(params_user_id)
-      extract_params = month_approval_params[:month_approval]
-      @month_approval.update_attributes(extract_params)
+      @month_approval = MonthApproval.find(params[:id])
+      @month_approval.update_attributes(month_approval_params[:month_approval])
     
-      if @month_approval.update_attributes(extract_params)
+      if @month_approval.update_attributes(month_approval_params[:month_approval])
         flash[:success] = "承認申請を再送しました。"
-        redirect_to @user
+          @first_day = @month_approval.approval_month
+            redirect_to user_url(@user, date: @first_day)
       
       else
         flash[:danger] = "承認申請の再送に失敗しました。"
-        redirect_to @user
+          redirect_to @user
         
       end
     end
@@ -59,7 +61,7 @@ class MonthApprovalsController < ApplicationController
 
 # 上長による一ヶ月の勤怠承認/否認。editアクションで自分宛てに来ている承認申請を全て表示。
   def edit
-    @month_approvals = MonthApproval.where(approval_superior_id: @user.id, approval_status: 1).group_by{|approval_data| [approval_data[:user_id]]}
+    @month_approvals = MonthApproval.where(approval_superior_id: @user.id, approval_status: 1).order(:approval_month).group_by{|approval_data| [approval_data[:user_id]]}
   end
 
 # 上長による一ヶ月の勤怠承認/否認。updateアクションで自分宛てに来ている承認申請を更新。
@@ -104,7 +106,7 @@ class MonthApprovalsController < ApplicationController
   private
   
     def month_approval_params
-      params.permit(month_approval:[:user_id, :applicant_user_id, :approval_superior_id, :approval_status, :approval_month])
+      params.permit(month_approval:[:id, :user_id, :applicant_user_id, :approval_superior_id, :approval_status, :approval_month])
     end
     
     def month_approvals_params

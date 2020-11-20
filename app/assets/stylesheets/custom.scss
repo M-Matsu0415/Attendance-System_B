@@ -158,8 +158,10 @@ h3.modal-title {
   text-align: center;
 }
 
-/* テーブルタイトル(th)、データ(td)位置調整 */
-#table-modal {
+/***上長ユーザー承認用モーダルウィンドウ***/
+/** テーブルタイトル(th)、データ(td)位置調整 **/
+/*　一ヶ月勤怠承認　*/ 
+#table-modal-approval-month {
   th {
     text-align: center;
   }
@@ -168,6 +170,44 @@ h3.modal-title {
     text-align: center;
   }
 }
+
+/*　勤怠変更承認　*/ 
+#table-modal-approval-one-month-change {
+  th {
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
+/* 勤怠変更備考記入欄 */
+.note-one-month-change{
+  width: 225px;
+  height: 30px;
+}
+
+/*　残業承認　*/ 
+#table-modal-approval-overwork {
+  th {
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+   td:nth-child(6) {
+    text-align: left;
+  }
+}
+
+/* 上長ユーザー用　申請中/承認/否認/なし 選択スイッチ */
+.approval-select{
+  width: 75px;
+  height: 30px;
+}
+
 /* 指示者確認欄の幅調整 */
 .month-approval-form-control {
   width: 100px;

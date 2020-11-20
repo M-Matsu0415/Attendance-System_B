@@ -9,13 +9,13 @@
           <% @month_approvals.each do |user_group_id, month_approvals| %>
             <% user = User.find_by(id: user_group_id) %>
               <h3 class = "modal-title"><%= "【#{user.name}さんからの一ヶ月分勤怠申請】" %></h3>
-                <table class = "table table-bordered table-condensed table-bases" id = "table-modal">
+                <table class = "table table-bordered table-condensed table-bases" id = "table-modal-approval-month">
                   <thead>
                     <tr>
                       <th>月</th>
                       <th>指示者確認㊞</th>
                       <th>変更確認</th>
-                      <th>勤怠を確認する</th>
+                      <th>勤怠確認</th>
                     </tr>
                   </thead>
                     <% month_approvals.each do |month_approval| %>
@@ -28,7 +28,7 @@
                             </td>
                             <td>
                               <%= i.select :approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
-                                  {}, {required: true, class: "month-approval-form-control"} %>
+                                  {}, {required: true, class: "approval-select"} %>
                               <!--オプション設定をする個所を{}で囲むことでclass指定が可能となる。但し、強制的に空欄が選択肢に入る。-->
                               <!--{select機能のオプション(include_blank等} {htmlのオプション(id、class等)}の順番で書く。-->
                               <!--select機能のオプションは使用しないため空欄としている。-->

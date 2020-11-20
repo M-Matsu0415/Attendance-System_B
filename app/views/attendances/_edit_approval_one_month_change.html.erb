@@ -9,17 +9,17 @@
           <% @attendances.each do |user_group_id, attendances| %>
             <% user = User.find_by(id: user_group_id) %>
               <h3 class = "modal-title"><%= "【#{user.name}さんからの勤怠変更申請】" %></h3>
-                <table class = "table table-bordered table-condensed table-bases" id = "table-modal">
+                <table class = "table table-bordered table-condensed table-bases" id = "table-modal-approval-one-month-change">
                   <thead>
                     <tr>
                       <th rowspan = "3">日付</th>
                       <th rowspan = "3">曜日</th>
                       <th colspan = "4">変更前</th>
                       <th colspan = "4">変更後</th>
-                      <th rowspan = "3">備考</th>
+                      <th rowspan = "3">備考(15文字以内)</th>
                       <th rowspan = "3">指示者確認㊞</th>
-                      <th rowspan = "3">変更</th>
-                      <th rowspan = "3">勤怠を確認する</th>
+                      <th rowspan = "3">変更確認</th>
+                      <th rowspan = "3">勤怠確認</th>
                     </tr>
                     <tr>
                       <th colspan = "2">出社</th>
@@ -87,6 +87,11 @@
           
                             <!--変更登録されている退社時間(分)表示、承認すればこの時間で正式登録される。-->
                             <td><%= attendance.finished_at_after_approval.min if attendance.finished_at_after_approval.present? %></td>
+                            
+                            <!--備考表示-->
+                            <td>
+                              <%= i.text_field :note, :class => "note-one-month-change" %>
+                            </td>
           
                             <td>
                               <%= i.select :change_approval_status, [["申請中", "1"], ["承認", "2"],["否認", "3"], ["なし", "4" ]], 
@@ -95,9 +100,8 @@
                               <!--{select機能のオプション(include_blank等} {htmlのオプション(id、class等)}の順番で書く。-->
                               <!--select機能のオプションは使用しないため空欄としている。-->
                             </td>
-                            <td>
-                              <%= i.text_field :note %>
-                            </td>
+                            
+                            <!--変更する/しないの意思表示選択ボタン-->
                             <td>
                               <%= i.label "変更する" %>
                               <%= i.check_box :change_ok %>

@@ -9,17 +9,17 @@
           <% @attendances.each do |user_group_id, attendances| %>
             <% user = User.find_by(id: user_group_id) %>
               <h3 class = "modal-title"><%= "【#{user.name}さんからの残業申請】" %></h3>
-                <table class = "table table-bordered table-condensed table-bases" id = "table-modal">
+                <table class = "table table-bordered table-condensed table-bases" id = "table-modal-approval-overwork">
                   <thead>
                     <tr>
                       <th>日付</th>
                       <th>曜日</th>
-                      <th>終了予定時間</th>
-                      <th>指定業務終了時間</th>
+                      <th>終了予定<br>時間</th>
+                      <th>指定業務<br>終了時間</th>
                       <th>時間外時間</th>
                       <th>業務処理内容</th>
                       <th>指示者確認㊞</th>
-                      <th>変更</th>
+                      <th>変更確認</th>
                       <th>勤怠を確認する</th>
                     </tr>
                   </thead>

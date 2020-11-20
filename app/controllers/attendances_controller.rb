@@ -119,11 +119,17 @@ class AttendancesController < ApplicationController
     
       if attendance.update_attributes!(attendances_overwork_params)
         flash[:info] = "残業申請を送信しました。"
-          redirect_to @user
+          attendance_overwork_month_first_day = Attendance.find_by(worked_on: attendance.worked_on.beginning_of_month)
+            overwork_month_first_day = attendance_overwork_month_first_day.worked_on
+              redirect_to user_url(@user, date: overwork_month_first_day)
       else
         flash[:danger] = "残業申請に失敗しました"
-          redirect_to @user
+          redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
       end
+  rescue ActiveRecord::RecordInvalid
+  # トランザクションによるエラーの分岐です。
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
   end
   
   # 上長ユーザーの残業承認モーダル画面  
