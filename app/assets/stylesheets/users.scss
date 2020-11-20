@@ -68,3 +68,13 @@
 .weekday {
   color: #000;
 }
+
+#all-user-change{
+  width: auto;
+  /*paddingを含めて100%の幅指定*/
+  margin-top: 20px;
+  margin-left: 10px;
+  span {
+    front-weignt: bold;
+  }
+}

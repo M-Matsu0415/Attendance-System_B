@@ -12,6 +12,11 @@
 
             <%= f.label :work_time, class: "label-#{yield(:class_text)}" %>
             <%= f.time_field :work_time, class: "form-control" %>
+            
+            <%= f.check_box :all_user_change, id: "all-user-change" %>
+                <!--check_box:チェックが入っていれば登録されているユーザーの基本情報を全て更新する-->
+                <span>　全ユーザーの基本情報更新</span>
+                <!--span:囲った部分をインライン要素としてグループ化することが出来る-->
 
             <div class="center">
               <%= f.submit yield(:button_text), class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
