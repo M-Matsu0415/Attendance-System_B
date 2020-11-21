@@ -3,7 +3,8 @@
     <div class = "alert alert-danger">
       入力エラーが <%= object.errors.count %>件ありました。
     </div>
-    <ul>  <!--「UL」とは「unordered list（順序がないリスト）」の略で、その名前の通り順序がない箇条書きのリストを表示する際に使用するタグ-->
+    <ul>  <!--「UL」とは「unordered list（順序がないリスト）」の略で、
+           その名前の通り順序がない箇条書きのリストを表示する際に使用するタグ-->
     <% object.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
     <% end %>

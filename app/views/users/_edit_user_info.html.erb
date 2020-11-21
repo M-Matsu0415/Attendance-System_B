@@ -1,37 +1,38 @@
 <%= form_with(model: user, local: true) do |f| %>
 <!-- local: true：HTMLとしてフォームを送信する-->
+<%= render 'shared/error_messages', object: user %>
   
             
-  <%= f.label :name, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :name, class: "label-edit" %>
   <%= f.text_field :name, class: "form-control" %>
   
-  <%= f.label :employee_number, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :employee_number, class: "label-edit" %>
   <%= f.text_field :employee_number, class: "form-control" %>
   
-  <%= f.label :uid, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :uid, class: "label-edit" %>
   <%= f.text_field :uid, class: "form-control" %>
             
-  <%= f.label :email, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :email, class: "label-edit" %>
   <%= f.email_field :email, class: "form-control" %>
   
-  <%= f.label :affiliation, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :affiliation, class: "label-edit" %>
   <%= f.text_field :affiliation, class: "form-control" %>
   
-  <%= f.label :basic_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :basic_time, class: "label-edit" %>
   <%= f.time_field :basic_time, class: "form-control" %>
           
-  <%= f.label :designated_work_start_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :designated_work_start_time, class: "label-edit" %>
   <%= f.time_field :designated_work_start_time, class: "form-control" %>
           
-  <%= f.label :designated_work_end_time, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :designated_work_end_time, class: "label-edit" %>
   <%= f.time_field :designated_work_end_time, class: "form-control" %>
                   
-  <%= f.label :password, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :password, class: "label-edit" %>
   <%= f.password_field :password, class: "form-control" %>
                   
-  <%= f.label :password_confirmation, class: "label-#{yield(:class_text)}" %>
+  <%= f.label :password_confirmation, class: "label-edit" %>
   <%= f.password_field :password_confirmation, class: "form-control" %>
                   
-  <%= f.submit "編集する", class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
+  <%= f.submit "編集する", class: "btn btn-primary btn-block btn-edit" %>
   <!--btn-block：横一杯のブロックレベルのボタン-->
 <% end %>

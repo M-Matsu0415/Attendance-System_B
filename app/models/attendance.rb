@@ -2,8 +2,8 @@ class Attendance < ApplicationRecord
   belongs_to :user
   
   validates :worked_on, presence: true
-  validates :note, length: { maximum: 15}
-  validates :overwork_content, length: { maximum: 15}
+  validates :note, length: { maximum: 15 }
+  validates :overwork_content, length: { maximum: 15 }
   validates :change_approval_superior_id, presence: true, on: [:request_one_month_change, :approval_one_month_change]
   validates :change_approval_status, presence: true, on: [:request_one_month_change, :approval_one_month_change]
   validates :started_at_after_approval, presence: true, on: :request_one_month_change

@@ -42,24 +42,22 @@ class AttendancesController < ApplicationController
         attendance = Attendance.find(id)
         
         if item[:change_approval_superior_id].present? && item[:change_approval_status] == "1"
-          
           # 出勤時間、もしくは退勤時間のみが入っている時には登録できないようにします。
           if item[:started_at_after_approval].present? && item[:finished_at_after_approval].blank? &&
             Date.current != attendance.worked_on
-              flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+              flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました"
               redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
           end
-
           attendance.update_attributes!(item)
           # !を付けることにより更新処理が失敗した場合にfalseを返すのではなく、例外処理を返す。
         end
       end
+        flash[:success] = "勤怠変更を申請しました"
+        redirect_to user_url(date: params[:date])
     end
-    flash[:success] = "勤怠変更を申請しました。"
-      redirect_to user_url(date: params[:date])
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐
-    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-      redirect_to attendances_edit_one_month_user_url(date: params[:date])
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました" 
+    redirect_to user_url(date: params[:date])
   end
   
   # 上長ユーザーの勤怠変更承認画面  
@@ -98,37 +96,38 @@ class AttendancesController < ApplicationController
           end
       end
     end
-      flash[:success] = "勤怠変更申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました。"
-        redirect_to user_url @user
+      flash[:success] = "勤怠変更申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました"
+      redirect_to user_url @user
   rescue ActiveRecord::RecordInvalid
   # トランザクションによるエラーの分岐です。
-    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-      redirect_to @user
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました"
+    redirect_to @user
   end
   
-  # 一般/上長ユーザーの残業申請モーダル画面  
+  # 申請ユーザーの残業申請モーダル画面  
   def edit_request_overwork
     @attendance = Attendance.find(params[:id])
     @users = User.where(superior: true)
   end
   
-  # 一般/上長ユーザーからの残業申請処理  
+  # 申請ユーザーからの残業申請処理  
   def request_overwork
     attendance = Attendance.find(params[:id])
     @user = User.find(attendance.user_id)
     
       if attendance.update_attributes!(attendances_overwork_params)
-        flash[:info] = "残業申請を送信しました。"
-          attendance_overwork_month_first_day = Attendance.find_by(worked_on: attendance.worked_on.beginning_of_month)
-            overwork_month_first_day = attendance_overwork_month_first_day.worked_on
-              redirect_to user_url(@user, date: overwork_month_first_day)
+        flash[:info] = "残業申請を送信しました"
+        attendance_overwork_month_first_day = Attendance.find_by(worked_on: attendance.worked_on.beginning_of_month)
+        overwork_month_first_day = attendance_overwork_month_first_day.worked_on
+        redirect_to user_url(@user, date: overwork_month_first_day)
       else
         flash[:danger] = "残業申請に失敗しました"
           redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
       end
   rescue ActiveRecord::RecordInvalid
   # トランザクションによるエラーの分岐です。
-    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+    flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました<br>" + 
+                     attendance.errors.full_messages.join("<br>")
       redirect_to user_url(@user, date: attendance.worked_on.beginning_of_month)
   end
   

@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_or_correct_user, only: [:show, :create_month_approval]
+  before_action :correct_user, only: :edit
+  before_action :admin_or_correct_user, only: [:show, :create, :create_month_approval]
   before_action :admin_user, only: :destroy
   before_action :set_one_month, only: [:show, :csv_output, :create_month_approval]
   before_action :get_one_month_for_month_approval, only: :reference_month_approval
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "新規作成に成功しました"
-      redirect_to @user
+        redirect_to @user
     else
       render  :new
     end
@@ -54,9 +54,10 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました"
-      redirect_to users_url
+        redirect_to users_url
     else
-      redirect_to users_url
+      flash[:danger] = "ユーザー情報の更新に失敗しました<br>" + @user.errors.full_messages.join("<br>")
+        redirect_to users_url
     end
   end
 
@@ -74,7 +75,8 @@ class UsersController < ApplicationController
         end
       rescue ActiveRecord::RecordInvalid
       # トランザクションによるエラーの分岐です。
-        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。"
+        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。<br>" + 
+                         month_approval_by_superior.errors.full_messages.join("<br>")
         redirect_to @user
       end
     end
@@ -92,7 +94,8 @@ class UsersController < ApplicationController
         end
       rescue ActiveRecord::RecordInvalid
       # トランザクションによるエラーの分岐です。
-        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。"
+        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。<br>" + 
+                         change_approval_by_superior.errors.full_messages.join("<br>")
         redirect_to @user
       end
     end
@@ -173,7 +176,8 @@ class UsersController < ApplicationController
     if @user.update_attributes(basic_info_params)
       flash[:success] = "#{@user.name}の基本情報を更新しました。"
     else
-      flash[:danger] = "#{@user.name}の基本情報の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
+      flash[:danger] = "#{@user.name}の基本情報の更新は失敗しました。<br>" + 
+                       @user.errors.full_messages.join("<br>")
       # <br>要素は改行
     end
       redirect_to users_url
@@ -195,7 +199,9 @@ class UsersController < ApplicationController
   
   private
     def user_params
-      params.require(:user).permit(:name, :email, :employee_number, :affiliation, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :employee_number, :uid, :affiliation, :password, 
+                                   :basic_time, :designated_work_start_time, :designated_work_end_time, 
+                                   :password_confirmation)
     end
     
     def basic_info_params

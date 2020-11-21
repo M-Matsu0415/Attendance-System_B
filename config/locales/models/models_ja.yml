@@ -12,7 +12,7 @@ ja:
           uid: カードID
           employee_number: 社員番号
           affiliation: 所属
-          basic_time: 基本時間
+          basic_time: 基本勤務時間
           work_time: 勤務時間
           password: パスワード
           password_confirmation: パスワード再入力
@@ -27,6 +27,7 @@ ja:
           started_at: 出勤時間
           finished_at: 退勤時間
           note: 備考
+          overwork_content: 業務処理内容
           user: ユーザーID
         base:
           name: 拠点名

@@ -30,6 +30,7 @@
           編集
           </button>
             <div id = "user-id-<%= user.id %>-info" class = "panel-collapse collapse">
+            <!--class = "panel-collapse collapse" がないとアコーディオンが最初から開いてしまうので注意！！-->
               <% provide(:class_text, 'edit') %>
               <%= render partial: 'edit_user_info', locals: { user: user } %>  
             </div>
