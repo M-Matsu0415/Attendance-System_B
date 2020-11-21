@@ -48,12 +48,15 @@ class UsersController < ApplicationController
   def edit
   end
   
+  def edit_user_info
+  end
+  
   def update
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました"
-      redirect_to @user
+      redirect_to users_url
     else
-      render :edit
+      redirect_to users_url
     end
   end
 

@@ -1,5 +1,6 @@
-<%= form_with(model: @user, local: true) do |f| %> <!-- local: true：HTMLとしてフォームを送信する-->
-  <%= render 'shared/error_messages', object: @user %>
+<%= form_with(model: user, local: true) do |f| %>
+<!-- local: true：HTMLとしてフォームを送信する-->
+  
             
   <%= f.label :name, class: "label-#{yield(:class_text)}" %>
   <%= f.text_field :name, class: "form-control" %>
@@ -17,20 +18,20 @@
   <%= f.text_field :affiliation, class: "form-control" %>
   
   <%= f.label :basic_time, class: "label-#{yield(:class_text)}" %>
-  <%= f.text_field :basic_time, class: "form-control" %>
-  
+  <%= f.time_field :basic_time, class: "form-control" %>
+          
   <%= f.label :designated_work_start_time, class: "label-#{yield(:class_text)}" %>
   <%= f.time_field :designated_work_start_time, class: "form-control" %>
-  
+          
   <%= f.label :designated_work_end_time, class: "label-#{yield(:class_text)}" %>
   <%= f.time_field :designated_work_end_time, class: "form-control" %>
-          
+                  
   <%= f.label :password, class: "label-#{yield(:class_text)}" %>
   <%= f.password_field :password, class: "form-control" %>
-          
+                  
   <%= f.label :password_confirmation, class: "label-#{yield(:class_text)}" %>
   <%= f.password_field :password_confirmation, class: "form-control" %>
-          
-  <%= f.submit yield(:button_text), class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
+                  
+  <%= f.submit "編集する", class: "btn btn-primary btn-block btn-#{yield(:class_text)}" %>
   <!--btn-block：横一杯のブロックレベルのボタン-->
 <% end %>

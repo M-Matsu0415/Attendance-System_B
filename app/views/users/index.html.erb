@@ -14,24 +14,25 @@
   <!-- condensed：通常よりも幅の狭いテーブル(=table-sm)-->
   <% @users.each do |user| %>
     <div class = "users-index-name">
-      <% if current_user.admin? %>
       <!--各ユーザー勤怠編集画面へのリンク／基本情報編集画面へのリンク／削除機能ボタン。tdで縦の部分の指定を行う。-->
-        <%= user.name %>
-      <% end %>
+      <%= user.name %>
     </div>
     <div>
-      <% if current_user.admin? %>
-        <%= link_to "削除", user, method: :delete, data: { confirm: "#{user.name}を削除してよろしいですか？"},
-        class: "btn btn-md btn-primary btn-users-index-delete"%>
-      <% end %>
+      <%= link_to "削除", user, method: :delete, data: { confirm: "#{user.name}を削除してよろしいですか？"},
+      class: "btn btn-md btn-primary btn-users-index-delete"%>
     <div class = "panel-group">
       <div class = "panel panel-default">
         <div class = "panel-heading">
-          <% if current_user.admin? %>
-            <button type = "button" data-toggle = "collapse" data-target = "#" class = "btn btn-lg btn-primary collapsed" aria-expanded = "fales" %>
-              <%= "編集" %>
-            </button>
-          <% end %>
+          <button class = "btn btn-lg btn-primary collapsed" 
+           data-toggle = "collapse" 
+           data-target = "#user-id-<%= user.id %>-info" 
+           aria-expanded = false %>
+          編集
+          </button>
+            <div id = "user-id-<%= user.id %>-info" class = "panel-collapse collapse">
+              <% provide(:class_text, 'edit') %>
+              <%= render partial: 'edit_user_info', locals: { user: user } %>  
+            </div>
         </div>
       </div>
     </div>
