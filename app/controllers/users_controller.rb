@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    # 一ヶ月分の勤怠承認削除
+    # 削除されるユーザーが上長であった場合、該当する一ヶ月分の勤怠申請削除
     if MonthApproval.where(approval_superior_id: params[:id]).present?
       # ユーザー削除機能実行時に削除されるユーザーが申請中の上長であった場合は
       # 申請も削除する必要があるので、削除対象となるリソースがあれば抽出する。
@@ -81,7 +81,7 @@ class UsersController < ApplicationController
       end
     end
     
-    # 勤怠変更申請一部をnilに変更
+    # 削除されるユーザーが上長であった場合、該当する勤怠変更申請をnilに変更
     if Attendance.where(change_approval_superior_id: params[:id]).present?
       # ユーザー削除機能実行時に削除されるユーザーが申請中の上長であった場合は
       # 申請も削除する必要があるので、削除対象となるリソースがあれば抽出する。
@@ -96,6 +96,25 @@ class UsersController < ApplicationController
       # トランザクションによるエラーの分岐です。
         flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。<br>" + 
                          change_approval_by_superior.errors.full_messages.join("<br>")
+        redirect_to @user
+      end
+    end
+    
+    # 削除されるユーザーが上長であった場合、該当する残業申請をnilに変更
+    if Attendance.where(overwork_approval_superior_id: params[:id]).present?
+      # ユーザー削除機能実行時に削除されるユーザーが申請中の上長であった場合は
+      # 申請も削除する必要があるので、削除対象となるリソースがあれば抽出する。
+      overwork_approvals_by_superiors = Attendance.where(overwork_approval_superior_id: @user.id)
+        ActiveRecord::Base.transaction do
+        # トランザクションを開始します。
+          overwork_approvals_by_superiors.each do |overwork_approval_by_superior|
+            overwork_approval_by_superior.update_attributes!(overwork_finished_at: nil, overwork_approval_superior_id: nil,
+            overwork_content: nil, overwork_approval_status: nil, overwork_next_day_check: nil)
+        end
+      rescue ActiveRecord::RecordInvalid
+      # トランザクションによるエラーの分岐です。
+        flash[:danger] = "ユーザーに関連ずる承認データの削除に失敗しました。<br>" + 
+                         overwork_approval_by_superior.errors.full_messages.join("<br>")
         redirect_to @user
       end
     end
