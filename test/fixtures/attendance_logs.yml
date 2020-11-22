@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  worked_on_log: 2020-11-22
+  started_at_log_before_change: 2020-11-22 06:04:23
+  finished_at_log_before_change: 2020-11-22 06:04:23
+  started_at_log_after_change: 2020-11-22 06:04:23
+  finished_at_log_after_change: 2020-11-22 06:04:23
+  approval_superior_id: 1
+  approval_date: 2020-11-22 06:04:23
+
+two:
+  worked_on_log: 2020-11-22
+  started_at_log_before_change: 2020-11-22 06:04:23
+  finished_at_log_before_change: 2020-11-22 06:04:23
+  started_at_log_after_change: 2020-11-22 06:04:23
+  finished_at_log_after_change: 2020-11-22 06:04:23
+  approval_superior_id: 1
+  approval_date: 2020-11-22 06:04:23
