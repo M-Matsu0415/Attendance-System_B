@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
   before_action :correct_user, only: :edit
   before_action :admin_or_correct_user, only: [:show, :create, :create_month_approval]
@@ -214,6 +214,11 @@ class UsersController < ApplicationController
   
   def reference_change_or_overwork
     @worked_sum = @attendances.where.not(started_at: nil).count
+  end
+  
+  # 勤怠変更ログ表示  
+  def attendance_log
+    @attendance_logs = AttendanceLog.where(user_id: @user.id).order(:worked_on_log)
   end
   
   private

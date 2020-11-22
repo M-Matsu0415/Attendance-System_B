@@ -1,0 +1,44 @@
+<% provide(:title, 'Attendance Log') %>
+<h1><%= "勤怠修正ログ" %></h1>
+<div>
+  <%= link_to "リセット", attendance_log_reset_user_path(@user), method: :delete, remote: true, class: "attendance-log-reset" %>
+</div>
+<div>
+  <table class = "table table-bordered table-condensed table-hover" id = "table-attendances-body">
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>変更前出社時間</th>
+        <th>変更前退社時間</th>
+        <th>変更後出社時間</th>
+        <th>変更後退社時間</th>
+        <th>指示者</th>
+        <th>承認日</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @attendance_logs.each do |attendance_log| %>
+        <tr>
+          <!--日付表示-->
+          <td><%= l(attendance_log.worked_on_log, format: :short) %></td>
+          
+          <!--変更前出社時間表示-->
+          <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
+
+          <!--変更前退社時間表示-->
+          <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
+
+　　　　　<!--変更後出社時間表示-->
+          <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
+          
+          <!--変更後退社時間表示-->
+          <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
+          
+          <!--指示者表示-->
+          <td><%= attendance_log.approval_superior_name %></td>
+          
+          <!--承認日表示-->
+          <td><%= l(attendance_log.approval_date, format: :short)  %></td>
+        </tr>
+      <% end %>
+    </tbody>

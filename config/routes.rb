@@ -10,8 +10,12 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   
+  # 上長により一ヶ月分の勤怠承認
   patch 'month_approvals/update_month_approvals'
+  
+  # 拠点情報テーブル
   resources :bases
+  
   resources :users do
     get :search, on: :collection
     post :import, on: :collection
@@ -31,6 +35,8 @@ Rails.application.routes.draw do
       get 'csv_output'
       get 'reference_month_approval'
       get 'reference_change_or_overwork'
+      get 'attendance_log'
+      delete 'attendance_log_reset'
     end
     resources :attendances, only: :update
     resources :month_approvals, only: [:create, :update, :edit]

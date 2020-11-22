@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201122060423) do
+ActiveRecord::Schema.define(version: 20201122095219) do
 
   create_table "attendance_logs", force: :cascade do |t|
     t.date "worked_on_log"
@@ -18,10 +18,12 @@ ActiveRecord::Schema.define(version: 20201122060423) do
     t.datetime "finished_at_log_before_change"
     t.datetime "started_at_log_after_change"
     t.datetime "finished_at_log_after_change"
-    t.integer "approval_superior_id"
+    t.string "approval_superior_name"
     t.datetime "approval_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_attendance_logs_on_user_id"
   end
 
   create_table "attendances", force: :cascade do |t|
@@ -74,12 +76,12 @@ ActiveRecord::Schema.define(version: 20201122060423) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "affiliation"
-    t.datetime "basic_time", default: "2020-11-19 23:00:00"
-    t.datetime "work_time", default: "2020-11-19 22:30:00"
+    t.datetime "basic_time", default: "2020-11-21 23:00:00"
+    t.datetime "work_time", default: "2020-11-21 22:30:00"
     t.integer "employee_number"
     t.string "uid"
-    t.datetime "designated_work_start_time", default: "2020-11-20 00:00:00"
-    t.datetime "designated_work_end_time", default: "2020-11-20 09:00:00"
+    t.datetime "designated_work_start_time", default: "2020-11-22 00:00:00"
+    t.datetime "designated_work_end_time", default: "2020-11-22 09:00:00"
     t.boolean "superior"
     t.index ["email"], name: "index_users_on_email", unique: true
   end

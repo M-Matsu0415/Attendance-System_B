@@ -43,7 +43,7 @@
                 </td>
                 <td><%= attendance.text_field :note, class: "form-control" %></td>
                 <td><%= attendance.collection_select :change_approval_superior_id, @users, :id, :name, { include_blank: "なし" },
-                    { class: "approval-select" } %>
+                    { class: "approval-select-one-month-change" } %>
                 <!--f.collection_select：保存先のカラム名, テーブル名, 実際にDBに保存させるカラム名, 選択肢に用いるカラム名-->
                 <!--オプションに{ }を付けることでclassが指定できCSSを当てることが出来る。-->
                 </td>
