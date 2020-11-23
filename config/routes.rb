@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       get 'reference_month_approval'
       get 'reference_change_or_overwork'
       get 'attendance_log'
-      delete 'attendance_log_reset'
+      get 'attendance_log_search'
     end
     resources :attendances, only: :update
     resources :month_approvals, only: [:create, :update, :edit]

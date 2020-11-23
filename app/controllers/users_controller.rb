@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log, :attendance_log_search]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
   before_action :correct_user, only: :edit
   before_action :admin_or_correct_user, only: [:show, :create, :create_month_approval]
@@ -218,7 +218,15 @@ class UsersController < ApplicationController
   
   # 勤怠変更ログ表示  
   def attendance_log
-    @attendance_logs = AttendanceLog.where(user_id: @user.id).order(:worked_on_log)
+    @attendance_logs = AttendanceLog.where(user_id: @user.id,).order(:worked_on_log)
+    # @attendance_logs = AttendanceLog.where(user_id: @user.id).order(:worked_on_log)
+  end
+  
+  # 勤怠変更ログ 年/月による絞り込み検索  
+  def attendance_log_search
+    search_year = params["year(1i)"]
+    search_month = params["month(2i)"]
+    @attendance_logs = AttendanceLog.where(user_id: @user.id, worked_on_log: "2020-11-01").order(:worked_on_log)
   end
   
   private
