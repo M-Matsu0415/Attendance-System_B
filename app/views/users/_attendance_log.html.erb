@@ -12,26 +12,12 @@
         <tbody>
           <tr>
             <th>
-              検索ボタン
-            </th>
-            <th>
-              検索対象
-            </th>
-          </tr>
-          <tr>
-            <th>
-              <%= f.date_select :year, { discard_month: true, discard_day: true, with_css_classes: "log-search-select" } %>年
-            </th>
-            <th>
-              <%= @search_year %>
+              <%= f.date_select :year, { discard_month: true, discard_day: true, prompt: @year, with_css_classes: "log-search-select" } %>年
             </th>
           </tr>
           <tr>      
             <th>
-              <%= f.date_select :month, { discard_year: true, discard_day: true, use_month_numbers: true, with_css_classes: "log-search-select" } %>月
-            </th>
-            <th>
-              <%= @search_month %>
+              <%= f.date_select :month, { discard_year: true, discard_day: true, use_month_numbers: true, prompt: @month, with_css_classes: "log-search-select" } %>月
             </th>
           </tr>
         </tbody>
@@ -40,7 +26,7 @@
 </div>
 
 <div>
-  <table class = "table table-bordered table-condensed table-hover" id = "table-attendances-body">
+  <table class = "table table-bordered table-condensed table-hover" id = "table-attendances-log">
     <thead>
       <tr>
         <th>日付</th>

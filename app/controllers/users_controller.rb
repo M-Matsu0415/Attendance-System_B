@@ -225,8 +225,10 @@ class UsersController < ApplicationController
   # 勤怠変更ログ 年/月による絞り込み検索  
   def attendance_log_search
     @search_year = params["year(1i)"].to_i
+    @year = params["year(1i)"]
     # to_iメソッドで文字列を整数に変換する。
     @search_month = params["month(2i)"].to_i
+    @month = params["month(2i)"]
     # to_iメソッドで文字列を整数に変換する。
     searched_first_date = Date.new(@search_year, @search_month, 1)
     # 検索対象の年、および月の初日を生成する。初日は必ず1日なので日にちには固定値”1”を入れる。

@@ -36,6 +36,20 @@
   }
   }
 
+#table-attendances-log {
+  th {
+    vertical-align: middle;
+    text-align: center;
+    width: 150px;
+  }
+
+  td {
+    vertical-align: middle;
+    text-align: center;
+    width: 150px;
+  }
+  }
+
 /* ユーザー勤怠編集テーブル */
 
 #table-attendances {
@@ -158,7 +172,7 @@
 
 /* 勤怠ログ検索エリアテーブル */
 #table-log-search {
-  width: 300px;
+  width: 150px;
   th {
   text-align: center;
   vertical-align: middle;
