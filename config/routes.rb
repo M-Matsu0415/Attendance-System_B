@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       get 'csv_output'
       get 'reference_month_approval'
       get 'reference_change_or_overwork'
-      get 'attendance_log'
+      get 'attendance_log_all'
       get 'attendance_log_search'
     end
     resources :attendances, only: :update

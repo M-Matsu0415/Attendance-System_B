@@ -1,20 +1,41 @@
 <% provide(:title, 'Attendance Log') %>
 <% provide(:class_text, 'log-search') %>
 <h1><%= "勤怠修正ログ" %></h1>
-<div>
-  <%= link_to "リセット", attendance_log_user_path(@user), method: :get, local: true, class: "btn btn-primary btn-md btn-attendance-log-search" %>
-</div>
 
-<div class = attendance-log-search>
-    <%= form_with(url: attendance_log_search_user_path, method: :get, local: true) do |f| %>
-  
-      <%= f.submit "検索", class: "btn btn-primary btn-md btn-log-search" %>
-      <div>
-        <%= f.date_select :year, { discard_month: true, discard_day: true } %>
-      </div>
-      <div>
-        <%= f.date_select :month, { discard_year: true, discard_day: true } %>
-      </div>
+<div>
+  <%= form_with(url: attendance_log_search_user_path, method: :get, local: true) do |f| %>
+    <div class = "btn-search">
+      <%= f.submit "検索", class: "btn btn-md btn-log-search" %>
+      <%= link_to "全表示", attendance_log_all_user_path(@user), method: :get, local: true, class: "btn btn-md btn-log-search btn-margin-bottom: 10px" %>
+    </div>
+      <table class="table table-bordered" id = "table-log-search">
+        <tbody>
+          <tr>
+            <th>
+              検索ボタン
+            </th>
+            <th>
+              検索対象
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <%= f.date_select :year, { discard_month: true, discard_day: true, with_css_classes: "log-search-select" } %>年
+            </th>
+            <th>
+              <%= @search_year %>
+            </th>
+          </tr>
+          <tr>      
+            <th>
+              <%= f.date_select :month, { discard_year: true, discard_day: true, use_month_numbers: true, with_css_classes: "log-search-select" } %>月
+            </th>
+            <th>
+              <%= @search_month %>
+            </th>
+          </tr>
+        </tbody>
+      </table>
     <% end %>
 </div>
 
@@ -33,28 +54,28 @@
     </thead>
     <tbody>
       <% @attendance_logs.each do |attendance_log| %>
-            <tr>
-              <!--日付表示-->
-              <td><%= attendance_log.worked_on_log.year %>/<%= attendance_log.worked_on_log.mon %>/<%= attendance_log.worked_on_log.day %></td>
+        <tr>
+          <!--日付表示-->
+          <td><%= attendance_log.worked_on_log.year %>/<%= attendance_log.worked_on_log.mon %>/<%= attendance_log.worked_on_log.day %></td>
               
-              <!--変更前出社時間表示-->
-              <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
+          <!--変更前出社時間表示-->
+          <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
     
-              <!--変更前退社時間表示-->
-              <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
+          <!--変更前退社時間表示-->
+          <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
     
-    　　　    　　<!--変更後出社時間表示-->
-              <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
+    　　　　　<!--変更後出社時間表示-->
+          <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
               
-              <!--変更後退社時間表示-->
-              <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
+          <!--変更後退社時間表示-->
+          <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
               
-              <!--指示者表示-->
-              <td><%= attendance_log.approval_superior_name %></td>
+          <!--指示者表示-->
+          <td><%= attendance_log.approval_superior_name %></td>
               
-              <!--承認日表示-->
-              <td><%= attendance_log.approval_date.year %>/<%= attendance_log.approval_date.mon %>/<%= attendance_log.approval_date.day %></td>
-            </tr>
+          <!--承認日表示-->
+          <td><%= attendance_log.approval_date.year %>/<%= attendance_log.approval_date.mon %>/<%= attendance_log.approval_date.day %></td>
+        </tr>
       <% end %>
     </tbody>
   </table>

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log, :attendance_log_search]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log_all, :attendance_log_search]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
   before_action :correct_user, only: :edit
   before_action :admin_or_correct_user, only: [:show, :create, :create_month_approval]
@@ -217,16 +217,23 @@ class UsersController < ApplicationController
   end
   
   # 勤怠変更ログ表示  
-  def attendance_log
+  def attendance_log_all
     @attendance_logs = AttendanceLog.where(user_id: @user.id,).order(:worked_on_log)
     # @attendance_logs = AttendanceLog.where(user_id: @user.id).order(:worked_on_log)
   end
   
   # 勤怠変更ログ 年/月による絞り込み検索  
   def attendance_log_search
-    search_year = params["year(1i)"]
-    search_month = params["month(2i)"]
-    @attendance_logs = AttendanceLog.where(user_id: @user.id, worked_on_log: "2020-11-01").order(:worked_on_log)
+    @search_year = params["year(1i)"].to_i
+    # to_iメソッドで文字列を整数に変換する。
+    @search_month = params["month(2i)"].to_i
+    # to_iメソッドで文字列を整数に変換する。
+    searched_first_date = Date.new(@search_year, @search_month, 1)
+    # 検索対象の年、および月の初日を生成する。初日は必ず1日なので日にちには固定値”1”を入れる。
+    searched_last_date = searched_first_date.end_of_month
+    # 検索対象の最終日を生成する。初日を使用して生成する。
+    @attendance_logs = AttendanceLog.where(worked_on_log: searched_first_date..searched_last_date).order(:worked_on_log)
+    # 生成した月の初日と最終日を使用してwhereメソッドで、AttendanceLogを範囲検索する。
   end
   
   private

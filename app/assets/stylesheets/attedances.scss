@@ -130,3 +130,37 @@
   margin-top: 5px;
   width: 275px;
 }
+
+/* 勤怠変更ログ */
+/* 検索対象の年/月選択ボタン */
+.year,.month,.day {
+  width: 75px;
+  height: 30px;
+}
+
+.year {
+  margin-top: 2.5px;
+  width: 75px;
+  height: 30px;
+}
+
+/* 検索ボタン/全表示ボタン */
+
+.btn-search {
+  margin-bottom: 2.5px;
+}
+
+.btn-log-search {
+  color: #000;
+  background: #c0c0c0;
+  width: 100px;
+}
+
+/* 勤怠ログ検索エリアテーブル */
+#table-log-search {
+  width: 300px;
+  th {
+  text-align: center;
+  vertical-align: middle;
+  }
+}
