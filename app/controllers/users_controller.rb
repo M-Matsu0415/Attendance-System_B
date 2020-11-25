@@ -21,7 +21,14 @@ class UsersController < ApplicationController
   def show
     # 出勤時間が空白でない日数を数え、インスタンス変数(@worked_sum)に代入
     @worked_sum = @attendances.where.not(started_at: nil).count
-    @users = User.where(superior: true)
+    
+    # 自分自身が上長の場合、申請先として選択できる上長を自分以外に設定する
+    if current_user.superior == true
+      @users = User.where(superior: true).where.not(id: current_user.id)
+    else
+      @users = User.where(superior: true)
+    end
+    
     attendance_data_of_first_day = @attendances.find_by(worked_on: @first_day)
     current_worked_on = attendance_data_of_first_day.worked_on
     @month_approval = MonthApproval.find_by(user_id: @user.id, approval_month: current_worked_on)

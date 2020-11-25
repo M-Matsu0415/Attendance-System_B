@@ -1,5 +1,6 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change, :edit_approval_overwork]
+  before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change, 
+                                  :edit_approval_overwork]
   before_action :logged_in_user, only: [:update, :edit_request_one_month_change]
   before_action :admin_or_correct_user, only: [:update, :edit_request_one_month_change, :request_one_month_change]
   before_action :set_one_month, only: :edit_request_one_month_change
@@ -32,7 +33,11 @@ class AttendancesController < ApplicationController
 
   # 勤怠編集画面  
   def edit_request_one_month_change
-    @users = User.where(superior: true)
+    if current_user.superior == true
+      @users = User.where(superior: true).where.not(id: current_user.id)
+    else
+      @users = User.where(superior: true)
+    end
   end
 
   # 申請ユーザーからの勤怠変更申請  
@@ -127,7 +132,11 @@ class AttendancesController < ApplicationController
   # 申請ユーザーの残業申請モーダル画面  
   def edit_request_overwork
     @attendance = Attendance.find(params[:id])
-    @users = User.where(superior: true)
+    if current_user.superior == true
+      @users = User.where(superior: true).where.not(id: current_user.id)
+    else
+      @users = User.where(superior: true)
+    end
   end
   
   # 申請ユーザーからの残業申請処理  
