@@ -12,12 +12,18 @@
         <tbody>
           <tr>
             <th>
-              <%= f.date_select :year, { discard_month: true, discard_day: true, prompt: @year, with_css_classes: "log-search-select" } %>年
+              <%= f.date_select :year, { discard_month: true, discard_day: true, with_css_classes: "log-search-select" } %>年
+            </th>
+            <th>
+              <%= @search_year %>
             </th>
           </tr>
           <tr>      
             <th>
-              <%= f.date_select :month, { discard_year: true, discard_day: true, use_month_numbers: true, prompt: @month, with_css_classes: "log-search-select" } %>月
+              <%= f.date_select :month, { discard_year: true, discard_day: true, use_month_numbers: true, with_css_classes: "log-search-select" } %>月
+            </th>
+            <th>
+              <%= @search_month %>
             </th>
           </tr>
         </tbody>
@@ -45,10 +51,22 @@
           <td><%= attendance_log.worked_on_log.year %>/<%= attendance_log.worked_on_log.mon %>/<%= attendance_log.worked_on_log.day %></td>
               
           <!--変更前出社時間表示-->
-          <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>
+          <td>
+            <% if attendance_log.started_at_log_before_change.nil? %>
+              <%= "登録なし" %>
+            <% else %>
+              <%= l(attendance_log.started_at_log_before_change, format: :time) %>
+            <% end %>
+          </td>
     
           <!--変更前退社時間表示-->
-          <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
+          <td>
+            <% if attendance_log.finished_at_log_before_change.nil? %>
+              <%= "登録なし" %>
+            <% else %>
+              <%= l(attendance_log.finished_at_log_before_change, format: :time) %>
+            <% end %>
+          </td>
     
     　　　　　<!--変更後出社時間表示-->
           <td><%= l(attendance_log.started_at_log_after_change, format: :time) %></td>

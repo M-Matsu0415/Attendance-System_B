@@ -18,6 +18,8 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates :employee_number, numericality: true, length: { maximum: 5 }
   
+  validates_acceptance_of :all_user_change, allow_nil: false, on: :update_basic_info
+  
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
     cost =

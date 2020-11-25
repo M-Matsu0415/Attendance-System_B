@@ -45,15 +45,19 @@ class AttendancesController < ApplicationController
           # 出勤時間、もしくは退勤時間のみが入っている時には登録できないようにします。
           if item[:started_at_after_approval].present? && item[:finished_at_after_approval].blank? &&
             Date.current != attendance.worked_on
-              flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました"
-              redirect_to attendances_edit_one_month_user_url(date: params[:date]) and return
+              flash[:danger] = "退社時間も入力してください"
+              redirect_to user_url(date: params[:date]) and return
+          elsif item[:started_at_after_approval].blank? && item[:finished_at_after_approval].present? &&
+            Date.current != attendance.worked_on
+              flash[:danger] = "出社時間も入力してください"
+              redirect_to user_url(date: params[:date]) and return
           end
           attendance.update_attributes!(item)
           # !を付けることにより更新処理が失敗した場合にfalseを返すのではなく、例外処理を返す。
         end
       end
-        flash[:success] = "勤怠変更を申請しました"
-        redirect_to user_url(date: params[:date])
+      flash[:success] = "勤怠変更を申請しました"
+      redirect_to user_url(date: params[:date])
     end
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました" 

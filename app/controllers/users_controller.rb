@@ -182,22 +182,24 @@ class UsersController < ApplicationController
   end
 
   def update_basic_info
-    # if current_user.admin?
-    #   User.all.update_all.params[:basic_time][:work_time]
-    #   flash[:success] = "全ユーザーの基本情報を更新しました。"
-    # elsif
-    #   @user.update_attributes(basic_info_params)
-    #   flash[:success] = "#{@user.name}の基本情報を更新しました。"
-    # else
-    #   flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.errors.full_messages.join("<br>")
-      # <br>要素は改行
-
-    if @user.update_attributes(basic_info_params)
-      flash[:success] = "#{@user.name}の基本情報を更新しました。"
+    if params[:user][:all_user_change] == "1"
+      users = User.all
+      ActiveRecord::Base.transaction do # トランザクションを開始する。
+      users.each do |user|
+        user.update_attributes!(basic_info_params)
+      end
+        flash[:success] = "全ユーザーの基本情報を更新しました"
+    rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐
+      flash[:danger] = "基本情報の更新は失敗しました" 
+      redirect_to user_url
+    end
     else
-      flash[:danger] = "#{@user.name}の基本情報の更新は失敗しました。<br>" + 
-                       @user.errors.full_messages.join("<br>")
-      # <br>要素は改行
+      if @user.update_attributes(basic_info_params)
+        flash[:success] = "#{@user.name}の基本情報を更新しました"
+      else
+        flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" 
+        + @user.errors.full_messages.join("<br>")
+      end
     end
       redirect_to users_url
   end
@@ -225,10 +227,8 @@ class UsersController < ApplicationController
   # 勤怠変更ログ 年/月による絞り込み検索  
   def attendance_log_search
     @search_year = params["year(1i)"].to_i
-    @year = params["year(1i)"]
     # to_iメソッドで文字列を整数に変換する。
     @search_month = params["month(2i)"].to_i
-    @month = params["month(2i)"]
     # to_iメソッドで文字列を整数に変換する。
     searched_first_date = Date.new(@search_year, @search_month, 1)
     # 検索対象の年、および月の初日を生成する。初日は必ず1日なので日にちには固定値”1”を入れる。
@@ -246,7 +246,7 @@ class UsersController < ApplicationController
     end
     
     def basic_info_params
-      params.require(:user).permit(:basic_time, :work_time)
+      params.require(:user).permit(:designated_work_start_time, :designated_work_end_time, :basic_time, :all_user_change)
     end
 
 end

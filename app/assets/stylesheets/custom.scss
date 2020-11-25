@@ -152,6 +152,17 @@ h3.modal-title {
   text-align: center;
 }
 
+/* 各申請用モーダルウィンドウ */
+#table-modal {
+  th {
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
+}
+
 /***上長ユーザー承認用モーダルウィンドウ***/
 /** テーブルタイトル(th)、データ(td)位置調整 **/
 /*　一ヶ月勤怠承認　*/ 
