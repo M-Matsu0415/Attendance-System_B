@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def index
     if current_user.admin?
       # searchメソッド(user.rb)を呼び出している。searchがない場合、search(params[:search])は、all(全て)となる。
-      @users = User.paginate(page: params[:page]).search(params[:search])
+      @users = User.where.not(admin: true)
     else
       redirect_to root_url
     end

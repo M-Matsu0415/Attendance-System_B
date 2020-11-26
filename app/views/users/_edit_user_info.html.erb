@@ -6,17 +6,17 @@
   <%= f.label :name, class: "label-edit" %>
   <%= f.text_field :name, class: "form-control" %>
   
-  <%= f.label :employee_number, class: "label-edit" %>
-  <%= f.text_field :employee_number, class: "form-control" %>
-  
-  <%= f.label :uid, class: "label-edit" %>
-  <%= f.text_field :uid, class: "form-control" %>
-            
   <%= f.label :email, class: "label-edit" %>
   <%= f.email_field :email, class: "form-control" %>
   
   <%= f.label :affiliation, class: "label-edit" %>
   <%= f.text_field :affiliation, class: "form-control" %>
+  
+  <%= f.label :employee_number, class: "label-edit" %>
+  <%= f.text_field :employee_number, class: "form-control" %>
+  
+  <%= f.label :uid, class: "label-edit" %>
+  <%= f.text_field :uid, class: "form-control" %>
   
   <%= f.label :basic_time, class: "label-edit" %>
   <%= f.time_field :basic_time, class: "form-control" %>
@@ -29,9 +29,6 @@
                   
   <%= f.label :password, class: "label-edit" %>
   <%= f.password_field :password, class: "form-control" %>
-                  
-  <%= f.label :password_confirmation, class: "label-edit" %>
-  <%= f.password_field :password_confirmation, class: "form-control" %>
                   
   <%= f.submit "編集する", class: "btn btn-primary btn-block btn-edit" %>
   <!--btn-block：横一杯のブロックレベルのボタン-->
