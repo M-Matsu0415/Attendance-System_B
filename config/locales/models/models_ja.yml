@@ -32,4 +32,4 @@ ja:
         base:
           name: 拠点名
           number: 拠点番号
-          status: 拠点種類
+          status: 勤怠種類

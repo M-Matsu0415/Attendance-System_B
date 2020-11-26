@@ -95,7 +95,7 @@
 
 <div class = "col-md-12 col-md pull-left btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_request_one_month_change_user_path(date: @first_day), class: "col-md-1 btn btn-md btn-primary btn-attendance-top" %>
-  <%= link_to "CSV出力", csv_output_user_path(format: :csv), class: "col-md-1 btn btn-md btn-primary btn-attendance-top" %>
+  <%= link_to "CSV出力", csv_output_user_path(format: :csv, date: @first_day), class: "col-md-1 btn btn-md btn-primary btn-attendance-top" %>
 </div>
 <div class = "col-md-12 col-md pull-left btn-users-show">
   <%= link_to "勤怠修正ログ(承認済)", attendance_log_all_user_path(@user), class: "col-md-2 btn btn-md btn-primary btn-attendance-bottom" %>

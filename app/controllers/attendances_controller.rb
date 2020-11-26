@@ -56,6 +56,10 @@ class AttendancesController < ApplicationController
             Date.current != attendance.worked_on
               flash[:danger] = "出社時間も入力してください"
               redirect_to user_url(date: params[:date]) and return
+          elsif item[:started_at_after_approval].blank? && item[:finished_at_after_approval].blank? &&
+            Date.current != attendance.worked_on
+              flash[:danger] = "出社時間、退社時間を入力してください"
+              redirect_to user_url(date: params[:date]) and return
           end
           attendance.update_attributes!(item)
           # !を付けることにより更新処理が失敗した場合にfalseを返すのではなく、例外処理を返す。
