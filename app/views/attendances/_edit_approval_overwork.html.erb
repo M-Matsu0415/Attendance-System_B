@@ -48,7 +48,8 @@
                                 <!--application_controllerの配列記載 ⇒ $days_of_the_week = %w{日 月 火 水 木 金 土}-->
 
                               <!--終了予定時間表示-->
-                              <td><%= l(attendance.overwork_finished_at, format: :time) %></td>
+                              <td><%= l(attendance.requested_overwork_finished_at, format: :time) %></td>
+                                  <%= i.hidden_field :overwork_finished_at, :value => attendance.requested_overwork_finished_at %>
           
                               <!--指定勤務終了時間表示-->
                               <td><%= l(user.designated_work_end_time, format: :time) %></td>

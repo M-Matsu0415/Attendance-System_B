@@ -12,9 +12,9 @@ class SessionsController < ApplicationController
       params[:session][:remember_me] == '1'? remember(user) : forget(user)
       flash[:success] = "ログインしました。"
       if user.admin?
-        redirect_back_or users_url
+        redirect_back_or(users_url)
       else
-        redirect_back_or user
+        redirect_back_or(user)
       # redirect_back_orの引数にuserを指定することでデフォルトのurlを指定している。
       # userは、user_urlの略、ルーティングはusers#showなので、showアクションが働き、勤怠情報画面に遷移する。
       end

@@ -12,7 +12,7 @@ ja:
           uid: カードID
           employee_number: 社員番号
           affiliation: 所属
-          basic_time: 基本勤務時間
+          basic_work_time: 基本勤務時間
           work_time: 勤務時間
           password: パスワード
           password_confirmation: パスワード再入力

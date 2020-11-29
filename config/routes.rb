@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get :search, on: :collection
     post :import, on: :collection
     get :working_members, on: :collection
+    patch :update_by_admin, on: :collection
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'

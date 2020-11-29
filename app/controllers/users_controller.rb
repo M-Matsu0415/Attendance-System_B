@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log_all, :attendance_log_search]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
-  before_action :correct_user, only: :edit
-  before_action :admin_or_correct_user, only: [:show, :create, :create_month_approval]
-  before_action :admin_user, only: :destroy
+  before_action :correct_user, only: [:edit, :create, :show]
+  before_action :admin_or_correct_user, only: [:create_month_approval]
+  before_action :admin_user, only: [:destroy, :index, :working_members, :edit_basic_info]
   before_action :set_one_month, only: [:show, :csv_output, :create_month_approval]
   before_action :get_one_month_for_month_approval, only: :reference_month_approval
   before_action :get_one_month_for_change_or_overwork, only: :reference_change_or_overwork
@@ -11,8 +11,7 @@ class UsersController < ApplicationController
 
   def index
     if current_user.admin?
-      # searchメソッド(user.rb)を呼び出している。searchがない場合、search(params[:search])は、all(全て)となる。
-      @users = User.where.not(admin: true)
+      @users = User.where.not(id: current_user.id)
     else
       redirect_to root_url
     end
@@ -59,6 +58,17 @@ class UsersController < ApplicationController
   end
   
   def update
+    if @user.update_attributes(user_params)
+      flash[:success] = "ユーザー情報を更新しました"
+        redirect_to(@user)
+    else
+      flash[:danger] = "ユーザー情報の更新に失敗しました<br>" + @user.errors.full_messages.join("<br>")
+        redirect_to(root_url)
+    end
+  end
+  
+  def update_by_admin
+    @user = User.find(user_params[:id])
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました"
         redirect_to users_url
@@ -228,7 +238,6 @@ class UsersController < ApplicationController
   # 勤怠変更ログ表示  
   def attendance_log_all
     @attendance_logs = AttendanceLog.where(user_id: @user.id,).order(:worked_on_log)
-    # @attendance_logs = AttendanceLog.where(user_id: @user.id).order(:worked_on_log)
   end
   
   # 勤怠変更ログ 年/月による絞り込み検索  
@@ -247,7 +256,7 @@ class UsersController < ApplicationController
   
   private
     def user_params
-      params.require(:user).permit(:name, :email, :employee_number, :uid, :affiliation, :password, 
+      params.require(:user).permit(:id, :name, :email, :employee_number, :uid, :affiliation, :password, 
                                    :basic_time, :designated_work_start_time, :designated_work_end_time, 
                                    :password_confirmation)
     end

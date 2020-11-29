@@ -14,7 +14,7 @@
       <td>指定勤務開始時間：<%= format_basic_info(@user.designated_work_start_time) %><br>
           指定勤務終了時間：<%= format_basic_info(@user.designated_work_end_time) %>
           
-      <td class = basic_time colspan = "3">基本時間：<%= format_basic_info(@user.basic_time) %></td>
+      <td class = basic_work_time colspan = "3">基本時間：<%= format_basic_info(@user.basic_work_time) %></td>
       <td>初日：<%= l(@first_day, format: :short) %></td>
       <!--lメソッドで日時のフォーマットを指定(short：月/日)-->
     </tr>

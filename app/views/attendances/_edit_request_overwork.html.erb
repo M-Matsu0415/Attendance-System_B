@@ -42,7 +42,7 @@
                     <!--application_controllerの配列記載 ⇒ $days_of_the_week = %w{日 月 火 水 木 金 土}-->
 
                   <!--終了予定時刻：申請者が希望する時刻を記入-->
-                  <td><%= f.time_field :overwork_finished_at, class: "form-control" %></td>
+                  <td><%= f.time_field :requested_overwork_finished_at, class: "form-control" %></td>
           
                   <!--翌日チェックボックス-->
                   <td><%= f.check_box :overwork_next_day_check %></td>

@@ -12,14 +12,14 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
   validates :affiliation, length: { in: 2..30 }, allow_blank: true
-  validates :basic_time, presence: true
+  validates :basic_work_time, presence: true
   validates :work_time, presence: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
-  validates :employee_number, numericality: true, length: { maximum: 5 }
+  validates :employee_number, numericality: true, allow_nil: true, length: { maximum: 5 }
   
   validates_acceptance_of :all_user_change, allow_nil: false, on: :update_basic_info
-  
+
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
     cost =

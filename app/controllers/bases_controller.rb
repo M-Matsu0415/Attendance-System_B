@@ -1,4 +1,5 @@
 class BasesController < ApplicationController
+  before_action :admin_user
 
   def new
     @base = Base.new

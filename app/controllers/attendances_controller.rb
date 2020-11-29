@@ -213,12 +213,12 @@ class AttendancesController < ApplicationController
     # 1ヶ月分の勤怠変更情報を扱います。
     def attendances_one_month_or_overwork_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_after_approval, :finished_at_after_approval, 
-      :change_approval_superior_id, :change_approval_status, :note, :overwork_finished_at, :overwork_approval_superior_id, 
+      :change_approval_superior_id, :change_approval_status, :note, :overwork_finished_at, :requested_overwork_finished_at, :overwork_approval_superior_id, 
       :overwork_approval_status, :overwork_content, :change_next_day_check, :overwork_next_day_check, :change_ok])[:attendances]
     end
     
     def attendances_overwork_params
-      params.require(:attendance).permit(:overwork_finished_at, :overwork_approval_superior_id, 
+      params.require(:attendance).permit(:overwork_finished_at, :requested_overwork_finished_at, :overwork_approval_superior_id, 
       :overwork_content, :overwork_approval_status, :overwork_next_day_check, :change_ok)
     end
     

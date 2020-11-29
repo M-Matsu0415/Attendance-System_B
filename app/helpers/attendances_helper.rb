@@ -106,7 +106,7 @@ module AttendancesHelper
   # 上長ユーザーが自分宛てに来ている残業承認申請モーダルを開いたときに表示する時間外時間
   def overtime_calculation(attendance, user)
     overwork_start_time = user.designated_work_end_time.change(year: attendance.worked_on.year, month: attendance.worked_on.month, day: attendance.worked_on.day)
-    overwork_end_time = attendance.overwork_finished_at.change(year: attendance.worked_on.year, month: attendance.worked_on.month, day: attendance.worked_on.day)
+    overwork_end_time = attendance.requested_overwork_finished_at.change(year: attendance.worked_on.year, month: attendance.worked_on.month, day: attendance.worked_on.day)
     if attendance.overwork_next_day_check == true
       format("%.2f", ((((overwork_end_time - overwork_start_time) / 60) / 60.0) + 24.00))
     else
