@@ -36,6 +36,31 @@
   }
   }
 
+#table-attendances-reference-body {
+  th {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  td {
+    vertical-align: middle;
+    text-align: center;
+    width: 50px;
+  }
+  td:nth-child(8) {
+    text-align: left;
+    font-size: 75%;
+  }
+  td:nth-child(12) {
+    text-align: left;
+    font-size: 75%;
+  }
+  td:nth-child(13) {
+    text-align: left;
+    font-size: 75%;
+  }
+  }
+
 #table-attendances-log {
   th {
     vertical-align: middle;

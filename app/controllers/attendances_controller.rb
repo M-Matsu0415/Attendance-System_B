@@ -60,13 +60,17 @@ class AttendancesController < ApplicationController
             Date.current != attendance.worked_on
               flash[:danger] = "出社時間、退社時間を入力してください"
               redirect_to user_url(date: params[:date]) and return
+          elsif item[:started_at_after_approval] > item[:finished_at_after_approval] && 
+            item[:change_next_day_check] == 0 && Date.current != attendance.worked_on
+              flash[:danger] = "出社時間より早い退社時間は無効です"
+              redirect_to user_url(date: params[:date]) and return
           end
+        end
           attendance.update_attributes!(item)
           # !を付けることにより更新処理が失敗した場合にfalseを返すのではなく、例外処理を返す。
         end
-      end
-      flash[:success] = "勤怠変更を申請しました"
-      redirect_to user_url(date: params[:date])
+        flash[:success] = "勤怠変更を申請しました"
+        redirect_to user_url(date: params[:date])
     end
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました" 
@@ -91,42 +95,44 @@ class AttendancesController < ApplicationController
       attendances_one_month_or_overwork_params.each do |id, item|
         attendance = Attendance.find(id)
           if item["change_ok"] == "1"
-            attendance_log = AttendanceLog.find_by(worked_on_log: attendance.worked_on)
-              if attendance_log.nil?
-                store_started_at_for_log = attendance.started_at
-                store_finished_at_for_log = attendance.finished_at
-              end
+            if item["change_approval_status"] == 2
+              attendance_log = AttendanceLog.find_by(worked_on_log: attendance.worked_on)
+                if attendance_log.nil?
+                  store_started_at_for_log = attendance.started_at
+                  store_finished_at_for_log = attendance.finished_at
+                end
+            end
             attendance.update_attributes!(item)
             
               if attendance.change_approval_status == 1
                 a += 1
               elsif attendance.change_approval_status == 2
                 b += 1
+                attendance.update_attributes!(started_at: attendance.started_at_after_approval, finished_at: attendance.finished_at_after_approval)
+                  #  勤怠変更ログ生成/更新
+                  final_change_approval_superior_id = attendance.change_approval_superior_id
+                  final_change_approval_superior = User.find(final_change_approval_superior_id)
+                  final_change_approval_superior_name = final_change_approval_superior.name
+              
+                  if attendance_log.nil?
+                    AttendanceLog.create!(worked_on_log: attendance.worked_on, started_at_log_before_change: store_started_at_for_log, 
+                                          finished_at_log_before_change: store_finished_at_for_log, started_at_log_after_change: attendance.started_at, 
+                                          finished_at_log_after_change: attendance.finished_at, approval_superior_name: final_change_approval_superior_name, 
+                                          approval_date: attendance.updated_at, user_id: attendance.user_id)
+                  else
+                    attendance_log.update_attributes!(started_at_log_after_change: attendance.started_at, finished_at_log_after_change: attendance.finished_at, 
+                                                      approval_superior_name: final_change_approval_superior_name, approval_date: attendance.updated_at)
+                  end
               elsif attendance.change_approval_status == 3
                 c += 1
               else
                 d += 1
               end
-              
-              #  勤怠変更ログ生成/更新
-              final_change_approval_superior_id = attendance.change_approval_superior_id
-              final_change_approval_superior = User.find(final_change_approval_superior_id)
-              final_change_approval_superior_name = final_change_approval_superior.name
-              
-                if attendance_log.nil?
-                  AttendanceLog.create!(worked_on_log: attendance.worked_on, started_at_log_before_change: store_started_at_for_log, 
-                                       finished_at_log_before_change: store_finished_at_for_log, started_at_log_after_change: attendance.started_at, 
-                                       finished_at_log_after_change: attendance.finished_at, approval_superior_name: final_change_approval_superior_name, 
-                                       approval_date: attendance.updated_at, user_id: attendance.user_id)
-                else
-                  attendance_log.update_attributes!(started_at_log_after_change: attendance.started_at, finished_at_log_after_change: attendance.finished_at, 
-                                                   approval_superior_name: final_change_approval_superior_name, approval_date: attendance.updated_at)
-                end
           end
       end
-    end
       flash[:success] = "勤怠変更申請のうち申請中を#{a}件、承認を#{b}件、否認を#{c}件、変更なしを#{d}件送信しました"
       redirect_to user_url @user
+    end
   rescue ActiveRecord::RecordInvalid
   # トランザクションによるエラーの分岐です。
     flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました"
@@ -212,7 +218,7 @@ class AttendancesController < ApplicationController
 
     # 1ヶ月分の勤怠変更情報を扱います。
     def attendances_one_month_or_overwork_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :started_at_after_approval, :finished_at_after_approval, 
+      params.require(:user).permit(attendances: [:started_at_after_approval, :finished_at_after_approval, 
       :change_approval_superior_id, :change_approval_status, :note, :overwork_finished_at, :requested_overwork_finished_at, :overwork_approval_superior_id, 
       :overwork_approval_status, :overwork_content, :change_next_day_check, :overwork_next_day_check, :change_ok])[:attendances]
     end

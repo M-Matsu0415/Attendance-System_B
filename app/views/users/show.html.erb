@@ -213,8 +213,10 @@
           
           <!--備考表示-->
           <td>
-            <% if day.note.present? %>
-              <%= day.note %>
+            <% if day.change_approval_status == 2 %>
+              <% if day.note.present? %>
+                <%= day.note %>
+              <% end %>
             <% end %>
           </td>
           
