@@ -38,7 +38,7 @@
                               <%= i.check_box :change_ok %>
                             </td>
                             <td>
-                              <%= link_to "確認", reference_month_approval_user_url(month_approval),
+                              <%= link_to "確認", reference_month_approval_user_path(user_id: month_approval.id),
                                   class: "btn btn-md btn-primary btn-attendance-monitor"%>
                             </td>
                           </tr>

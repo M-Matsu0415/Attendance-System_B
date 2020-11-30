@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log_all, :attendance_log_search]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :csv_output, :create_month_approval, :attendance_log_all, :attendance_log_search, 
+                                  :reference_month_approval, :reference_change_or_overwork]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info, :create_month_approval]
-  before_action :correct_user, only: [:edit, :create, :show, :reference_month_approval, :reference_change_or_overwork, :edit_basic_info, :attendance_log_all, :attendance_log_search]
-  before_action :admin_or_correct_user, only: [:create_month_approval]
-  before_action :admin_user, only: [:destroy, :index, :working_members, :edit_basic_info]
+  before_action :correct_user, only: [:index, :edit, :edit, :create, :show, :edit_basic_info, :attendance_log_all, :attendance_log_search, :edit_basic_info, :working_members, 
+                                      :reference_month_approval, :reference_change_or_overwork]
+  before_action :admin_or_correct_user, only: :create_month_approval
+  before_action :admin_user, only: :destroy
   before_action :set_one_month, only: [:show, :csv_output, :create_month_approval]
   before_action :get_one_month_for_month_approval, only: :reference_month_approval
   before_action :get_one_month_for_change_or_overwork, only: :reference_change_or_overwork

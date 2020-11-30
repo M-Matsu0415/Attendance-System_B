@@ -43,9 +43,9 @@ class ApplicationController < ActionController::Base
   
   # 管理権限者、または現在ログインしているユーザーを許可します。
   def admin_or_correct_user
-    @user = User.find(params[:user_id]) if @user.blank?
+    @user = User.find(params[:id]) if @user.blank?
     unless current_user?(@user) || current_user.admin?
-      flash[:danger] = "編集権限がありません。"
+      flash[:danger] = "権限がありません。"
       redirect_to(root_url)
     end
   end
@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
   
   # 1ヵ月分の勤怠承認の勤怠確認に使用：ページ出力前に1ヶ月分のデータの存在を確認・セットします。
   def get_one_month_for_month_approval
-    @month_approval = MonthApproval.find(params[:id])
+    @month_approval = MonthApproval.find(params[:user_id])
     applicant_user_id = @month_approval.user_id
     @user = User.find(applicant_user_id)
       @first_day = @month_approval.approval_month
@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
   
   # 勤怠変更、および残業承認の勤怠確認に使用：ページ出力前に1ヶ月分のデータの存在を確認・セットします。
   def get_one_month_for_change_or_overwork
-    @attendance = Attendance.find(params[:id])
+    @attendance = Attendance.find(params[:format])
     @user = User.find(@attendance.user_id)
       approval_date = @attendance.worked_on
       @first_day = approval_date.beginning_of_month

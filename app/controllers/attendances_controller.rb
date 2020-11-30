@@ -2,7 +2,6 @@ class AttendancesController < ApplicationController
   before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change, 
                                   :edit_approval_overwork]
   before_action :logged_in_user, only: [:update, :edit_request_one_month_change]
-  before_action :correct_user, only: [:edit_request_one_month_change, :edit_approval_one_month_change, :edit_request_overwork, :edit_approval_overwork]
   before_action :admin_or_correct_user, only: [:update, :edit_request_one_month_change, :request_one_month_change]
   before_action :set_one_month, only: :edit_request_one_month_change
   

@@ -105,7 +105,7 @@
                               <%= i.check_box :change_ok %>
                             </td>
                             <td>
-                              <%= link_to "確認", reference_change_or_overwork_user_path(attendance),
+                              <%= link_to "確認", reference_change_or_overwork_user_path(current_user, attendance),
                                   class: "btn btn-md btn-primary btn-attendance-monitor"%>
                             </td>
                           </tr>
