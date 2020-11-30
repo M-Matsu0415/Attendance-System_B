@@ -192,7 +192,7 @@
           <!--在社時間表示-->
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-              <% if day.change_next_day_check == true %>
+              <% if day.change_next_day == true %>
                 <% started_at_min_f = (@started_at_min / 60.00) %>
                 <% started_at = day.started_at.hour + started_at_min_f %>
               
@@ -213,7 +213,7 @@
           
           <!--備考表示-->
           <td>
-            <% if day.change_approval_status == 2 %>
+            <% if day.change_approval_status != 1 %>
               <% if day.note.present? %>
                 <%= day.note %>
               <% end %>
@@ -222,29 +222,37 @@
           
           <!--終了予定時間(時)表示-->
           <td>
-            <% if day.overwork_finished_at.present? %>
-              <%= day.overwork_finished_at.hour %>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_finished_at.present? %>
+                <%= day.overwork_finished_at.hour %>
+              <% end %>
             <% end %>
           </td>
           
           <!--終了予定時間(分)表示-->
           <td>
-            <% if day.overwork_finished_at.present? %>
-              <%= day.overwork_finished_at.min %>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_finished_at.present? %>
+                <%= day.overwork_finished_at.min %>
+              <% end %>
             <% end %>
           </td>
           
           <!--時間外時間表示-->
           <td>
-            <% if day.overwork_finished_at.present? %>
-              <%= overtime_calculation(day, @user) %>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_finished_at.present? %>
+                <%= overtime_calculation(day, day.overwork_next_day, @user) %>
+              <% end %>
             <% end %>
           </td>
           
-          <!--終了予定時間(時)表示-->
+          <!--業務処理内容表示-->
           <td>
-            <% if day.overwork_finished_at.present? %>
-              <%= day.overwork_content %>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_content.present? %>
+                <%= day.overwork_content %>
+              <% end %>
             <% end %>
           </td>
           

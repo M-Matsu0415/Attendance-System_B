@@ -43,7 +43,7 @@
         <th colspan = "2">終了予定時間</th>
         <th rowspan = "2">時間外<br>時間</th>
         <th class = "overwork-content" rowspan = "2">業務処理内容</th>
-        <th rowspan = "2">指示者<br>確認㊞</th>
+        <th class = "superior-check" rowspan = "2">指示者<br>確認㊞</th>
       </tr>
       <tr>
         <th>時</th>
@@ -87,24 +87,63 @@
           </td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>
-            
-              <% started_at_min_f = (@started_at_min / 60.00) %>
-              <% started_at = day.started_at.hour + started_at_min_f %>
+              <% if day.change_next_day == true %>
+                <% started_at_min_f = (@started_at_min / 60.00) %>
+                <% started_at = day.started_at.hour + started_at_min_f %>
               
-              <% finished_at_min_f = (@finished_at_min / 60.00) %>
-              <% finished_at = day.finished_at.hour + finished_at_min_f.to_f %>
+                <% finished_at_min_f = (@finished_at_min / 60.00) %>
+                <% finished_at = day.finished_at.hour + finished_at_min_f.to_f + 24.00  %>
+              <% else %>
+                <% started_at_min_f = (@started_at_min / 60.00) %>
+                <% started_at = day.started_at.hour + started_at_min_f %>
+              
+                <% finished_at_min_f = (@finished_at_min / 60.00) %>
+                <% finished_at = day.finished_at.hour + finished_at_min_f.to_f %>
+              <% end %>
               
               <%= str_times = working_times_display(started_at, finished_at) %>
               <% @total_working_times_display = @total_working_times_display.to_f + str_times.to_f %>
-            
             <% end %>
           </td>
-          <td><%= day.note %></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>
+            <% if day.change_approval_status != 1 %>
+              <% if day.note.present? %>
+                <%= day.note %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_finished_at.present? %>
+                <%= day.overwork_finished_at.hour %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_finished_at.present? %>
+                <%= day.overwork_finished_at.min %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_finished_at.present? %>
+                <%= overtime_calculation(day, day.overwork_next_day, @user) %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if day.overwork_approval_status != 1 %>
+              <% if day.overwork_content.present? %>
+                <%= day.overwork_content %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= change_one_month_superior_check_status(day) %><br>
+            <%= overwork_superior_check_status(day) %>
+          </td>
         </tr>
       <% end %>
     </tbody>

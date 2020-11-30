@@ -40,7 +40,7 @@
         <th>変更前退社時間</th>
         <th>変更後出社時間</th>
         <th>変更後退社時間</th>
-        <th>指示者</th>
+        <th>承認者</th>
         <th>承認日</th>
       </tr>
     </thead>
@@ -74,7 +74,7 @@
           <!--変更後退社時間表示-->
           <td><%= l(attendance_log.finished_at_log_after_change, format: :time) %></td>
               
-          <!--指示者表示-->
+          <!--承認者表示-->
           <td><%= attendance_log.approval_superior_name %></td>
               
           <!--承認日表示-->

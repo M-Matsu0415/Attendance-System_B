@@ -2,6 +2,7 @@ class AttendancesController < ApplicationController
   before_action :set_user, only: [:edit_request_one_month_change, :request_one_month_change, :edit_approval_one_month_change, 
                                   :edit_approval_overwork]
   before_action :logged_in_user, only: [:update, :edit_request_one_month_change]
+  before_action :correct_user, only: [:edit_request_one_month_change, :edit_approval_one_month_change, :edit_request_overwork, :edit_approval_overwork]
   before_action :admin_or_correct_user, only: [:update, :edit_request_one_month_change, :request_one_month_change]
   before_action :set_one_month, only: :edit_request_one_month_change
   
@@ -61,7 +62,7 @@ class AttendancesController < ApplicationController
               flash[:danger] = "出社時間、退社時間を入力してください"
               redirect_to user_url(date: params[:date]) and return
           elsif item[:started_at_after_approval] > item[:finished_at_after_approval] && 
-            item[:change_next_day_check] == 0 && Date.current != attendance.worked_on
+            item[:change_next_day_check] == "0" && Date.current != attendance.worked_on
               flash[:danger] = "出社時間より早い退社時間は無効です"
               redirect_to user_url(date: params[:date]) and return
           end
@@ -95,8 +96,8 @@ class AttendancesController < ApplicationController
       attendances_one_month_or_overwork_params.each do |id, item|
         attendance = Attendance.find(id)
           if item["change_ok"] == "1"
-            if item["change_approval_status"] == 2
-              attendance_log = AttendanceLog.find_by(worked_on_log: attendance.worked_on)
+            if item["change_approval_status"] == "2"
+              attendance_log = AttendanceLog.find_by(user_id: attendance.user_id, worked_on_log: attendance.worked_on)
                 if attendance_log.nil?
                   store_started_at_for_log = attendance.started_at
                   store_finished_at_for_log = attendance.finished_at
@@ -108,7 +109,7 @@ class AttendancesController < ApplicationController
                 a += 1
               elsif attendance.change_approval_status == 2
                 b += 1
-                attendance.update_attributes!(started_at: attendance.started_at_after_approval, finished_at: attendance.finished_at_after_approval)
+                attendance.update_attributes!(started_at: attendance.started_at_after_approval, finished_at: attendance.finished_at_after_approval, change_next_day: attendance.change_next_day_check)
                   #  勤怠変更ログ生成/更新
                   final_change_approval_superior_id = attendance.change_approval_superior_id
                   final_change_approval_superior = User.find(final_change_approval_superior_id)
@@ -195,6 +196,7 @@ class AttendancesController < ApplicationController
                 
               elsif attendance.overwork_approval_status == 2
                 b += 1
+                attendance.update_attributes!(overwork_finished_at: attendance.requested_overwork_finished_at, overwork_next_day: attendance.overwork_next_day_check)
                 
               elsif attendance.overwork_approval_status == 3
                 c += 1

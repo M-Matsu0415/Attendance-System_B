@@ -1,6 +1,7 @@
 class MonthApprovalsController < ApplicationController
   before_action :set_user, only: :edit
   before_action :set_one_month, only: :update_month_approval
+  before_action :correct_user, only: :edit
   
   def new
   end

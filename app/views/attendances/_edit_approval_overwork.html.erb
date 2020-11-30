@@ -49,14 +49,13 @@
 
                               <!--終了予定時間表示-->
                               <td><%= l(attendance.requested_overwork_finished_at, format: :time) %></td>
-                                  <%= i.hidden_field :overwork_finished_at, :value => attendance.requested_overwork_finished_at %>
           
                               <!--指定勤務終了時間表示-->
                               <td><%= l(user.designated_work_end_time, format: :time) %></td>
 
                               <!--時間外時間：ヘルパーメソッドで計算-->
                               <td>
-                                <%= overtime_calculation(attendance, user) %>
+                                <%= overtime_calculation(attendance, attendance.overwork_next_day_check, user) %>
                               </td>
           
                               <!--業務処理内容表示-->
