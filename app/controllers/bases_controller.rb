@@ -1,5 +1,5 @@
 class BasesController < ApplicationController
-  before_action :correct_user
+  before_action :admin_user
 
   def new
     @base = Base.new
